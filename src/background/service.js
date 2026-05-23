@@ -501,6 +501,10 @@ async function registerContentScripts() {
             },
         ]);
     } catch(error) {
+        if (error?.message?.includes("is already registered")) {
+            return;
+        }
+        console.error("Failed to register user scripts:", error);
         if (!optionsOpened) {
             chrome.runtime.openOptionsPage();
             optionsOpened = true;
