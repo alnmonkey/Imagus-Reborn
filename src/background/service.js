@@ -479,34 +479,33 @@ let optionsOpened = false;
 async function registerContentScripts() {
     try {
         await chrome.userScripts.configureWorld({ csp: "script-src 'self' 'unsafe-eval'", messaging: true });
+
+        await chrome.runtime.onUserScriptMessage?.addListener(onMessage);
+        await chrome.userScripts.unregister();
+        await chrome.userScripts.register([
+            {
+                id: "app.js",
+                allFrames: true,
+                matches: ["<all_urls>"],
+                world: "USER_SCRIPT",
+                runAt: "document_start",
+                js: [{ file: "common/app.js" }],
+            },
+            {
+                id: "content.js",
+                allFrames: true,
+                matches: ["<all_urls>"],
+                runAt: "document_idle",
+                world: "USER_SCRIPT",
+                js: [{ file: "content/content.js" }],
+            },
+        ]);
     } catch(error) {
         if (!optionsOpened) {
             chrome.runtime.openOptionsPage();
             optionsOpened = true;
         }
-        return;
     }
-
-    await chrome.runtime.onUserScriptMessage?.addListener(onMessage);
-    await chrome.userScripts.unregister();
-    await chrome.userScripts.register([
-        {
-            id: "app.js",
-            allFrames: true,
-            matches: ["<all_urls>"],
-            world: "USER_SCRIPT",
-            runAt: "document_start",
-            js: [{ file: "common/app.js" }],
-        },
-        {
-            id: "content.js",
-            allFrames: true,
-            matches: ["<all_urls>"],
-            runAt: "document_idle",
-            world: "USER_SCRIPT",
-            js: [{ file: "content/content.js" }],
-        },
-    ]);
 }
 
 // Sieve auto update once a week

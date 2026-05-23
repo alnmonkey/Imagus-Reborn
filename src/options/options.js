@@ -726,29 +726,35 @@ document.addEventListener("keydown", function (e) {
 }, true);
 
 async function checkUserScripts() {
-    const msg = $("allow_scripts_message");
     try {
         const scripts = await chrome.userScripts.getScripts();
         if (scripts?.length > 0) {
+            const msg = $("allow_scripts_message");
             msg.innerHTML = _("APP_READY").replace('"Imagus"', app.name);
             msg.style.backgroundColor = "#dcfad7";
             return;
         } else {
             Port.send({ cmd: "loadScripts" });
+            showErrorMsg();
         }
-    } catch(e) {
-        if (platform === "firefox") {
-            msg.dataset.type = "firefox";
-            msg.innerHTML = _("ALLOW_USER_SCRIPTS_FF");
-        } else if (e.message?.includes("API is only available for users in developer mode")) {
-            msg.dataset.type = "devmode";
-            msg.innerHTML = _("ALLOW_DEV_MODE");
-        } else {
-            msg.dataset.type = "scripts";
-            msg.innerHTML = _("ALLOW_USER_SCRIPTS");
-        }
-        msg.style.display = "block";
+    } catch(error) {
+        showErrorMsg(error);
     }
 
     setTimeout(checkUserScripts, 2000);
+}
+
+function showErrorMsg(error) {
+    const msg = $("allow_scripts_message");
+    if (platform === "firefox") {
+        msg.dataset.type = "firefox";
+        msg.innerHTML = _("ALLOW_USER_SCRIPTS_FF");
+    } else if (error?.message?.includes("API is only available for users in developer mode")) {
+        msg.dataset.type = "devmode";
+        msg.innerHTML = _("ALLOW_DEV_MODE");
+    } else {
+        msg.dataset.type = "scripts";
+        msg.innerHTML = _("ALLOW_USER_SCRIPTS");
+    }
+    msg.style.display = "block";
 }
