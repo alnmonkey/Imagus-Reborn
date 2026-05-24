@@ -3206,6 +3206,9 @@
                 }
                 if (d.album) PVI.album(d.album);
                 else PVI.set(d.src);
+
+            } else if (cmd === "relay" && platform === "firefox") {
+                PVI.onMessage(JSON.parse(JSON.stringify(d.message)));
             }
         },
 
