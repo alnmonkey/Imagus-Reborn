@@ -1806,7 +1806,16 @@
                 PVI.VID.naturalWidth = PVI.VID.videoWidth || 300;
                 PVI.VID.naturalHeight = PVI.VID.videoHeight || 40;
                 PVI.VID.audio = !PVI.VID.videoHeight;
-                PVI.VID.loop = !PVI.VID.duration || PVI.VID.duration <= 60;
+                switch (cfg.hz.mediaLoop) {
+                    case "always":
+                        PVI.VID.loop = true;
+                        break;
+                    case "never":
+                        PVI.VID.loop = false;
+                        break;
+                    default:
+                        PVI.VID.loop = !PVI.VID.duration || PVI.VID.duration <= 60;
+                }
                 if (PVI.VID.audio) {
                     PVI.VID._controls = PVI.VID.controls;
                     PVI.VID.controls = true;

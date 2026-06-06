@@ -18,6 +18,7 @@
 		"hideIdleCursor": 500,
 		"history": true,
 		"mediaVolume": 40,
+		"mediaLoop": "default",
 		"smoothScroll": true,
 		"scrollDelay": 0,
 		"pileWheel": 1,
