@@ -434,7 +434,7 @@ function onValueChange (e) {
 
 function updateSavedValues() {
     input_changes = {};
-    const elements = document.querySelectorAll("input, textarea");
+    const elements = document.querySelectorAll("input, textarea, select");
     for (const el of elements) {
         if(el.matches('input[type="checkbox"]')) {
             el.defChecked = !!el.checked;
