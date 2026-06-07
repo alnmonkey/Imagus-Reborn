@@ -190,16 +190,36 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
         if (e.dataTransfer.files.length) importer.readfile(e.dataTransfer.files[0]);
         e.preventDefault();
     };
-    $("imprt_text").onclick = function (e) {
-        if ((e = textArea.value.trim())) {
-            try {
-                e = JSON.parse(e);
-            } catch (ex) {
-                color_trans(this, "red");
+    $("imprt_text").onclick = async function () {
+        var btn = this;
+        var val = textArea.value.trim();
+        if (!val) {
+            textArea.focus();
+            return;
+        }
+        try {
+            if (/^https?:\/\/.+/i.test(val)) {
+                textArea.disabled = true;
+                val = val.replace(/(https:\/\/pastebin\.com\/)([a-zA-Z0-9]+)$/i, "$1raw/$2");
+                let resp = await fetch(val);
+                if (!resp.ok) {
+                    throw new Error(`HTTP error! ${resp.status} ${resp.statusText}`);
+                }
+                textArea.value = await resp.text();
+                textArea.disabled = false;
+                textArea.setSelectionRange(0, 0);
+                textArea.focus();
                 return;
+} else {
+                val = JSON.parse(val);
             }
-            importer.ondata(e, this);
-        } else textArea.focus();
+        } catch (ex) {
+            alert(ex.message || _("INVALIDFORMAT"));
+            color_trans(btn, "red");
+            textArea.disabled = false;
+            return;
+            }
+            importer.ondata(val, btn);
     };
     document.addEventListener("mousedown", function (e) {
         if (!e.target.closest("#importer, [data-action]")) importer.visible(false);
