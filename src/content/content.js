@@ -1212,6 +1212,11 @@ if (e.button === 2) {
                             }
                         }
                     }
+
+                    if (cfg.hz.debugRules) {
+                        console.log(`Rule ${i} matched:`, { url: URL, element: trg, image: imgs?.imgSRC || imgs?.imgBG });
+                    }
+
                     if (srcOnly) {
                         return URL || imgs?.imgSRC || imgs?.imgBG;
                     }
@@ -1261,11 +1266,18 @@ if (e.button === 2) {
                         i = 0;
                         use_img = [];
                     }
-                    for (; (rule = cfg.sieve[i]); ++i)
+                    for (; (rule = cfg.sieve[i]); ++i) {
+                        let mImg = "";
                         if (
                             use_img[0] ||
-                            (rule.img && ((imgs.imgSRC && rule.img.test(imgs.imgSRC)) || (imgs.imgBG && (use_img[1] = rule.img.test(imgs.imgBG)))))
+                            (rule.img && (
+                                (imgs.imgSRC && rule.img.test(imgs.imgSRC) && (mImg = imgs.imgSRC)) ||
+                                (imgs.imgBG && (use_img[1] = rule.img.test(imgs.imgBG)) && (mImg = imgs.imgBG))
+                            ))
                         ) {
+                            if (cfg.hz.debugRules) {
+                                console.log(`Rule ${i} matched:`, { image: mImg, element: trg });
+                            }
                             if (!use_img[1] && imgs.imgSRC) {
                                 use_img = 1;
                                 URL = imgs.imgSRC;
