@@ -1790,7 +1790,7 @@
                 src = src_left[0];
             } else if (src[0] === "#") src = src.slice(1);
             if (src[1] === "/") src = PVI.httpPrepend(src);
-            if (src.indexOf("&amp;") !== -1) src = src.replace(/&amp;/g, "&");
+            if (typeof src === "string" && src.includes("&amp;")) src = src.replace(/&amp;/g, "&");
             if (rgxIsSVG.test(src)) PVI.TRG.IMGS_SVG = true;
             else delete PVI.TRG.IMGS_SVG;
             if (src === PVI.CNT.src) {
