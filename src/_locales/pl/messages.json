@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Obsługa płynnego przewijania (gładzik / mysz z płynnym przewijaniem)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Dodać ten element do listy ignorowanych elementów?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Nie można znaleźć adresu URL tego elementu"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Pobieranie nie powiodło się"
+  },
+  "GALLERY": {
+    "message": "Galeria"
+  },
+  "GOTO_SEARCH": {
+    "message": "Przejdź do / Wyszukaj"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Zasady elementu:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Regulamin serwisu:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Ukryj pasek narzędzi"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Autoodtwarzanie"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Wyświetl podpis nad obrazem"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Przyciski paska narzędzi"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Elementy sterujące ukryj po (ms, 0 = zawsze widoczne)"
+  },
+  "HZ_MEDIA": {
+    "message": "Media"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Zachowanie w pętli multimediów"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Zawsze pętla"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Domyślne (tylko krótkie multimedia)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Nigdy nie pętluj"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Możliwe przyciski:\n<b>X</b> – ukryj pasek narzędzi\n<b>S</b> - zapisz (pobierz)\n<b>O</b> – otwórz w nowej karcie/oknie\n<b>G</b> – tryb galerii\n<b>I</b> - przejdź/szukaj\n<b>R</b> – obróć\n<b>P</b> – otwórz preferencje\n\nWartość domyślna: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Ignoruj ​​element..."
+  },
+  "INVALID_URL": {
+    "message": "Nieprawidłowy adres URL"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Otwórz w nowej karcie\n+Ctrl/Środkowe kliknięcie myszą: tło\n+Shift: wyskakujące okienko"
+  },
+  "OPTIONS": {
+    "message": "Opcje"
+  },
+  "PREFERENCES": {
+    "message": "Opcje"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Obróć zgodnie z ruchem wskazówek zegara"
+  },
+  "SAVE": {
+    "message": "Ratować"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Blokada zoomu"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "zawsze"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "nigdy"
   }
 }

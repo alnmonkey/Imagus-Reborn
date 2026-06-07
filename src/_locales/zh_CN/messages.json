@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "平滑滚动支持（触控板/平滑滚动鼠标）"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "将此项目添加到元素忽略列表中吗？"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "找不到该元素的 URL"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "下载失败"
+  },
+  "GALLERY": {
+    "message": "画廊"
+  },
+  "GOTO_SEARCH": {
+    "message": "转到/搜索"
+  },
+  "GRNT_ELEMENT": {
+    "message": "元素规则："
+  },
+  "GRNT_WEBSITE": {
+    "message": "网站规则："
+  },
+  "HIDE_TOOLBAR": {
+    "message": "隐藏工具栏"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "自动播放"
+  },
+  "HZ_CAP_OVER": {
+    "message": "在图像上显示标题"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "工具栏按钮"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "控件在（毫秒，0 = 始终可见）后隐藏"
+  },
+  "HZ_MEDIA": {
+    "message": "媒体"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "媒体循环行为"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "始终循环"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "默认（仅限短媒体）"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "永不循环"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "可能的按钮：\n<b>X</b> - 隐藏工具栏\n<b>S</b> - 保存（下载）\n<b>O</b> - 在新选项卡/窗口中打开\n<b>G</b> - 画廊模式\n<b>I</b> - 转到/搜索\n<b>R</b> - 旋转\n<b>P</b> - 打开首选项\n\n默认值：XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "忽略元素..."
+  },
+  "INVALID_URL": {
+    "message": "无效网址"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "在新选项卡中打开\n+Ctrl/鼠标中键单击：背景\n+Shift：弹出窗口"
+  },
+  "OPTIONS": {
+    "message": "选项"
+  },
+  "PREFERENCES": {
+    "message": "选项"
+  },
+  "ROTATE_RIGHT": {
+    "message": "顺时针旋转"
+  },
+  "SAVE": {
+    "message": "节省"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "变焦锁定"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "总是"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "绝不"
   }
 }

@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Sima görgetés támogatása (trackpad / sima görgetésű egér)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Hozzáadja ezt az elemet az elemek figyelmen kívül hagyó listájához?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Nem található URL ehhez az elemhez"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Letöltés sikertelen"
+  },
+  "GALLERY": {
+    "message": "Galéria"
+  },
+  "GOTO_SEARCH": {
+    "message": "Ugrás / Keresés"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Az elemek szabályai:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "A weboldal szabályai:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Eszköztár elrejtése"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Automatikus lejátszás"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Felirat megjelenítése a kép felett"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Az eszköztár gombjai"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "A vezérlők elrejtése után (ms, 0 = mindig látható)"
+  },
+  "HZ_MEDIA": {
+    "message": "Média"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Médiahurkos viselkedés"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Mindig hurok"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Alapértelmezett (csak rövid média)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Soha ne hurkoljon"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Lehetséges gombok:\n<b>X</b> – eszköztár elrejtése\n<b>S</b> - mentés (letöltés)\n<b>O</b> – megnyitás új lapon/ablakban\n<b>G</b> – galéria mód\n<b>Én</b> - goto/search\n<b>R</b> – forgatás\n<b>P</b> – nyitott beállítások\n\nAlapértelmezés: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Elem figyelmen kívül hagyása..."
+  },
+  "INVALID_URL": {
+    "message": "Érvénytelen URL"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Megnyitás új lapon\n+Ctrl/Középső egérkattintás: háttér\n+Shift: felugró ablak"
+  },
+  "OPTIONS": {
+    "message": "Opciók"
+  },
+  "PREFERENCES": {
+    "message": "Opciók"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Forgassa el az óramutató járásával megegyező irányba"
+  },
+  "SAVE": {
+    "message": "Megtakarítás"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Zoomzár"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "mindig"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "soha"
   }
 }

@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Podpora hladkého posouvání (trackpad / myš s hladkým posouváním)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Přidat tuto položku do seznamu ignorovaných prvků?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Pro tento prvek nelze najít adresu URL"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Stahování se nezdařilo"
+  },
+  "GALLERY": {
+    "message": "Galerie"
+  },
+  "GOTO_SEARCH": {
+    "message": "Přejít / Hledat"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Pravidla prvků:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Pravidla webu:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Skrýt panel nástrojů"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Automatické přehrávání"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Zobrazit titulek nad obrázkem"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Tlačítka na panelu nástrojů"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Ovládací prvky skrýt po (ms, 0 = vždy viditelné)"
+  },
+  "HZ_MEDIA": {
+    "message": "Média"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Chování smyček médií"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Vždy smyčka"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Výchozí (pouze krátká média)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Nikdy smyčka"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Možná tlačítka:\n<b>X</b> – skrýt panel nástrojů\n<b>S</b> – uložit (stáhnout)\n<b>O</b> – otevřít na nové kartě/okně\n<b>G</b> – režim galerie\n<b>I</b> – goto/search\n<b>R</b> – otočit\n<b>P</b> – otevřít předvolby\n\nVýchozí: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Ignorovat prvek..."
+  },
+  "INVALID_URL": {
+    "message": "Neplatná adresa URL"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Otevřít na nové kartě\n+Ctrl/Kliknutí prostředním tlačítkem myši: pozadí\n+Shift: vyskakovací okno"
+  },
+  "OPTIONS": {
+    "message": "Možnosti"
+  },
+  "PREFERENCES": {
+    "message": "Možnosti"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Otočte po směru hodinových ručiček"
+  },
+  "SAVE": {
+    "message": "Uložit"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Zámek zoomu"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "vždy"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "nikdy"
   }
 }

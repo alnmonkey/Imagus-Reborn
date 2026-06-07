@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Поддержка плавной прокрутки (трекпад/мышь с плавной прокруткой)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Добавить этот элемент в список игнорирования элементов?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Невозможно найти URL для этого элемента"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Загрузка не удалась"
+  },
+  "GALLERY": {
+    "message": "Галерея"
+  },
+  "GOTO_SEARCH": {
+    "message": "Перейти / Поиск"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Правила элемента:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Правила сайта:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Скрыть панель инструментов"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Автовоспроизведение"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Отображать заголовок поверх изображения"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Кнопки панели инструментов"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Элементы управления скрываются после (мс, 0 = всегда видны)"
+  },
+  "HZ_MEDIA": {
+    "message": "Медиа"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Зацикливание мультимедиа"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Всегда зацикливаться"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "По умолчанию (только короткие медиафайлы)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Никогда не зацикливаться"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Возможные кнопки:\n<b>X</b> — скрыть панель инструментов\n<b>S</b> - сохранить (загрузить)\n<b>O</b> – открыть в новой вкладке/окне\n<b>G</b> — режим галереи.\n<b>I</b> — перейти/поиск\n<b>R</b> — повернуть\n<b>P</b> — открыть настройки\n\nПо умолчанию: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Игнорировать элемент..."
+  },
+  "INVALID_URL": {
+    "message": "Неверный URL-адрес"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Открыть в новой вкладке\n+Ctrl/щелчок средней кнопкой мыши: фон\n+Shift: всплывающее окно"
+  },
+  "OPTIONS": {
+    "message": "Параметры"
+  },
+  "PREFERENCES": {
+    "message": "Параметры"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Повернуть по часовой стрелке"
+  },
+  "SAVE": {
+    "message": "Сохранять"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Блокировка масштаба"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "всегда"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "никогда"
   }
 }

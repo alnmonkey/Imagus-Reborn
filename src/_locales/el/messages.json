@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Υποστήριξη ομαλής κύλισης (trackpad / ποντίκι ομαλής κύλισης)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Προσθήκη αυτού του στοιχείου στη λίστα παράβλεψης στοιχείων;"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Δεν είναι δυνατή η εύρεση διεύθυνσης URL για αυτό το στοιχείο"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Η λήψη απέτυχε"
+  },
+  "GALLERY": {
+    "message": "Στοά"
+  },
+  "GOTO_SEARCH": {
+    "message": "Μετάβαση / Αναζήτηση"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Κανόνες στοιχείων:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Κανόνες ιστότοπου:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Απόκρυψη γραμμής εργαλείων"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Αυτόματη αναπαραγωγή"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Εμφάνιση λεζάντας πάνω από την εικόνα"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Κουμπιά γραμμής εργαλείων"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Τα στοιχεία ελέγχου αποκρύπτονται μετά (ms, 0 = πάντα ορατά)"
+  },
+  "HZ_MEDIA": {
+    "message": "Μέσα"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Συμπεριφορά βρόχου πολυμέσων"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Πάντα βρόχο"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Προεπιλογή (μόνο σύντομα μέσα)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Ποτέ μην κάνετε βρόχο"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Πιθανά κουμπιά:\n<b>X</b> - απόκρυψη γραμμής εργαλείων\n<b>S</b> - αποθήκευση (λήψη)\n<b>O</b> - άνοιγμα σε νέα καρτέλα/παράθυρο\n<b>G</b> - λειτουργία συλλογής\n<b>I</b> - πήγα/αναζήτησα\n<b>R</b> - περιστροφή\n<b>P</b> - άνοιγμα προτιμήσεων\n\nΠροεπιλογή: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Παράβλεψη στοιχείου..."
+  },
+  "INVALID_URL": {
+    "message": "Μη έγκυρη διεύθυνση URL"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Άνοιγμα σε νέα καρτέλα\n+Ctrl/Μεσαίο κλικ του ποντικιού: φόντο\n+Shift: αναδυόμενο παράθυρο"
+  },
+  "OPTIONS": {
+    "message": "Επιλογές"
+  },
+  "PREFERENCES": {
+    "message": "Επιλογές"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Περιστρέψτε δεξιόστροφα"
+  },
+  "SAVE": {
+    "message": "Εκτός"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Κλείδωμα ζουμ"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "πάντοτε"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "ποτέ"
   }
 }

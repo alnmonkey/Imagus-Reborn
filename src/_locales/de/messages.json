@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Smooth-Scroll-Unterstützung (Trackpad / Smooth-Scroll-Maus)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Dieses Element zur Ignorierungsliste für Elemente hinzufügen?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Die URL für dieses Element kann nicht gefunden werden"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Der Download ist fehlgeschlagen"
+  },
+  "GALLERY": {
+    "message": "Galerie"
+  },
+  "GOTO_SEARCH": {
+    "message": "Gehe zu / Suchen"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Elementregeln:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Website-Regeln:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Symbolleiste ausblenden"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Autoplay"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Bildunterschrift über dem Bild anzeigen"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Schaltflächen in der Symbolleiste"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Steuerelemente werden ausgeblendet nach (ms, 0 = immer sichtbar)"
+  },
+  "HZ_MEDIA": {
+    "message": "Medien"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Medienschleifenverhalten"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Immer Schleife"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Standard (nur kurze Medien)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Niemals eine Schleife machen"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Mögliche Schaltflächen:\n<b>X</b> – Symbolleiste ausblenden\n<b>S</b> – speichern (herunterladen)\n<b>O</b> – in neuem Tab/Fenster öffnen\n<b>G</b> – Galeriemodus\n<b>Ich</b> – Gehe zu/Suche\n<b>R</b> – drehen\n<b>P</b> – Einstellungen öffnen\n\nStandard: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Element ignorieren..."
+  },
+  "INVALID_URL": {
+    "message": "Ungültige URL"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "In neuem Tab öffnen\n+Strg/mittlerer Mausklick: Hintergrund\n+Umschalt: Popup-Fenster"
+  },
+  "OPTIONS": {
+    "message": "Optionen"
+  },
+  "PREFERENCES": {
+    "message": "Optionen"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Im Uhrzeigersinn drehen"
+  },
+  "SAVE": {
+    "message": "Speichern"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Zoomsperre"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "stets"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "niemals"
   }
 }

@@ -366,7 +366,7 @@
     "message": "Save"
   },
   "OPEN_IN_NEW_TAB": {
-    "message": "Open in new tab\n+Ctrl/Middle click: background\n+Shift: popup window"
+    "message": "Open in new tab\n+Ctrl/Middle mouse click: background\n+Shift: popup window"
   },
   "GALLERY": {
     "message": "Gallery"
@@ -573,13 +573,13 @@
     "message": "Default media volume (%)"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Hide media controls delay (ms, 0 = always visible)"
+    "message": "Controls hide after (ms, 0 = always visible)"
   },
   "HZ_MEDIALOOP": {
     "message": "Media looping behavior"
   },
   "HZ_MEDIALOOP_DEFAULT": {
-    "message": "Default (loop short media)"
+    "message": "Default (short media only)"
   },
   "HZ_MEDIALOOP_ALWAYS": {
     "message": "Always loop"

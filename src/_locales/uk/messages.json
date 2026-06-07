@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Підтримка плавного прокручування (трекпад / миша з плавним прокручуванням)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Додати цей елемент до списку ігнорованих елементів?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Не вдається знайти URL для цього елемента"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Помилка завантаження"
+  },
+  "GALLERY": {
+    "message": "Галерея"
+  },
+  "GOTO_SEARCH": {
+    "message": "Перейти / Пошук"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Правила елемента:"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Правила сайту:"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Приховати панель інструментів"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Автовідтворення"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Показати заголовок поверх зображення"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Кнопки панелі інструментів"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Елементи керування приховати після (мс, 0 = завжди видно)"
+  },
+  "HZ_MEDIA": {
+    "message": "Медіа"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Зациклення медіа"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Завжди петля"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "За умовчанням (лише короткі медіа)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Ніколи не петляйте"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Можливі кнопки:\n<b>X</b> - приховати панель інструментів\n<b>S</b> - зберегти (завантажити)\n<b>O</b> - відкрити в новій вкладці/вікні\n<b>G</b> - режим галереї\n<b>I</b> - goto/search\n<b>R</b> - поворот\n<b>P</b> - відкрити налаштування\n\nЗа замовчуванням: XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Ігнорувати елемент..."
+  },
+  "INVALID_URL": {
+    "message": "Недійсний URL"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Відкрити в новій вкладці\n+Ctrl/клацання середньою кнопкою миші: фон\n+Shift: спливаюче вікно"
+  },
+  "OPTIONS": {
+    "message": "Опції"
+  },
+  "PREFERENCES": {
+    "message": "Опції"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Обертати за годинниковою стрілкою"
+  },
+  "SAVE": {
+    "message": "зберегти"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Блокування масштабу"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "завжди"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "ніколи"
   }
 }

@@ -526,5 +526,89 @@
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Prise en charge du défilement fluide (trackpad / souris à défilement fluide)"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Ajouter cet élément à la liste des éléments ignorés ?"
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Impossible de trouver l'URL de cet élément"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Le téléchargement a échoué"
+  },
+  "GALLERY": {
+    "message": "Galerie"
+  },
+  "GOTO_SEARCH": {
+    "message": "Aller à / Rechercher"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Règles des éléments :"
+  },
+  "GRNT_WEBSITE": {
+    "message": "Règles du site :"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Masquer la barre d'outils"
+  },
+  "HZ_AUTOPLAY": {
+    "message": "Lecture automatique"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Afficher la légende sur l'image"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Boutons de la barre d'outils"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Les contrôles se cachent après (ms, 0 = toujours visible)"
+  },
+  "HZ_MEDIA": {
+    "message": "Médias"
+  },
+  "HZ_MEDIALOOP": {
+    "message": "Comportement en boucle multimédia"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Toujours en boucle"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Par défaut (média court uniquement)"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Ne jamais boucler"
+  },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Boutons possibles :\n<b>X</b> - masquer la barre d'outils\n<b>S</b> - enregistrer (télécharger)\n<b>O</b> - ouvrir dans un nouvel onglet/une nouvelle fenêtre\n<b>G</b> - mode galerie\n<b>Je</b> - aller à/rechercher\n<b>R</b> - faire pivoter\n<b>P</b> - ouvrir les préférences\n\nPar défaut : XSOGIRP"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Ignorer l'élément..."
+  },
+  "INVALID_URL": {
+    "message": "URL invalide"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Ouvrir dans un nouvel onglet\n+Ctrl/Clic central de la souris : arrière-plan\n+Shift : fenêtre contextuelle"
+  },
+  "OPTIONS": {
+    "message": "Possibilités"
+  },
+  "PREFERENCES": {
+    "message": "Possibilités"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Tourner dans le sens des aiguilles d'une montre"
+  },
+  "SAVE": {
+    "message": "Sauvegarder"
+  },
+  "SC_MZOOMLOCK": {
+    "message": "Verrouillage du zoom"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "toujours"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "jamais"
   }
 }
