@@ -33,6 +33,7 @@
 		"fzMode": 1,
 		"fzOnPress": 2,
 		"toolbar": 1,
+		"toolbarButtons": "XSOGIRP",
 		"resizeModeType": "memory",
 		"follow": true,
 		"move": true,

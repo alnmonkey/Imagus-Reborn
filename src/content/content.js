@@ -162,9 +162,9 @@
         }
         if (e.type === "mouseup") {
             if ([1, 3, 4].includes(e.button)) {
-                if (e.button === 1 && PVI.MENU.contains(e.target)) {
+                if (e.button === 1 && PVI.TBAR.contains(e.target)) {
                     // middle click on the toolbar
-                    PVI.menuClick(e);
+                    PVI.tbarClick(e);
                 } else {
                     PVI.key_action(e);
                 }
@@ -211,7 +211,7 @@
             return;
         }
 
-        if (e.button === 1 && PVI.MENU.contains(e.target)) {
+        if (e.button === 1 && PVI.TBAR.contains(e.target)) {
             // middle click on the toolbar
             e.preventDefault();
             return;
@@ -723,29 +723,30 @@ if (e.button === 2) {
             PVI.GLR.addEventListener('click', PVI.galleryClick, true);
             PVI.GLR.addEventListener("wheel", PVI.galleryWheeler, true);
 
-            // create popup menu
-            // if (cfg.hz.fzToolbar) {
-                buildNodes(PVI.DIV, [{
-                    tag: "div",
-                    attrs: { id: "imagus-menu" },
-                    nodes: [
-                        { tag: "i", text: "≡", attrs: { "data-action": "hide", title: "Hide toolbar" }, nodes: [
+            // create popup toolbar
+            const BOTTONS = {
+                "X": { tag: "i", text: "≡", attrs: { "data-action": "hide", title: _("HIDE_TOOLBAR") }, nodes: [
                             { tag: "span", text: "≡" },
                             { tag: "span", text: "⨉" },
                         ]},
-                        { tag: "i", text: "S", attrs: { "data-action": "download", title: "Save" } },
-                        { tag: "i", text: "O", attrs: { "data-action": "open",
-                            title: "Open in new tab\n+Ctrl/Middle click: background\n+Shift: popup window" } },
-                        { tag: "i", text: "G", attrs: { "data-action": "gallery", title: "Gallery" } },
-                        { tag: "i", text: "#", attrs: { "data-action": "goto", title: "Goto / Search" } },
-                        { tag: "i", text: "↻", attrs: { "data-action": "rotate", title: "Rotate right" } },
-                        { tag: "i", text: "P", attrs: { "data-action": "preferences", title: "Preferences" } },
-                    ]
+                "S": { tag: "i", text: "S", attrs: { "data-action": "download", title: _("SAVE") } },
+                "O": { tag: "i", text: "O", attrs: { "data-action": "open", title: _("OPEN_IN_NEW_TAB") } },
+                "G": { tag: "i", text: "G", attrs: { "data-action": "gallery", title: _("GALLERY") } },
+                "I": { tag: "i", text: "#", attrs: { "data-action": "goto", title: _("GOTO_SEARCH") } },
+                "R": { tag: "i", text: "↻", attrs: { "data-action": "rotate", title: _("ROTATE_RIGHT") } },
+                "P": { tag: "i", text: "P", attrs: { "data-action": "preferences", title: _("PREFERENCES") } },
+            };
+            const btns = cfg.hz.toolbarButtons.toUpperCase().split("").map(b => BOTTONS[b] || null).filter(Boolean);
+            if (btns.length) {
+                buildNodes(PVI.DIV, [{
+                    tag: "div",
+                    attrs: { id: "imagus-toolbar", "data-mode": cfg.hz.toolbar },
+                    nodes: btns,
                 }]);
-                PVI.MENU = PVI.DIV.querySelector("#imagus-menu");
-                PVI.MENU.addEventListener("click", PVI.menuClick);
-                PVI.MENU.addEventListener("mousedown", pdsp);
-            // }
+                PVI.TBAR = PVI.DIV.querySelector("#imagus-toolbar");
+                PVI.TBAR.addEventListener("click", PVI.tbarClick);
+                PVI.TBAR.addEventListener("mousedown", pdsp);
+            }
 
             PVI.reset();
         },
@@ -2113,7 +2114,7 @@ if (e.button === 2) {
             PVI.DIV.style.display = PVI.LDR.style.display = "none";
             PVI.DIV.style.width = PVI.DIV.style.height = "0";
             PVI.CNT.removeAttribute("src");
-            PVI.MENU.style.display = "";
+            PVI.TBAR.style.display = "";
             if (PVI.CNT === PVI.VID) PVI.VID.load();
             if (PVI.anim.left || PVI.anim.top) PVI.DIV.style.left = PVI.DIV.style.top = "auto";
             if (PVI.anim.opacity) PVI.DIV.style.opacity = "0";
@@ -2173,10 +2174,10 @@ if (e.button === 2) {
             }
         },
 
-        menuClick: function (e) {
+        tbarClick: function (e) {
             switch (e.target.closest("[data-action]")?.dataset?.action) {
                 case "hide":
-                    PVI.MENU.style.display = "none";
+                    PVI.TBAR.style.display = "none";
                     break;
                 case "gallery":
                     PVI.gallery();
@@ -2560,8 +2561,8 @@ if (e.button === 2) {
                 return;
             }
 
-            if (PVI.GLR.contains(e.target) || PVI.MENU?.contains(e.target)) {
-                // clicking inside the gallery or menu - ignore
+            if (PVI.GLR.contains(e.target) || PVI.TBAR?.contains(e.target)) {
+                // clicking inside the gallery or toolbar - ignore
                 return;
             }
 
