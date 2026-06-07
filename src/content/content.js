@@ -235,8 +235,9 @@
             clearTimeout(PVI.timers.cursor_hide);
             clearTimeout(PVI.timers.cursor_wait);
             const oldCursor = e.target.style.cursor;
-            e.target.style.cursor = "progress";
-            PVI.timers.cursor_wait = setTimeout(() => e.target.style.cursor = oldCursor, 300);
+            const oldTarget = e.target;
+            oldTarget.style.cursor = "progress";
+            PVI.timers.cursor_wait = setTimeout(() => oldTarget.style.cursor = oldCursor, 300);
         }
 
         if (e.target.href || e.target.parentNode?.href) {
