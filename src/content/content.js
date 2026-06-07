@@ -15,6 +15,10 @@
         return;
     }
 
+    const _ = function (msg) {
+        return cfg?.messages?.[msg] || msg;
+    };
+
     // Smooth scroll support (trackpad / smooth-scroll mouse)
     let wheelRAF = null;
     let wheelDeltaAccum = 0;
