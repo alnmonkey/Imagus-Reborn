@@ -19,6 +19,18 @@
         PVI.resize(delta, wheelLastXY);
     }
 
+    function injectCss(file, inHead) {
+        Port.send({ cmd: "get_file", file }, css => {
+            let style = document.createElement('style');
+            style.innerHTML = css;
+            if (inHead) {
+                document.head.appendChild(style);
+            } else {
+                PVI.ROOT?.shadowRoot?.appendChild(style);
+            }
+        });
+    }
+
     var flip = function (el, ori) {
         if (!el.scale) el.scale = { h: 1, v: 1 };
         el.scale[ori ? "h" : "v"] *= -1;
@@ -408,6 +420,8 @@ if (e.button === 2) {
 
         create: function () {
             if (PVI.DIV) return;
+            injectCss("content/styles.css");
+
             var x, y, z, p;
             PVI.HLP = doc.createElement("a");
             PVI.DIV = doc.createElement("div");
@@ -415,6 +429,7 @@ if (e.button === 2) {
             PVI.IMG = doc.createElement("img");
             PVI.LDR = PVI.IMG.cloneNode(false);
             PVI.CNT = PVI.IMG;
+            PVI.DIV.id = "imagus-main";
             PVI.DIV.IMGS_ = PVI.DIV.IMGS_c = PVI.LDR.IMGS_ = PVI.LDR.IMGS_c = PVI.VID.IMGS_ = PVI.VID.IMGS_c = PVI.IMG.IMGS_ = PVI.IMG.IMGS_c = true;
             PVI.DIV.style.cssText =
                 "margin: 0; padding: 0; " +
@@ -548,172 +563,9 @@ if (e.button === 2) {
 
             // mark over the hovered object
             PVI.HVR = doc.createElement("div");
+            PVI.HVR.id = "imagus-hvr";
+            PVI.HVR.style.cssText = `${cfg.hz.hoverCss || ""}; display: none;`;
             docEl.appendChild(PVI.HVR);
-            PVI.HVR.style.cssText = `
-                position: absolute;
-                box-sizing: content-box;
-                pointer-events: none;
-                z-index: 2147483646;
-                opacity: 0;
-                top: 50vh;
-                left: 50vw;
-                width: 0px;
-                height: 0px;
-                padding: 0;
-                margin: 0;
-                transition: all .1s cubic-bezier(0, 1, 0.3, 1), opacity .1s ease-in;
-                ${cfg.hz.hoverCss || ""}
-            `;
-
-            let imagusStyle = doc.createElement("style");
-            imagusStyle.innerText = `
-                #imagus-menu {
-                    interpolate-size: allow-keywords;
-                    box-sizing: border-box;
-                    position: absolute;
-                    right: 8px;
-                    top: 8px;
-                    border-radius: 8px;
-                    overflow: hidden;
-                    padding: 4px;
-                    z-index: 10;
-                    display: none;
-                    background: #00000040;
-                    opacity: 0;
-                    height: 48px;
-                    transition-property: opacity, height, color, background-color;
-                    transition-duration: .1s;
-                    transition-delay: .5s, .5s, .5s, .5s;
-                    flex-direction: column;
-                    gap: 4px;
-                    color: black;
-                    backdrop-filter: blur(6px);
-                }
-                [data-fz="true"] > #imagus-menu {
-                    display: flex;
-                }
-                ${cfg.hz.toolbar === 1 ? `
-                    div:hover > #imagus-menu {
-                        opacity: 1;
-                        transition: opacity .1s 0s, height .1s .5s, color .1s .5s, background-color .1s .5s;
-                    }
-                ` : ""}
-                div:hover > #imagus-menu:hover {
-                    opacity: 1;
-                    height: unset;
-                    background: #00000070;
-                    transition-delay: 0s;
-                }
-                #imagus-menu i:first-child {
-                    font-size: 22px;
-                }
-                #imagus-menu i {
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    cursor: pointer;
-                    transition: inherit;
-                    background: #ffffff80;
-                    border-radius: 4px;
-                    font: 20px sans-serif;
-                    flex-shrink: 0;
-                    color: #00000082
-                }
-                #imagus-menu:hover i {
-                    color: black;
-                    background: #b5b5b5;
-                }
-                #imagus-menu:hover i:hover {
-                    background: #ebebeb;
-                }
-                #imagus-menu i span:nth-child(2),
-                #imagus-menu:hover i span:nth-child(1) {
-                    display: none;
-                }
-                #imagus-menu:hover i span:nth-child(2) {
-                    display: block;
-                }
-                [data-rotate="90"] #imagus-menu {
-                    left: -40px;
-                    bottom: unset;
-                    right: unset;
-                    rotate: -90deg;
-                    transform-origin: top right;
-                }
-                [data-rotate="180"] #imagus-menu {
-                    left: 6px;
-                    top: unset;
-                    bottom: 6px;
-                    right: unset;
-                    rotate: 180deg;
-                    transform-origin: center;
-                }
-                [data-rotate="270"] #imagus-menu {
-                    top: calc(100% - 6px);
-                    bottom: unset;
-                    right: 6px;
-                    rotate: 90deg;
-                    transform-origin: top right;
-                }
-
-                #imagus-glr {
-                    position: absolute;
-                    inset: 0;
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-content: flex-start;
-                    justify-content: flex-start;
-                    overflow: auto;
-                    overscroll-behavior: contain;
-                    cursor: default;
-                    z-index: 5;
-                    background: #dedede;
-                }
-                #imagus-glr > * {
-                    width: 150px;
-                    height: 150px;
-                    margin: 4px;
-                }
-                #imagus-glr video,
-                #imagus-glr img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    cursor: pointer;
-                    overflow-clip-margin: unset;
-                    background: white;
-                    margin: 0;
-                }
-                #imagus-glr > .vid {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-                #imagus-glr > .vid:before,
-                #imagus-glr > .vid:after {
-                    content: "";
-                    position: absolute;
-                    opacity: 0.5;
-                    pointer-events: none;
-                }
-                #imagus-glr > .vid:before {
-                    background: #000000;
-                    width: 80px;
-                    height: 80px;
-                    border-radius: 20px;
-                }
-                #imagus-glr > .vid:after {
-                    width: 0;
-                    height: 0;
-                    border-top: 22px solid transparent;
-                    border-bottom: 22px solid transparent;
-                    border-left: 34px solid #ffffff;
-                    margin-left: 8px;
-                }
-            `;
-            PVI.DIV.appendChild(imagusStyle);
 
             // gallery container
             PVI.GLR = doc.createElement("div");
@@ -755,6 +607,7 @@ if (e.button === 2) {
         createCAP: function () {
             if (PVI.CAP) return;
             PVI.CAP = doc.createElement("div");
+            PVI.CAP.id = "imagus-cap";
             buildNodes(PVI.CAP, [
                 { tag: "b", attrs: { style: "margin-right: 4px; display: none; transition: background-color .1s; border-radius: 3px; padding: 0 2px;" } },
                 { tag: "b", attrs: { style: "margin-right: 4px; display: " + (cfg.hz.capWH ? "inline-block" : "none") } },
@@ -770,16 +623,12 @@ if (e.button === 2) {
             e = cfg.hz.capStyle;
             PVI.palette.wh_fg = e ? "rgb(100, 0, 0)" : "rgb(204, 238, 255)";
             PVI.palette.wh_fg_hd = e ? "rgb(255, 0, 0)" : "rgb(120, 210, 255)";
-            PVI.CAP.style.cssText =
-                "left:0; right:auto; display:block; cursor:inherit; position:absolute; width:auto; height:auto; border:0; white-space: " +
-                (cfg.hz.capWrapByDef ? "pre-line" : "nowrap") +
-                '; font:13px/1.4em "Trebuchet MS",sans-serif; background:rgba(' +
-                (e ? "255,255,255,.95" : "0,0,0,.75") +
-                ") !important; color:#" +
-                (e ? "000" : "fff") +
-                " !important; box-shadow: 0 0 1px #" +
-                (e ? "666" : "ddd") +
-                " inset; padding:0 4px; border-radius: 3px";
+            PVI.CAP.style.cssText = `
+                white-space: ${cfg.hz.capWrapByDef ? "pre-line" : "nowrap"};
+                background: rgba(${e ? "255,255,255,.9" : "0,0,0,.6"}) !important;
+                color: #${e ? "000" : "fff"} !important;
+                border-radius: ${!cfg.hz.capPos ^ cfg.hz.capOver ? "3px 3px 0 0" : "0 0 3px 3px"};
+            `;
             e = cfg.hz.capPos ? "bottom" : "top";
             PVI.CAP.overhead = Math.max(-18, Math.min(0, PVI.DBOX[e[0] + "p"] - 18));
             PVI.CAP.style[e] = PVI.CAP.overhead + "px";

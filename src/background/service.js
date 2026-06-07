@@ -305,6 +305,13 @@ function onMessage(message, sender, sendResponse) {
         case "options":
             chrome.runtime.openOptionsPage();
             break;
+
+        case "get_file":
+            fetch(`${chrome.runtime.getURL(message.file)}`)
+                .then(r => r.text())
+                .then(text => sendResponse(text));
+            break;
+
         case "open":
             if (!Array.isArray(msg.url)) {
                 msg.url = [msg.url];
