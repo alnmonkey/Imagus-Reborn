@@ -140,6 +140,9 @@
   "HZ_THUMBASBGMASK": {
     "message": "Mask color and opacity"
   },
+  "HZ_MEDIA": {
+    "message": "Media"
+  },
   "HZ_CAPTION": {
     "message": "Caption"
   },
@@ -154,6 +157,9 @@
   },
   "HZ_CAP_WRAP": {
     "message": "Wrap caption by default"
+  },
+  "HZ_CAP_OVER": {
+    "message": "Display caption over the image"
   },
   "HZ_CAP_NOSBAR": {
     "message": "Prevent tooltips (useful with hidden statusbar)"
@@ -332,11 +338,44 @@
   "HZ_FZTOOLBAR": {
     "message": "Show toolbar"
   },
+  "HZ_TOOLBAR_BTNS_TIP": {
+    "message": "Possible buttons:\n<b>X</b> - hide toolbar\n<b>S</b> - save(download)\n<b>O</b> - open in new tab/window\n<b>G</b> - gallery mode\n<b>I</b> - goto/search\n<b>R</b> - rotate\n<b>P</b> - open preferences\n\nDefault: XSOGIRP"
+  },
+  "HZ_FZTOOLBAR_BTNS": {
+    "message": "Toolbar buttons"
+  },
   "TOOLBAR_IMG": {
     "message": "when hovering the image"
   },
   "TOOLBAR_CORNER": {
     "message": "when hovering the top right corner"
+  },
+  "TOOLBAR_ALWAYS": {
+    "message": "always"
+  },
+  "TOOLBAR_NEVER": {
+    "message": "never"
+  },
+  "HIDE_TOOLBAR": {
+    "message": "Hide toolbar"
+  },
+  "SAVE": {
+    "message": "Save"
+  },
+  "OPEN_IN_NEW_TAB": {
+    "message": "Open in new tab\n+Ctrl/Middle click: background\n+Shift: popup window"
+  },
+  "GALLERY": {
+    "message": "Gallery"
+  },
+  "GOTO_SEARCH": {
+    "message": "Goto / Search"
+  },
+  "ROTATE_RIGHT": {
+    "message": "Rotate clockwise"
+  },
+  "PREFERENCES": {
+    "message": "Preferences"
   },
   "HZ_FZDEFAULT": {
     "message": "Always view in Full-zoom mode"
@@ -488,6 +527,27 @@
   "GRNT_HELP": {
     "message": "Basic syntax: <b>operator:URL</b>\nOperators: <b>!</b> (block), <b>~</b> (allow).\nStart a line with a <b>;</b> (semicolon) to make it inactive.\nUse regular expression in URL by duplicating the operator.\n* (asterisk) any URL.\n\nAllow only on imgur\n<code>!:*\n~:https://imgur.com/</code>\n<br>\nBlock a few sites\n<code>!:flickr.com/\n!:youtube.com/\n!!:^https?://www\\.ebay\\.\n!!:^ftp://</code>\n\nOn reddit, allow only /r/pics and /r/funny\n<code>!:https://www.reddit.com/\n~~:^https://www\\.reddit\\.com/r/(?:pics|funny)/</code>"
   },
+  "GRNT_WEBSITE": {
+    "message": "Website rules:"
+  },
+  "GRNT_ELEMENT": {
+    "message": "Element rules:"
+  },
+  "IGNORE_ELEMENT": {
+    "message": "Ignore element..."
+  },
+  "CANNOT_FIND_URL": {
+    "message": "Cannot find URL for this element"
+  },
+  "ADD_TO_IGNORE_LIST": {
+    "message": "Add this item to the elements ignore list?"
+  },
+  "DOWNLOAD_FAILED": {
+    "message": "Download failed"
+  },
+  "INVALID_URL": {
+    "message": "Invalid URL"
+  },
   "APP_VERSIONINFO": {
     "message": "Check out the <a data-hl>highlights</a> of this release, and/or see the full <a data-cl>changelog</a>!"
   },
@@ -503,8 +563,14 @@
   "HZ_CAP_LINKTEXT": {
     "message": "Consider link-text as caption"
   },
+  "HZ_AUTOPLAY": {
+    "message": "Autoplay"
+  },
   "HZ_MEDIAVOLUME": {
     "message": "Default media volume (%)"
+  },
+  "HZ_HIDECONTROLSDELAY": {
+    "message": "Hide media controls delay (ms, 0 = always visible)"
   },
   "HZ_SMOOTHSCROLL": {
     "message": "Smooth scroll support (trackpad / smooth-scroll mouse)"
@@ -526,5 +592,8 @@
   },
   "DEBUG_RULES": {
     "message": "Enable rules debugging"
+  },
+  "OPTIONS": {
+    "message": "Options"
   }
 }
