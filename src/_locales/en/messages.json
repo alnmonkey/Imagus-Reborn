@@ -572,6 +572,18 @@
   "HZ_HIDECONTROLSDELAY": {
     "message": "Hide media controls delay (ms, 0 = always visible)"
   },
+  "HZ_MEDIALOOP": {
+    "message": "Media looping behavior"
+  },
+  "HZ_MEDIALOOP_DEFAULT": {
+    "message": "Default (loop short media)"
+  },
+  "HZ_MEDIALOOP_ALWAYS": {
+    "message": "Always loop"
+  },
+  "HZ_MEDIALOOP_NEVER": {
+    "message": "Never loop"
+  },
   "HZ_SMOOTHSCROLL": {
     "message": "Smooth scroll support (trackpad / smooth-scroll mouse)"
   },

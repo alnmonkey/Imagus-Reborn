@@ -668,7 +668,7 @@
                     // experimentalSvgIcons: true,
                     liveui: true,
                     playbackRates: [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2],
-                    loop: true,
+                    loop: cfg.hz.mediaLoop === "always" || cfg.hz.mediaLoop === "default",
                     preload: "auto",
                     inactivityTimeout: cfg.hz.hideControlsDelay,
                     plugins: {},
@@ -731,6 +731,10 @@
                                 aud.enabled = true
                                 break
                             }
+                        }
+
+                        if (cfg.hz.mediaLoop === "default") {
+                            PVI.PLAYER.loop(PVI.PLAYER.duration() < 60);
                         }
 
                         PVI.content_onready(e);

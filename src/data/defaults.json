@@ -20,6 +20,7 @@
 		"mediaVolume": 40,
 		"autoplay": true,
 		"hideControlsDelay": 2000,
+		"mediaLoop": "default",
 		"smoothScroll": true,
 		"scrollDelay": 0,
 		"pileWheel": 1,
