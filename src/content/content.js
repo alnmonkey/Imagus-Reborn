@@ -2950,6 +2950,14 @@
             }
             trg = e.target;
 
+            if (trg.shadowRoot) {
+                if (!trg.IMGS_m_over) {
+                    trg.shadowRoot.addEventListener("mouseover", PVI.m_over, true);
+                    trg.IMGS_m_over = true;
+                }
+                return;
+            }
+
             if (trg.IMGS_c && trg.IMGS_c !== true) {
                 cache = trg.IMGS_c;
             }
@@ -3081,6 +3089,13 @@
         m_move: function (e) {
             if (e && PVI.x === e.clientX && PVI.y === e.clientY) return;
             rotate(0);
+            let trg = e?.target;
+            while (trg?.shadowRoot) {
+                const newTrg = trg.shadowRoot.elementsFromPoint(e.clientX, e.clientY)?.[0];
+                if (!newTrg || newTrg === trg) break;
+                trg = newTrg;
+            }
+
             if (PVI.fullZm) {
                 const target = e?.clientX >= 0 && PVI.ROOT.shadowRoot.elementsFromPoint(e.clientX, e.clientY)?.[0] || trg;
                 if (PVI.shouldScroll(e, target) && (PVI.TRG.IMGS_album || PVI.isVideo() && (!cfg.hz.scrollVideoWithCtrl || e?.ctrlKey))) {
