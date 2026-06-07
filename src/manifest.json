@@ -19,6 +19,7 @@
 		"downloads",
 		"history",
 		"storage",
+		"contextMenus",
 		"userScripts"
 	],
 	"host_permissions": [

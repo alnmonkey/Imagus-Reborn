@@ -76,6 +76,20 @@
         }
     }
 
+    var isUrlIgnored = function(url) {
+        if (!cfg.grantUrls?.length || !url) return false;
+
+        for (const g of cfg.grantUrls) {
+            if (g.op[1] && typeof g.url === "string") {
+                g.url = new RegExp(g.url, "i");
+            }
+            if (g.op[0] === "!" && (typeof g.url.test === "function" ? g.url.test(url) : url.includes(g.url))) {
+                console.log(`Imagus ignore element with url: ${url}`);
+                return true;
+            }
+        }
+    }
+
     var pdsp = function (e, d, p) {
         if (!e || !e.preventDefault || !e.stopPropagation) return;
         if (d === undefined || d === true) e.preventDefault();
@@ -231,6 +245,10 @@
     };
 
     var onContextMenu = function (e) {
+if (e.button === 2) {
+            PVI.contextEvent = e;
+        }
+
         if (!mdownstart || e.button !== 2 || PVI.md_x !== e.clientX || PVI.md_y !== e.clientY) {
             if (mdownstart) mdownstart = null;
 
@@ -1118,7 +1136,7 @@
             return null;
         },
 
-        find: function (trg, x, y) {
+        find: function (trg, x, y, srcOnly) {
             var i = 0,
                 n = trg,
                 ret = false,
@@ -1192,6 +1210,14 @@
                             }
                         }
                     }
+                    if (srcOnly) {
+                        return URL || imgs?.imgSRC || imgs?.imgBG;
+                    }
+
+                    if (isUrlIgnored(URL || imgs?.imgSRC || imgs?.imgBG)) {
+                        return false;
+                    }
+
                     if (rule.res && (!tmp_el || (!rule.to && rule.url))) {
                         if (win.location.href.replace(rgxHash, "") === n.href.replace(rgxHash, "")) break;
                         if (PVI.toFunction(rule, "url", true) === false) return 1;
@@ -1267,6 +1293,16 @@
                         }
                 }
             }
+            }
+
+            if (srcOnly) {
+                return ret;
+            }
+
+            if (isUrlIgnored(ret)) {
+                return false;
+            }
+
             if (rule && rule.loop && typeof ret === "string" && rule.loop & (use_img ? 2 : 1)) {
                 if ((trg.nodeType !== 1 && ret === trg.href) || trg.IMGS_loop_count > 5) return false;
                 rule = ret;
@@ -3314,6 +3350,25 @@
                         delete trg.IMGS_c_resolved;
                     } else PVI.show("R_res");
                 }
+
+            } else if (d.cmd === "ignore_element") {
+                let url = PVI.find(PVI.contextEvent.target || PVI.TRG, PVI.contextEvent.clientX, PVI.contextEvent.clientY, true);
+                if (!url) {
+                    window.alert(_("CANNOT_FIND_URL"));
+                    return;
+                }
+                url = window.prompt(_("ADD_TO_IGNORE_LIST"), `!:${url}`);
+                const grant = /(!{1,2}):(.+)/.exec(url);
+                if (!grant) return;
+
+                Port.send({
+                    cmd: "ignore_url",
+                    grantString: url,
+                });
+
+                cfg.grantUrls ||= [];
+                cfg.grantUrls.push({ op: grant[1], url: grant[2] });
+                PVI.resetNode(PVI.contextEvent.target || PVI.TRG);
 
             } else if (d.cmd === "toggle" || d.cmd === "preload") {
                 win.top.postMessage({ vdfDpshPtdhhd: d.cmd }, "*");

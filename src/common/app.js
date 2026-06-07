@@ -100,7 +100,7 @@ const Port = {
 
     send: async function (message, callback) {
         if (Port.listener || callback) {
-            return chrome.runtime.sendMessage(message, Port.listener || callback);
+            return chrome.runtime.sendMessage(message, callback || Port.listener);
         } else {
             return chrome.runtime.sendMessage(message);
         }
@@ -108,7 +108,7 @@ const Port = {
 };
 
 async function readCfg() {
-    let resp = await Port.send({ cmd: "cfg_get", keys: ["hz", "keys", "tls", "grants", "sieve", "sieveUpdateLast", "sieveRepository"] });
+    let resp = await Port.send({ cmd: "cfg_get", keys: ["hz", "keys", "tls", "grants", "grantUrls", "sieve", "sieveUpdateLast", "sieveRepository"] });
 
     if (!resp?.cfg) return;
     cfg = resp.cfg;

@@ -210,7 +210,7 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
                 textArea.setSelectionRange(0, 0);
                 textArea.focus();
                 return;
-} else {
+            } else {
                 val = JSON.parse(val);
             }
         } catch (ex) {
@@ -218,8 +218,8 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
             color_trans(btn, "red");
             textArea.disabled = false;
             return;
-            }
-            importer.ondata(val, btn);
+        }
+        importer.ondata(val, btn);
     };
     document.addEventListener("mousedown", function (e) {
         if (!e.target.closest("#importer, [data-action]")) importer.visible(false);
@@ -285,7 +285,6 @@ var load = function () {
         m,
         fld,
         fld_type,
-        shosts,
         pref,
         prefs = {};
     while (i--) {
@@ -300,17 +299,22 @@ var load = function () {
             }
         if (pref[0] === "tls" && pref[1] === "sendToHosts") {
             if (Array.isArray(prefs.tls[pref[1]])) {
-                shosts = [];
-                for (j = 0; j < prefs.tls[pref[1]].length; ++j) shosts.push(prefs.tls[pref[1]][j].join("|"));
+                const shosts = [];
+                for (const tls of prefs.tls[pref[1]]) {
+                    shosts.push(tls.join("|"));
+                }
                 fld.rows = shosts.length || 1;
                 fld.value = fld.defValue = shosts.join("\n");
             }
-        } else if (pref[0] === "grants") {
-            shosts = [];
-            m = prefs.grants;
-            if (m && m.length)
-                for (j = 0; j < m.length; ++j) shosts.push(m[j].op === ";" ? ";" + m[j].txt : m[j].op + (m[j].rules || m[j].opts || "") + ":" + m[j].url);
+
+        } else if (pref[0] === "grants" || pref[0] === "grantUrls") {
+            const shosts = (prefs[pref[0]] || []).map(grant => {
+                return grant.op === ";" ?
+                    ";" + grant.txt :
+                    grant.op + (grant.rules || grant.opts || "") + ":" + grant.url;
+            });
             fld.value = fld.defValue = shosts.join("\n");
+
         } else if (pref[0] === "keys") {
             m = pref[1].replace("-", "_");
             if (prefs.keys[m] !== void 0) fld.value = fld.defValue = prefs.keys[m];
@@ -358,23 +362,26 @@ var save = async function () {
                 host = shosts[shidx].split("|");
                 if (host.length === 2) prefs.tls[pref[1]].push(host);
             }
-        } else if (pref[0] === "grants") {
-            prefs.grants = [];
+        } else if (pref[0] === "grants" || pref[0] === "grantUrls") {
+            let parsed = prefs[pref[0]] = [];
             if (fld.value === "") continue;
             var grant;
             var grnts = fld.value.trim().split(rgxNewLine);
             if (!grnts.length) continue;
-            for (shidx = 0; shidx < grnts.length; ++shidx)
+            for (shidx = 0; shidx < grnts.length; ++shidx) {
                 if ((grant = rgxGrant.exec(grnts[shidx].trim()))) {
                     if (grant[1]) {
                         grant[1] = grant[1].trim();
                         host = { op: ";", txt: grant[1].substr(1) };
                     } else host = { op: grant[2], url: grant[3].trim() };
-                    prefs.grants.push(host);
+                    parsed.push(host);
                 }
-            fld.value = prefs.grants
+            }
+            fld.value = parsed
                 .map(function (el) {
-                    return el.op === ";" ? ";" + el.txt : el.op + (el.rules || el.opts || "") + ":" + el.url;
+                    return el.op === ";" ?
+                        ";" + el.txt :
+                        el.op + (el.rules || el.opts || "") + ":" + el.url;
                 })
                 .join("\n");
         } else if (pref[0] === "keys") {
@@ -415,7 +422,7 @@ var download = function (data, filename, exportAsText) {
 
 var prefs = function (data, options, ev) {
     var i,
-        pref_keys = ["hz", "keys", "tls", "grants"];
+        pref_keys = ["hz", "keys", "tls", "grants", "grantUrls"];
     if (typeof data === "object") {
         if (JSON.stringify(data) === "{}") return false;
         if ((options || {}).clear) Port.send({ cmd: "cfg_del", keys: Object.keys(data) });

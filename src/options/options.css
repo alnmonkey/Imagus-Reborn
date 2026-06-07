@@ -715,11 +715,16 @@ span.clear_search:hover {
     top: 0;
     width: 100%;
 }
-#grants {
+#grants_sec {
+    min-width: 720px;
+}
+.grants {
     box-sizing: border-box;
     height: 180px;
     min-height: 180px;
     margin: 5px auto;
+min-width: 100%;
+    resize: both;
 }
 #grants_help {
     column-count: 2;

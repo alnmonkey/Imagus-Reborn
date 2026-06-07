@@ -239,6 +239,10 @@ function onMessage(message, sender, sendResponse) {
             toggleTab(sender.tab);
             break;
 
+        case "ignore_url":
+            grantUrlAdd(msg.grantString);
+            break;
+
         case "cfg_get":
             if (!Array.isArray(msg.keys)) {
                 msg.keys = [msg.keys];
@@ -548,6 +552,7 @@ function initTab(tab, sendResponse) {
             sieve: grantsIsBlocked(tab.url) ? null : cachedPrefs.sieve,
             tls: cachedPrefs.tls,
             keys: cachedPrefs.keys,
+            grantUrls: cachedPrefs.grantUrls,
             app: { name: manifest.name, version: manifest.version },
         }
     };
@@ -594,26 +599,40 @@ function grantsIsBlocked(url) {
     return blocked;
 }
 
+// disable Imagus on an elements with the given URL
+async function grantUrlAdd(str) {
+    if (!str) return;
+    let { grantUrls } = await cfg.get("grantUrls");
+    grantUrls ||= [];
+
+    str = /(!{1,2}):(.+)/.exec(str);
+    if (!str) return;
+    grantUrls.push({ op: str[1], url: str[2] });
+    await updatePrefs({ grantUrls: grantUrls });
+}
+
 // disable Imagus on the given URL
 async function grantsAdd(url) {
     if (!url) return;
-    const hostname = new URL(url).hostname;
-    if (!hostname) return;
+    const host = new URL(url).host;
+    if (!host) return;
     let { grants } = await cfg.get("grants");
+    grants ||= [];
 
-    grants.push({ op: "!", url: hostname + "/" });
+    grants.push({ op: "!", url: host + "/" });
     await updatePrefs({ grants: grants });
 }
 
 // enable Imagus on the given URL
 async function grantsRemove(url) {
     if (!url) return;
-    const hostname = new URL(url).hostname;
-    if (!hostname) return;
+    const host = new URL(url).host;
+    if (!host) return;
     let { grants } = await cfg.get("grants");
+    grants ||= [];
 
     grants = grants.filter(grant =>
-        grant.url !== hostname + "/" ||
+        grant.url !== host + "/" ||
         grant.op.length > 1 ||
         grant.op[0] !== "!"
     );
@@ -660,19 +679,30 @@ chrome.runtime.onMessage?.addListener(onMessage);
 
 keepAlive();
 
-// Add context menu to toolbar button to open options page (Firefox only)
-if (platform === "firefox" && chrome.contextMenus) {
+if (chrome.contextMenus) {
     chrome.runtime.onInstalled.addListener(() => {
+        // Add context menu to toolbar button to open options page (Firefox only)
+        if (platform === "firefox") {
+            chrome.contextMenus.create({
+                id: "open-options",
+                title: _("OPTIONS"),
+                contexts: ["action"]
+            });
+        }
+
+        // Add on-page context menu to ignore elements
         chrome.contextMenus.create({
-            id: "open-options",
-            title: "Options",
-            contexts: ["action"]
+            id: "ignore-element",
+            title: _("IGNORE_ELEMENT"),
+            contexts: ["page", "link", "image", "video", "audio", "editable"]
         });
     });
 
     chrome.contextMenus.onClicked.addListener((info, tab) => {
         if (info.menuItemId === "open-options") {
             chrome.runtime.openOptionsPage();
+        } else if (info.menuItemId === "ignore-element" && tab?.id) {
+            chrome.tabs.sendMessage(tab.id, { cmd: "ignore_element" });
         }
     });
 }
