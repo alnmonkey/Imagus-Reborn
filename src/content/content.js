@@ -915,9 +915,9 @@
         },
 
         resetAllNodes: function () {
-            const nodes = doc.querySelectorAll('a, img[src], :not(img)[style*="background-image"], a, b, i, u, strong, em, span, div');
+            const nodes = doc.querySelectorAll('a, img[src], :not(img)[style*="background-image"], a, b, i, u, strong, em, span, div, button');
             nodes.forEach(function (el) {
-                if (el.IMGS_c !== undefined) {
+                if (el.IMGS_c !== undefined || el.IMGS_c_resolved !== undefined) {
                     PVI.resetNode(el);
                 }
             });
@@ -935,7 +935,7 @@
             delete node.IMGS_ext;
             if (!keepAlbum) delete node.IMGS_album;
             if (node.localName !== "a") return;
-            var childNodes = node.querySelectorAll('img[src], :not(img)[style*="background-image"], b, i, u, strong, em, span, div');
+            var childNodes = node.querySelectorAll('img[src], :not(img)[style*="background-image"], b, i, u, strong, em, span, div, button');
             if (childNodes.length)
                 [].forEach.call(childNodes, function (el) {
                     if (el.IMGS_c) PVI.resetNode(el);
