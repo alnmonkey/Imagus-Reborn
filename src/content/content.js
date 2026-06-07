@@ -98,7 +98,7 @@
 
     var imageSendTo = function (sf) {
         if ((!sf.url && !sf.name && !sf.url) || (sf.url && !/^http/.test(sf.url))) {
-            alert("Invalid URL! (" + sf.url.slice(0, sf.url.indexOf(":") + 1));
+            alert(_("INVALID_URL") + ": " + sf.url.slice(0, sf.url.indexOf(":") + 1));
             return;
         }
         var i = 0;
@@ -337,7 +337,7 @@ if (e.button === 2) {
 
                 Port.send(msg);
             } catch(e) {
-                alert("Download failed: " + (e.message || e));
+                alert(_("DOWNLOAD_FAILED") + ": " + (e.message || e));
             }
 
         } else {

@@ -6,6 +6,22 @@ var cachedSieveRes = [],
 
 const platform = navigator.userAgent.includes('Firefox') ? "firefox" : "chrome";
 
+const _ = function (msg) {
+    try {
+        return chrome.i18n.getMessage(msg) || msg;
+    } catch (err) {
+        return msg;
+    }
+};
+
+const scriptMessages = {
+    "INVALID_URL": "", "DOWNLOAD_FAILED": "", "HIDE_TOOLBAR": "", "SAVE": "", "OPEN_IN_NEW_TAB": "", "GALLERY": "", "GOTO_SEARCH": "", "ROTATE_RIGHT": "",
+    "PREFERENCES": "", "CANNOT_FIND_URL": "", "ADD_TO_IGNORE_LIST": ""
+};
+for (let key in scriptMessages) {
+    scriptMessages[key] = _(key);
+}
+
 var cfg = {
     sessionGet: (keys, callback) => {
         return callback ? chrome.storage.session.get(keys, callback) : chrome.storage.session.get(keys);
@@ -554,6 +570,7 @@ function initTab(tab, sendResponse) {
             keys: cachedPrefs.keys,
             grantUrls: cachedPrefs.grantUrls,
             app: { name: manifest.name, version: manifest.version },
+            messages: scriptMessages,
         }
     };
 
