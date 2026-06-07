@@ -1153,8 +1153,8 @@
             do {
                 if (n.nodeType !== undefined)
                     if (n.nodeType !== 1 || n === doc.body) break;
-                    else if (n.localName !== "a") continue;
-                if (!n.href) {
+                    else if (n.localName !== "a" && i < 4) continue;
+                if (!n.href && n.localName === "a") {
                     if (n.href === "") PVI.listen_attr_changes(n);
                     break;
                 }
@@ -1189,6 +1189,7 @@
                     }
                     n.href = PVI.normalizeURL(n.href);
                 }
+                n.href ||= "";
                 URL = n.href.replace(PVI.rgxHTTPs, "");
                 if (imgs && (URL === imgs.imgSRC || URL === imgs.imgBG)) break;
                 for (i = 0; (rule = cfg.sieve[i]); ++i) {
