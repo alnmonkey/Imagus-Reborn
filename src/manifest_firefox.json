@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
 
-	"name": "Imagus Reborn",
-	"version": "2026.5.24",
+	"name": "Imagus Reborn (BETA)",
+	"version": "2026.6.0",
 	"description": "__MSG_APP_DESCRIPTION__",
 	"default_locale": "en",
 	"homepage_url": "https://www.reddit.com/r/Imagus",
