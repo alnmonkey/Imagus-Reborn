@@ -2428,7 +2428,7 @@
                     PVI.PLAYER.currentTime(PVI.PLAYER.duration() * ((e.keyCode - 48) / 10));
                     PVI.PLAYER.userActive(true);
 
-                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitW || key === cfg.keys.mFitH) {
+                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitW || key === cfg.keys.mFitH || key === cfg.keys.mZoomLock) {
                     PVI.resizeMode = cfg.hz.resizeMode = key;
                     if (cfg.hz.resizeModeType === "memory") {
                         Port.send({ cmd: "savePrefs", prefs: { hz: { resizeMode: key } } });
@@ -2601,7 +2601,8 @@
                     "orig": cfg.keys.mOrig,
                     "fit":  cfg.keys.mFit,
                     "fitw": cfg.keys.mFitW,
-                    "fith": cfg.keys.mFitH
+                    "fith": cfg.keys.mFitH,
+                    "zoomlock": cfg.keys.mZoomLock,
                 }
                 PVI.resizeMode = resizeModes[cfg.hz.resizeModeType] || cfg.hz.resizeMode || cfg.keys.mFit;
 
@@ -2833,26 +2834,30 @@
         resize: function (x, xy_img) {
             if (PVI.state !== 4 || !PVI.fullZm) return;
             var s = PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src].slice() : [PVI.CNT.naturalWidth, PVI.CNT.naturalHeight];
-            var k = cfg.keys;
             var rot = PVI.DIV.curdeg % 180;
             viewportDimensions();
             if (rot) s.reverse();
             let winWI = winW - PVI.DBOX["wpb"] - PVI.DBOX["wm"];
             let winHI = winH - PVI.DBOX["hpb"] - PVI.DBOX["hm"] - PVI.getCapHeight();
-            if (x === k.mFit || x === false) {
+            if (x === cfg.keys.mZoomLock) {
+                if (PVI.lockedZoom) {
+                    s[0] *= PVI.lockedZoom;
+                    s[1] *= PVI.lockedZoom;
+                }
+            } else if (x === cfg.keys.mFit || x === false) {
                 if (winWI / winHI < s[0] / s[1]) {
-                    x = winWI > s[0] ? false : k.mFitW;
+                    x = winWI > s[0] ? false : cfg.keys.mFitW;
                 } else {
-                    x = winHI > s[1] ? false : k.mFitH;
+                    x = winHI > s[1] ? false : cfg.keys.mFitH;
                 }
             }
             switch (typeof x === "number" ? "num" : x) {
-                case k.mFitW:
+                case cfg.keys.mFitW:
                     s[1] *= winWI / s[0];
                     s[0] = winWI;
                     if (PVI.fullZm > 1) PVI.y = 0;
                     break;
-                case k.mFitH:
+                case cfg.keys.mFitH:
                     s[0] *= winHI / s[1];
                     s[1] = winHI;
                     if (PVI.fullZm > 1) PVI.y = 0;
@@ -2860,7 +2865,7 @@
                 case "+":
                 case "-":
                 case "num":
-                    k = [parseInt(PVI.DIV.style.width, 10), 0];
+                    let k = [parseInt(PVI.DIV.style.width, 10), 0];
                     k[1] = (k[0] * s[rot ? 0 : 1]) / s[rot ? 1 : 0];
                     if (xy_img) {
                         if (xy_img[1] === undefined || rot) {
@@ -2884,6 +2889,11 @@
                         xy_img[1] *= k[rot ? 0 : 1] - s[1];
                     }
                     break;
+            }
+
+            if (PVI.resizeMode === cfg.keys.mZoomLock) {
+                const natW = PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src][0] : PVI.CNT.naturalWidth;
+                PVI.lockedZoom = natW > 0 ? s[rot ? 1 : 0] / natW : 1;
             }
             if (!xy_img) xy_img = [true, null];
             xy_img.push(Math.floor(s[rot ? 1 : 0]), Math.floor(s[rot ? 0 : 1]));

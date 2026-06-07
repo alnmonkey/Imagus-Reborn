@@ -236,6 +236,9 @@
   "SC_MFITH": {
     "message": "Fit to height"
   },
+  "SC_MZOOMLOCK": {
+    "message": "Zoom lock"
+  },
   "SC_SENDTO": {
     "message": "Send image to..."
   },
