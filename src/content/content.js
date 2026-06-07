@@ -784,7 +784,8 @@
                 border-radius: ${!cfg.hz.capPos ^ cfg.hz.capOver ? "3px 3px 0 0" : "0 0 3px 3px"};
             `;
             e = cfg.hz.capPos ? "bottom" : "top";
-            PVI.CAP.overhead = Math.max(-18, Math.min(0, PVI.DBOX[e[0] + "p"] - 18));
+            const capShift = cfg.hz.capOver ? 0 : -18;
+            PVI.CAP.overhead = Math.max(capShift, Math.min(0, PVI.DBOX[e[0] + "p"] + capShift));
             PVI.CAP.style[e] = PVI.CAP.overhead + "px";
             PVI.CAP.overhead = Math.max(0, -PVI.CAP.overhead - PVI.DBOX[e[0] + "bm"]);
             PVI.DIV.appendChild(PVI.CAP);

@@ -26,6 +26,7 @@
 		"pileCycle": false,
 		"capStyle": 0,
 		"capPos": 0,
+		"capOver": true,
 		"capWrapByDef": true,
 		"capWH": false,
 		"capText": true,
