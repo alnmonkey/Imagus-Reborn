@@ -3,7 +3,17 @@
     if (!doc || doc instanceof win.HTMLDocument === false) return;
     var imgDoc = doc.images && doc.images.length === 1 && doc.images[0];
     if (imgDoc && imgDoc.parentNode === doc.body && imgDoc.src === win.location.href) return;
-    if (doc.body?.children?.length === 1 && doc.body.children[0].currentSrc === win.location.href) return;
+
+    // handle direct video links
+    if (doc.body?.children?.length < 5 && doc.body?.children[0]?.localName === 'video' && doc.body.children[0].currentSrc === win.location.href) {
+        // get time position from hash in case the video is opened from Imagus
+        const time = /imagus_time=(\d+)/.exec(win.location.hash);
+        if (time) {
+            const video = doc.body.children[0];
+            video.currentTime = parseInt(time[1], 10);
+        }
+        return;
+    }
 
     // Smooth scroll support (trackpad / smooth-scroll mouse)
     let wheelRAF = null;
@@ -70,6 +80,9 @@
         }
         if (src) {
             src = src.replace(rgxHash, "");
+            if (PVI.isVideo()) {
+                src += "#imagus_time=" + Math.floor(PVI.PLAYER.currentTime());
+            }
             const how =
                 e.shiftKey && e.button === undefined || e.ctrlKey && e.button === 0 || e.button === 1 ? "bg" :
                 e.shiftKey && e.button === 0 || e.ctrlKey ? "popup" :
