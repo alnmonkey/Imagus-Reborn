@@ -33,23 +33,27 @@
         PVI.resize(delta, wheelLastXY);
     }
 
-    function injectCss(file, inHead) {
-        Port.send({ cmd: "get_file", file }, css => {
-            let style = document.createElement('style');
-            style.innerHTML = css;
-            if (inHead) {
-                document.head.appendChild(style);
-            } else {
-                PVI.ROOT?.shadowRoot?.appendChild(style);
-            }
-        });
+    async function injectCss(file, text, inHead) {
+        let css = "";
+        if (file) {
+            css = await chrome.runtime.sendMessage({ cmd: "get_file", file });
+        }
+        if (text) {
+            css += text;
+        }
+
+        let style = document.createElement('style');
+        style.innerHTML = css;
+        if (inHead) {
+            document.head.appendChild(style);
+        } else {
+            PVI.ROOT?.shadowRoot?.appendChild(style);
+        }
     }
 
-    function injectJs(file, callback) {
-        Port.send({ cmd: "get_file", file }, code => {
-            Function(code)();
-            callback?.();
-        });
+    async function injectJs(file) {
+        const code = await chrome.runtime.sendMessage({ cmd: "get_file", file });
+        Function(code)();
     }
 
     var flip = function (el, ori) {
@@ -216,7 +220,7 @@
                 }
                 return;
             }
-            if (e.target !== PVI.CNT || PVI.fullZm || e.button !== 0) return;
+            if (e.target !== PVI.ROOT || PVI.fullZm || e.button !== 0) return;
             if (e.ctrlKey || e.shiftKey || e.altKey) return;
             if (PVI.md_x !== e.clientX || PVI.md_y !== e.clientY) return;
             PVI.reset(true);
@@ -361,6 +365,19 @@
         }
     };
 
+    function getElementsFromPoint(x, y) {
+        let limit = 20;
+        let elements = doc.elementsFromPoint(x, y);
+        while (elements?.[0]?.shadowRoot && limit-- > 0) {
+            let newElems = elements[0].shadowRoot.elementsFromPoint(x, y);
+            newElems = newElems.filter(e => elements[0].shadowRoot.contains(e));
+            if (!newElems.length) break;
+            elements.unshift(...newElems);
+        }
+        // TODO: perhaps we should also get elements with "pointer-events: none"
+        return elements;
+    }
+
     async function download(msg) {
         let src = msg?.url || PVI.PLAYER?.src() || PVI.EXTENSION?.VIDEOJS?.player?.src() || PVI.CNT.src;
 
@@ -406,7 +423,7 @@
         }
     }
 
-    function isVideo(src) {
+    function isVideoUrl(src) {
         return (
             /^[^?#]+\.(?:m(?:4[abprv]|p[34])|og[agv]|flac|webm|mov|mk[av]|f4v|mpd|m3u8)(?:$|[?#])/i.test(src) ||
             /#(mp[34]|og[gv]|webm|video)$/i.test(src)
@@ -461,13 +478,14 @@
             }
         },
 
-        create: function () {
+        create: async function () {
             if (PVI.DIV) return;
 
             PVI.ROOT = doc.createElement("div");
             PVI.ROOT.attachShadow({ mode: "open" });
             doc.documentElement.appendChild(PVI.ROOT);
-            injectCss("content/styles.css");
+            await injectCss("content/styles.css");
+            await injectCss("", cfg.hz.customCss);
 
             var x, y, z, p;
             PVI.HLP = doc.createElement("a");
@@ -476,19 +494,14 @@
             PVI.IMG = doc.createElement("img");
             PVI.LDR = PVI.IMG.cloneNode(false);
             PVI.CNT = PVI.IMG;
-            PVI.DIV.id = "imagus-main";
+            PVI.DIV.id = "imagus-popup";
             PVI.DIV.IMGS_ = PVI.DIV.IMGS_c = PVI.LDR.IMGS_ = PVI.LDR.IMGS_c = PVI.VID.IMGS_ = PVI.VID.IMGS_c = PVI.IMG.IMGS_ = PVI.IMG.IMGS_c = true;
-            PVI.DIV.style.cssText =
-                "margin: 0; padding: 0; " +
-                (cfg.hz.popupCss || "") +
-                "; visibility: visible; cursor: default; display: none; z-index: 2147483647; " +
-                "position: fixed !important; box-sizing: content-box !important; left: auto; top: auto; right: auto; bottom: auto; width: auto; height: auto; max-width: none !important; max-height: none !important; ";
             PVI.DIV.curdeg = 0;
             PVI.LDR.wh = [35, 35];
             var onLDRLoad = function () {
                 this.removeEventListener("load", onLDRLoad, false);
                 onLDRLoad = null;
-                var x = this.style;
+                var x = win.getComputedStyle(this);
                 this.wh = [
                     x.width ? parseInt(x.width, 10) : this.naturalWidth || this.wh[0],
                     x.height ? parseInt(x.height, 10) : this.naturalHeight || this.wh[1],
@@ -496,22 +509,20 @@
             };
             PVI.LDR.addEventListener("load", onLDRLoad, false);
             PVI.LDR.alt = "";
+            PVI.LDR.id = "imagus-loader";
             PVI.LDR.draggable = false;
-            PVI.LDR.style.cssText =
-                (cfg.hz.LDRcss ||
-                    "padding: 5px; border-radius: 50% !important; box-shadow: 0px 0px 5px 1px #a6a6a6 !important; background-clip: padding-box; width: 38px; height: 38px") +
-                "; position: fixed !important; z-index: 2147483647; display: none; left: auto; top: auto; right: auto; bottom: auto; margin: 0; box-sizing: border-box !important; " +
-                (cfg.hz.LDRanimate ? "transition: background-color .5s, opacity .2s ease, top .15s ease-out, left .15s ease-out" : "");
+            PVI.LDR.style.display = "none";
             PVI.LDR.src =
-                cfg.hz.LDRsrc ||
                 "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOng9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWluWU1pbiBub25lIj48Zz48cGF0aCBpZD0icCIgZD0iTTMzIDQyYTEgMSAwIDAgMSA1NS0yMCAzNiAzNiAwIDAgMC01NSAyMCIvPjx1c2UgeDpocmVmPSIjcCIgdHJhbnNmb3JtPSJyb3RhdGUoNzIgNTAgNTApIi8+PHVzZSB4OmhyZWY9IiNwIiB0cmFuc2Zvcm09InJvdGF0ZSgxNDQgNTAgNTApIi8+PHVzZSB4OmhyZWY9IiNwIiB0cmFuc2Zvcm09InJvdGF0ZSgyMTYgNTAgNTApIi8+PHVzZSB4OmhyZWY9IiNwIiB0cmFuc2Zvcm09InJvdGF0ZSgyODggNTAgNTApIi8+PGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJyb3RhdGUiIHZhbHVlcz0iMzYwIDUwIDUwOzAgNTAgNTAiIGR1cj0iMS44cyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PC9zdmc+";
             x =
                 "display: none; visibility: inherit !important; background: none; position: relative; width: 100%; height: 100%; max-width: inherit; max-height: inherit; margin: 0; padding: 0; border: 0; ";
             PVI.IMG.alt = "";
             PVI.IMG.style.cssText = x + "; image-orientation: initial !important";
+            PVI.IMG.classList.add("content");
             PVI.IMG.addEventListener("error", PVI.content_onerror);
             PVI.DIV.appendChild(PVI.IMG);
             PVI.VID.style.display = "none";
+            PVI.VID.classList.add("content");
             PVI.DIV.appendChild(PVI.VID);
 
             if (cfg.hz.thumbAsBG || cfg.hz.history) {
@@ -556,6 +567,11 @@
             docEl.appendChild(PVI.LDR);
             PVI.DBOX = {};
             x = win.getComputedStyle(PVI.DIV);
+
+            // temporarely until EXT rule is updated
+            PVI.DIV.style.border = x.border;
+            PVI.DIV.style.boxShadow = x.boxShadow;
+
             y = {
                 mt: "marginTop",
                 mr: "marginRight",
@@ -608,18 +624,18 @@
 
             // mark over the hovered object
             PVI.HVR = doc.createElement("div");
-            PVI.HVR.id = "imagus-hvr";
-            PVI.HVR.style.cssText = `${cfg.hz.hoverCss || ""}; display: none;`;
+            PVI.HVR.id = "imagus-hover";
+            PVI.HVR.style.cssText = `display: none;`;
             docEl.appendChild(PVI.HVR);
 
             // gallery container
             PVI.GLR = doc.createElement("div");
-            PVI.GLR.id = 'imagus-glr';
+            PVI.GLR.id = 'imagus-gallery';
+            PVI.GLR.classList.add("content");
             PVI.GLR.style.display = 'none';
             PVI.DIV.appendChild(PVI.GLR);
             PVI.GLR.addEventListener('mousedown', pdsp, true);
             PVI.GLR.addEventListener('click', PVI.galleryClick, true);
-            PVI.GLR.addEventListener("wheel", PVI.galleryWheeler, true);
 
             // create popup toolbar
             const BOTTONS = {
@@ -643,7 +659,7 @@
                 }]);
                 PVI.TBAR = PVI.DIV.querySelector("#imagus-toolbar");
                 PVI.TBAR.addEventListener("click", PVI.tbarClick);
-                PVI.TBAR.addEventListener("mousedown", pdsp);
+                PVI.TBAR.addEventListener("mousedown", PVI.tbarClick);
             }
 
             PVI.reset();
@@ -653,16 +669,11 @@
             PVI.createVideojs(() => {
                 PVI.CNT = PVI.VIDEOJS;
                 PVI.PLAYER.src(src);
-                PVI.PLAYER.userActive(true);
-
-                if (PVI.TRG?.localName === "video") {
-                    PVI.TRG.pause();
-                    PVI.PLAYER.currentTime(PVI.TRG.currentTime);
-                }
+                PVI.PLAYER.muted(false);
             });
         },
 
-        createVideojs: function(callback) {
+        createVideojs: async function(callback) {
             if (PVI.VIDEOJS) {
                 callback();
                 return;
@@ -672,118 +683,115 @@
             PVI.VID.setAttribute("class", "video-js");
             PVI.VID.setAttribute("id", "imagus-videojs");
 
-            injectCss("content/styles_doc.css", true);
+            injectCss("content/styles_doc.css", "", true);
             injectCss("lib/videojs_all.min.css");
-            injectJs("lib/videojs_all.min.js", () => {
-                // const defaultQuality = 3;
-                const playerOptions = {
-                    autoplay: cfg.hz.autoplay ? "any" : false,
-                    controls: true,
-                    // experimentalSvgIcons: true,
-                    liveui: true,
-                    playbackRates: [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2],
-                    loop: cfg.hz.mediaLoop === "always" || cfg.hz.mediaLoop === "default",
-                    preload: "auto",
-                    inactivityTimeout: cfg.hz.hideControlsDelay,
-                    plugins: {},
-                    html5: {
-                        vhs: {
-                            // VideoJs will select an optimal quality for the given dimensions
-                            bandwidth: 100 * 1024 * 1024, // 100 Mbps
-                            useDevicePixelRatio: true,
-                            overrideNative: true,
-                            enableLowInitialPlaylist: false,
-                        },
-                        nativeAudioTracks: false,
-                        nativeVideoTracks: false,
+
+            await injectJs("lib/videojs_mod.min.js");
+            const playerOptions = {
+                autoplay: cfg.hz.autoplay ? "any" : false,
+                controls: true,
+                poster: `data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDc1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjkuNzYgMThoMi41MTg2djAuODE1MDNjNi4zMDI1IDEuMzkzOCA3LjAyMjcgNC4zMzExIDMuMzY4OSA4LjkzNzggMC4zODY1My00LjU3OTEtMC4wODk1MS01LjU1OTUtMy4zNjg5LTUuNzcyMnYxMS41NzZhMS40NzI5IDEuNDI1MyAwIDAgMSAwIDAuMTg1MDZjMCAxLjUwNDEtMS42Mjc1IDIuOTk2My0zLjY0MTYgMy4zMzQ5cy0zLjYzNzUtMC42MTAyOS0zLjYzNzUtMi4xMTgzYzAtMi4wNTE0IDIuOTEzMi0zLjgzNSA0Ljc2MDUtMy4yMDV6bTM3LjE0OCAwaDIuNTE4NnYwLjgxNTAzYzYuMjk4NSAxLjM5MzggNy4wMTg2IDQuMzMxMSAzLjM2NDkgOC45Mzc4IDAuNDA2ODgtNC41NzkxLTAuMDg5NTEtNS41NTk1LTMuMzY0OS01Ljc3MjJ2MTEuNTc2IDAuMTg1MDZjMCAxLjUwNDEtMS42Mjc1IDIuOTk2My0zLjY2MTkgMy4zMzQ5LTIuMDM0NCAwLjMzODYxLTMuNjYxOS0wLjYxMDI5LTMuNjYxOS0yLjExODMgMC0yLjA1MTQgMi45MTMyLTMuODM1IDQuNzYwNS0zLjIwNXYtMTMuNzUzem0tMTMuMjE5IDI3LjAyNmE0LjU4MTQgNC40MzM1IDAgMCAxIDEuODMwOSAwLjAzMTV2LTEyLjQzOGwtMTMuNjAyIDMuNzc1OXEwIDcuMzQ3MSAwIDE0LjY4NmMwIDIuMjkxNS0yLjYxMjIgMy45NjEtNC43MDc2IDQuMzMxMS0yLjU5OTkgMC40MzMxMS00LjcxMTYtMC43ODc0Ny00LjcxMTYtMi43NTYyczIuMTIzOS0zLjg3NDQgNC43MDc2LTQuMzA3NWE1LjI4OTQgNS4xMTg2IDAgMCAxIDIuNjQwNiAwLjE2NTM3di0xNy43ODFsMTcuNzE1LTMuOTAxOXYyMC4wMzNjMC4xOTUzIDIuMTI2Mi0yLjAzNDQgMy43MzY2LTMuODg5NyA0LjA0NzYtMi4xNzI3IDAuMzYyMjQtMy45MzA0LTAuNjYxNDgtMy45MzA0LTIuMjg3NiAwLTEuNjI2MSAxLjc1NzctMy4yMzY1IDMuOTMwNC0zLjU5ODd6Ii8+PC9zdmc+`,
+                // experimentalSvgIcons: true,
+                liveui: true,
+                playbackRates: [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2],
+                loop: cfg.hz.mediaLoop === "always" || cfg.hz.mediaLoop === "default",
+                preload: "auto",
+                inactivityTimeout: cfg.hz.hideControlsDelay,
+                plugins: {},
+                html5: {
+                    vhs: {
+                        // VideoJs will select an optimal quality for the given dimensions
+                        bandwidth: 100 * 1024 * 1024, // 100 Mbps
+                        useDevicePixelRatio: true,
+                        overrideNative: true,
+                        enableLowInitialPlaylist: false,
+                        useNetworkInformationApi: false,
                     },
-                };
+                    nativeAudioTracks: false,
+                    nativeVideoTracks: false,
+                },
+            };
 
-                // videojs.log.level('all');
-                videojs(PVI.VID, playerOptions, () => {
-                    PVI.VIDEOJS = PVI.VID.parentElement;
-                    PVI.PLAYER = videojs.players["imagus-videojs"];
-                    const qLevels = PVI.PLAYER.qualityLevels();
-                    const mqSelector = PVI.PLAYER.maxQualitySelector({
-                        autoLabel: "Auto ",
-                        disableAuto: true,
-                        displayMode: 1,
-                        defaultQuality: 0,
-                        filterDuplicateHeights: false,
-                        filterDuplicates: false,
-                        showBitrates: true
-                    });
+            // videojs.log.level('all');
+            videojs(PVI.VID, playerOptions, () => {
+                PVI.VIDEOJS = PVI.VID.parentElement;
+                PVI.VIDEOJS.classList.add("content");
+                PVI.PLAYER = videojs.players["imagus-videojs"];
+                const qLevels = PVI.PLAYER.qualityLevels();
+                const mqSelector = PVI.PLAYER.maxQualitySelector({
+                    autoLabel: "Auto ",
+                    disableAuto: true,
+                    displayMode: 1,
+                    defaultQuality: 0,
+                    filterDuplicateHeights: false,
+                    filterDuplicates: false,
+                    showBitrates: true
+                });
 
-                    const setSize = (width, height) => {
-                        if (!PVI.PLAYER.isFullscreen() && width && height) {
-                            PVI.setPlayerSize(width, height);
+                const setSize = (width, height) => {
+                    if (!PVI.PLAYER.isFullscreen() && width && height) {
+                        PVI.setPlayerSize(width, height);
+                    }
+                }
+
+                PVI.PLAYER.on("loadedmetadata", e => {
+                    // select original audio
+                    for (let aud of PVI.PLAYER.audioTracks()?.tracks_ || []) {
+                        if (aud?.id?.toLowerCase().includes("original")) {
+                            aud.enabled = true;
+                            break;
                         }
                     }
 
-                    PVI.PLAYER.on("loadedmetadata", e => {
-                        /* let qlSelected;
-                        const levels = mqSelector.qualityLevels || [];
-                        for (let i = 0; i < levels.length; i++) {
-                            if (defaultQuality === 2) {
-                                qlSelected = levels[0];
-                            } else if (defaultQuality === 1) {
-                                qlSelected = levels[levels.length - 1];
-                            } else if (
-                                defaultQuality === 3 && levels[i].height < window.innerHeight && levels[i].width < window.innerWidth
-                            ) {
-                                qlSelected = levels[i === 0 ? 0 : i - 1];
-                            }
-                            if (qlSelected) {
-                                mqSelector.changeLevel(qlSelected.id);
-                                break;
-                            }
-                        } */
+                    if (cfg.hz.mediaLoop === "default") {
+                        PVI.PLAYER.loop(PVI.PLAYER.duration() < 60);
+                    }
 
-                        // select original audio
-                        for (let aud of PVI.PLAYER.audioTracks()?.tracks_ || []) {
-                            if (aud?.id?.toLowerCase().includes("original")) {
-                                aud.enabled = true
-                                break
-                            }
-                        }
+                    if (PVI.TRG?.IMGS_MEDIA?.nodeName === "VIDEO") {
+                        PVI.TRG.IMGS_MEDIA.pause();
+                        const totalTime = PVI.TRG.IMGS_MEDIA.duration || 0;
+                        let curTime = PVI.TRG.IMGS_MEDIA.currentTime || 0;
+                        curTime = curTime < totalTime * 0.9 ? curTime : 0;
+                        PVI.PLAYER.currentTime(curTime);
+                    }
 
-                        if (cfg.hz.mediaLoop === "default") {
-                            PVI.PLAYER.loop(PVI.PLAYER.duration() < 60);
-                        }
+                    PVI.content_onready(e);
+                });
 
-                        PVI.content_onready(e);
-                    });
+                PVI.PLAYER.on("error", PVI.content_onerror);
 
-                    PVI.PLAYER.on("error", PVI.content_onerror);
+                qLevels.on("change", (e) => {
+                    const level = qLevels[qLevels.selectedIndex];
+                    setSize(level.width, level.height);
+                });
 
-                    qLevels.on("change", (e) => {
-                        const level = qLevels[qLevels.selectedIndex];
-                        setSize(level.width, level.height);
-                    })
-
-                    PVI.PLAYER.on("resize", () => {
-                        const vWidth = PVI.PLAYER.videoWidth();
-                        const vHeight = PVI.PLAYER.videoHeight();
-                        PVI.PLAYER.width(vWidth);
-                        PVI.PLAYER.height(vHeight);
-                        setSize(vWidth, vHeight);
-                    })
-
-                    PVI.PLAYER.on("fullscreenchange", () => {
-                        if (!mqSelector.selectedIndexPrevious) {
-                            mqSelector.selectedIndexPrevious = mqSelector.selectedIndex;
-                            mqSelector.options.disableAuto = false;
-                            mqSelector.changeLevel(-1); // auto
-                        } else {
-                            mqSelector.changeLevel(mqSelector.selectedIndexPrevious);
-                            delete mqSelector.selectedIndexPrevious;
-                        }
-                    });
-
-                    PVI.PLAYER.volume(cfg.hz.mediaVolume / 100);
-
-                    callback();
+                PVI.PLAYER.on("playing", (e) => {
+                    const isAudio = PVI.PLAYER.videoHeight() === 0;
+                    PVI.PLAYER.audioPosterMode(isAudio);
+                    PVI.PLAYER.options({ inactivityTimeout: isAudio ? 0 : cfg.hz.hideControlsDelay })
+                    PVI.PLAYER.userActive(true);
+                });
+                PVI.PLAYER.on("resize", () => {
+                    const vWidth = PVI.PLAYER.videoWidth();
+                    const vHeight = PVI.PLAYER.videoHeight();
+                    PVI.PLAYER.width(vWidth);
+                    PVI.PLAYER.height(vHeight);
+                    setSize(vWidth, vHeight);
                 })
+                PVI.PLAYER.on("fullscreenchange", () => {
+                    if (!mqSelector.selectedIndexPrevious) {
+                        mqSelector.selectedIndexPrevious = mqSelector.selectedIndex;
+                        mqSelector.options.disableAuto = false;
+                        mqSelector.changeLevel(-1); // auto
+                    } else {
+                        mqSelector.changeLevel(mqSelector.selectedIndexPrevious);
+                        delete mqSelector.selectedIndexPrevious;
+                    }
+                });
+
+                PVI.PLAYER.volume(cfg.hz.mediaVolume / 100);
+
+                callback();
             });
         },
 
@@ -796,11 +804,10 @@
         createCAP: function () {
             if (PVI.CAP) return;
             PVI.CAP = doc.createElement("div");
-            PVI.CAP.id = "imagus-cap";
+            PVI.CAP.id = "imagus-caption";
             buildNodes(PVI.CAP, [
-                { tag: "b", attrs: { style: "margin-right: 4px; display: none; transition: background-color .1s; border-radius: 3px; padding: 0 2px;" } },
-                { tag: "b", attrs: { style: "margin-right: 4px; display: " + (cfg.hz.capWH ? "inline-block" : "none") } },
-                { tag: "b", attrs: { style: `margin-right: 4px; display: none; color: ${cfg.hz.capStyle ? "#306f35" : "#ccffd0"};` } },
+                { tag: "b", attrs: { style: "display: none;" } },
+                { tag: "b", attrs: { style: `display: ${cfg.hz.capWH ? "inline-block" : "none"}` } },
                 { tag: "span", attrs: { style: "color: inherit; display: " + (cfg.hz.capText ? "inline-block" : "none") } },
             ]);
             var e = PVI.CAP.firstElementChild;
@@ -812,17 +819,16 @@
             e = cfg.hz.capStyle;
             PVI.palette.wh_fg = e ? "rgb(100, 0, 0)" : "rgb(204, 238, 255)";
             PVI.palette.wh_fg_hd = e ? "rgb(255, 0, 0)" : "rgb(120, 210, 255)";
-            PVI.CAP.style.cssText = `
-                white-space: ${cfg.hz.capWrapByDef ? "pre-line" : "nowrap"};
-                background: rgba(${e ? "255,255,255,.9" : "0,0,0,.6"}) !important;
-                color: #${e ? "000" : "fff"} !important;
-                border-radius: ${!cfg.hz.capPos ^ cfg.hz.capOver ? "3px 3px 0 0" : "0 0 3px 3px"};
-            `;
+            PVI.CAP.style.cssText = `white-space: ${cfg.hz.capWrapByDef ? "pre-line" : "nowrap"};`;
             e = cfg.hz.capPos ? "bottom" : "top";
             const capShift = cfg.hz.capOver ? 0 : -18;
             PVI.CAP.overhead = Math.max(capShift, Math.min(0, PVI.DBOX[e[0] + "p"] + capShift));
             PVI.CAP.style[e] = PVI.CAP.overhead + "px";
             PVI.CAP.overhead = Math.max(0, -PVI.CAP.overhead - PVI.DBOX[e[0] + "bm"]);
+
+            PVI.CAP.classList.toggle("bottom", cfg.hz.capPos === 1);
+            PVI.CAP.classList.toggle("outside", !cfg.hz.capOver);
+            PVI.CAP.classList.toggle("light", cfg.hz.capStyle === 1);
             PVI.DIV.appendChild(PVI.CAP);
         },
 
@@ -858,7 +864,7 @@
             s.backgroundColor = s.backgroundColor === PVI.palette.pile_bg ? "red" : PVI.palette.pile_bg;
         },
 
-        updateCaption: function (e) {
+        updateCaption: function (e, width, height) {
             var c = PVI.CAP,
                 h;
             if (!c || c.state === 0 || !PVI.TRG) return;
@@ -881,8 +887,8 @@
                     h.style.display = "inline-block";
                     h.style.color = PVI.palette[PVI.TRG.IMGS_HD === false ? "wh_fg_hd" : "wh_fg"];
                     h.textContent = (PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src] : [PVI.CNT.naturalWidth, PVI.CNT.naturalHeight]).join("×");
-                    const scale = Math.round(PVI.CNT.offsetHeight / PVI.CNT.naturalHeight * 100);
-                    if (scale !== 100 && Number.isFinite(scale) && PVI.galleryState < 2){
+                    const scale = Math.round((height || PVI.CNT.offsetHeight) / PVI.CNT.naturalHeight * 100);
+                    if (scale !== 100 && Number.isFinite(scale) && PVI.galleryState < 2) {
                         h.textContent += ` (${scale}%)`;
                     }
                 } else h.style.display = "none";
@@ -1180,10 +1186,11 @@
                     if (n.href === "") PVI.listen_attr_changes(n);
                     break;
                 }
+                n.href ||= "";
                 if (n instanceof win.HTMLElement) {
                     if (n.childElementCount && n.querySelector("iframe, object, embed")) break;
                     if (typeof x === "number" && typeof y === "number") {
-                        tmp_el = doc.elementsFromPoint(x, y);
+                        tmp_el = getElementsFromPoint(x, y);
                         for (i = 0; i < 5; ++i) {
                             if (tmp_el[i] === doc.body) break;
                             if (!tmp_el[i].currentSrc && tmp_el[i].style.backgroundImage.lastIndexOf("url(", 0) !== 0) continue;
@@ -1198,6 +1205,7 @@
                                 )
                                     imgs = PVI.getImages(tmp_el[i], true);
                             }
+                            PVI.TRG.IMGS_MEDIA = tmp_el[i];
                             break;
                         }
                     }
@@ -1211,7 +1219,6 @@
                     }
                     n.href = PVI.normalizeURL(n.href);
                 }
-                n.href ||= "";
                 URL = n.href.replace(PVI.rgxHTTPs, "");
                 if (imgs && (URL === imgs.imgSRC || URL === imgs.imgBG)) break;
                 for (i = 0; (rule = cfg.sieve[i]); ++i) {
@@ -1511,7 +1518,6 @@
                 if (PVI.state < 3 || PVI.LDR_msg) {
                     PVI.LDR_msg = null;
                     win.addEventListener("wheel", PVI.onWheel, { capture: true, passive: false });
-                    // PVI.DIV.addEventListener("wheel", PVI.wheeler2, { capture: true, passive: false });
                 }
                 if (msg === true) {
                     PVI.BOX = PVI.DIV;
@@ -1544,6 +1550,7 @@
                 if (cfg.hz.fzDefault && PVI.state === 4) {
                     PVI.fzEnable();
                 }
+                PVI.DIV.classList.toggle("album", !!PVI.TRG.IMGS_album);
             }
             var x = PVI.x;
             var y = PVI.y;
@@ -1610,11 +1617,11 @@
                 if ((fs = hImageAreaMin * ratio) > wImageWinMin) hImageAreaMin = wImageWinMin / ratio;
                 else wImageWinMin = fs;
                 if (wImageWinMin > wImageAreaMin) {
-                    w = Math.round(wImageWinMin);
-                    h = Math.round(hImageAreaMin);
+                    w = Math.floor(wImageWinMin);
+                    h = Math.ceil(hImageAreaMin);
                 } else {
-                    w = Math.round(wImageAreaMin);
-                    h = Math.round(hImageWinMin);
+                    w = Math.floor(wImageAreaMin);
+                    h = Math.ceil(hImageWinMin);
                 }
 
                 wImageAreaMin = w + wBor;
@@ -1685,7 +1692,7 @@
                     top -= rot;
                 }
                 PVI.DIV.style.width = Math.floor(w) + "px";
-                PVI.DIV.style.height = Math.floor(h) + "px";
+                PVI.DIV.style.height = Math.ceil(h) + "px";
                 PVI.updateCaption();
             } else {
                 if (cfg.hz.placement === 1) {
@@ -1752,7 +1759,6 @@
             PVI.gallery(1);
             PVI.resetNode(PVI.TRG, true);
             PVI.CAP.style.display = "none";
-            PVI.CAP.children[2].style.display = "none";
             PVI.CAP.firstChild.textContent = idx + " / " + (album.length - 1);
             PVI.prepareCaption(PVI.TRG, album[idx][1]);
             PVI.set(album[idx][0]);
@@ -1789,6 +1795,7 @@
             }
             clearInterval(PVI.timers.onReady);
             PVI.create();
+            PVI.DIV.classList.remove("video1", "video2");
             if (Array.isArray(src)) {
                 if (!src.length) {
                     PVI.show("R_load");
@@ -1819,7 +1826,7 @@
                 PVI.checkContentRediness(src);
                 return;
             }
-            if (isVideo(src)) {
+            if (isVideoUrl(src)) {
                 PVI.show("load");
                 PVI.openVideojs({
                     src: src.split('#')[0],
@@ -1884,7 +1891,7 @@
             if (PVI.CNT === PVI.VIDEOJS) {
                 PVI.VIDEOJS.naturalWidth = PVI.PLAYER.videoWidth() || 640;
                 PVI.VIDEOJS.naturalHeight = PVI.PLAYER.videoHeight() || 480;
-                PVI.VIDEOJS.style.boxShadow = `${PVI.PLAYER.tech_?.src().startsWith("blob:") ? "#6464ff" : "#f16529"} 0px 0px 0px 1px`;
+                PVI.DIV.classList.add(PVI.PLAYER.tech_?.src().startsWith("blob:") ? "video2" : "video1");
 
             } else if (!PVI.IMG.naturalWidth) return;
             clearInterval(PVI.timers.onReady);
@@ -2127,6 +2134,7 @@
             if (PVI.iFrame) win.parent.postMessage({ vdfDpshPtdhhd: "from_frame", reset: true }, "*");
             if (PVI.state) win.removeEventListener("mousemove", PVI.m_move, true);
             PVI.node = null;
+            PVI.LDR_msg = null;
             clearTimeout(PVI.timers.delayed_loader);
             win.removeEventListener("wheel", PVI.onWheel, true);
 
@@ -2140,6 +2148,7 @@
 
             PVI.DIV.style.display = PVI.LDR.style.display = "none";
             PVI.DIV.style.width = PVI.DIV.style.height = "0";
+            PVI.DIV.classList.remove("video1", "video2", "album");
             if (PVI.CNT === PVI.IMG) PVI.CNT.removeAttribute("src");
             PVI.TBAR.style.display = "";
             PVI.PLAYER?.pause();
@@ -2153,7 +2162,6 @@
             if (PVI.CAP) {
                 PVI.CAP.style.display = "none";
                 PVI.CAP.children[0].style.display = "none";
-                PVI.CAP.children[2].style.display = "none";
             }
             if (PVI.IMG.scale) {
                 delete PVI.IMG.scale;
@@ -2163,6 +2171,7 @@
             PVI.DIV.curdeg = 0;
             PVI.DIV.style.transform = "";
             PVI.DIV.dataset.rotate = "";
+            PVI.DIV.classList.remove("fz");
             PVI.HD_cursor(true);
             if (PVI.fullZm) {
                 PVI.fullZm = false;
@@ -2173,7 +2182,6 @@
                 win.addEventListener("mouseover", PVI.m_over, true);
                 doc.addEventListener("wheel", PVI.onPageScroll, { capture: true, passive: true });
                 doc.documentElement.addEventListener("mouseleave", PVI.m_leave);
-                PVI.DIV.dataset.fz = "";
             }
             if (preventImmediateHover) {
                 PVI.lastScrollTRG = PVI.TRG;
@@ -2200,7 +2208,15 @@
         },
 
         tbarClick: function (e) {
-            switch (e.target.closest("[data-action]")?.dataset?.action) {
+            const action = e.target.closest("[data-action]")?.dataset?.action;
+            if (e.type === "mousedown") {
+                if (e.button === 1 && action === "open") {
+                    openTab(e);
+                }
+                return pdsp(e);
+            }
+
+            switch (action) {
                 case "hide":
                     PVI.TBAR.style.display = "none";
                     break;
@@ -2482,7 +2498,7 @@
                     }
                 else if (key === cfg.keys.hz_history) PVI.history(e.shiftKey);
                 else if (key === cfg.keys.send) {
-                    if (PVI.CNT === PVI.IMG) imageSendTo({ url: PVI.CNT.src, nf: e.shiftKey });
+                    if (PVI.CNT === PVI.IMG) imageSendTo({ url: PVI.CNT.src, active: !e.shiftKey });
                 } else if (key === cfg.keys.openTab) {
                     openTab(e);
                 } else if (key === cfg.keys.prefs) {
@@ -2526,7 +2542,8 @@
                     const w = Math.floor(Math.ceil(Math.sqrt(album.length)) * Math.sqrt(ratio));
                     const h = Math.max(2, Math.ceil(album.length / w));
                     PVI.GLR._height = Math.floor(Math.min(h * GRID_SIZE, window.innerHeight / 1.4)) + 16;
-                    PVI.GLR._width  = Math.floor(Math.min(w * GRID_SIZE, window.innerWidth  / 1.4)) + 50;
+                    PVI.GLR._width  = Math.floor(Math.min(w * GRID_SIZE, window.innerWidth  / 1.4));
+                    PVI.GLR._width = Math.floor(PVI.GLR._width / GRID_SIZE) * GRID_SIZE + 30;
 
                     let nodes = [];
                     for (let i = 0; i < album.length; i++) {
@@ -2536,7 +2553,7 @@
                         if (Array.isArray(src)) src = src[0];
                         if (!src) continue;
                         if (src[0] === "#") src = PVI.httpPrepend(src.slice(1));
-                        let video = isVideo(src) || album[i][1]?.includes(` type="videojs"`);
+                        let video = isVideoUrl(src) || album[i][1]?.includes(` type="videojs"`);
 
                         nodes.push({
                             tag: "div",
@@ -2627,7 +2644,7 @@
             if (!PVI.iFrame) win.addEventListener("mousemove", PVI.m_move, true);
             win.addEventListener("click", PVI.fzClickAct, true);
             PVI.DIV.addEventListener("click", PVI.fzClickAct, true);
-            PVI.DIV.dataset.fz = true;
+            PVI.DIV.classList.add("fz");
         },
 
         fzDragEnd: function () {
@@ -2754,7 +2771,10 @@
 
         onWheel: function (e, force) {
             if (e.clientX >= winW || e.clientY >= winH) return;
-            const target = PVI.ROOT.shadowRoot.elementsFromPoint(e.clientX, e.clientY)?.[0];
+            const target =
+                PVI.ROOT.shadowRoot.elementsFromPoint?.(e.clientX, e.clientY)?.[0] ||
+                doc.elementsFromPoint(e.clientX, e.clientY)?.[0];
+            // const target = getElementsFromPoint(e.clientX, e.clientY)?.[0];
             if (!target) return;
 
             if (PVI.DIV.contains(target) &&
@@ -2843,6 +2863,7 @@
 
         setCursor: function (cursor) {
             win.document.documentElement.style.setProperty("cursor", cursor || "", "important");
+            PVI.DIV.style.setProperty("cursor", cursor || "");
         },
 
         resize: function (x, xy_img) {
@@ -2910,7 +2931,7 @@
                 PVI.lockedZoom = natW > 0 ? s[rot ? 1 : 0] / natW : 1;
             }
             if (!xy_img) xy_img = [true, null];
-            xy_img.push(Math.floor(s[rot ? 1 : 0]), Math.floor(s[rot ? 0 : 1]));
+            xy_img.push(Math.floor(s[rot ? 1 : 0]), Math.ceil(s[rot ? 0 : 1]));
             PVI.m_move(xy_img);
         },
 
@@ -2937,7 +2958,6 @@
                 if (PVI.CAP) {
                     PVI.CAP.style.display = "none";
                     PVI.CAP.children[0].style.display = "none";
-                    PVI.CAP.children[2].style.display = "none";
                 }
                 clearTimeout(PVI.timers.preview);
                 clearInterval(PVI.timers.onReady);
@@ -2976,17 +2996,10 @@
                 }
             }
 
-            if (e.target.IMGS_c === true) {
-                if (PVI.fireHide) PVI.hide(e);
-                return;
-            }
             trg = e.target;
-
-            if (trg.shadowRoot) {
-                if (!trg.IMGS_m_over) {
-                    trg.shadowRoot.addEventListener("mouseover", PVI.m_over, true);
-                    trg.IMGS_m_over = true;
-                }
+            if (trg.IMGS_c === true || trg.IMGS_m_over) {
+                if (PVI.fireHide) PVI.hide(e);
+                PVI.showHVR(false);
                 return;
             }
 
@@ -3042,6 +3055,13 @@
                 var delay = (PVI.state === 2 || PVI.hideTime) && cfg.hz.waitHide ? Math.max(PVI.anim.maxDelay, cfg.hz.delay) : cfg.hz.delay;
                 if (delay) PVI.timers.preview = setTimeout(PVI.load, delay);
                 else PVI.load(PVI.SRC);
+
+            } else if (trg.shadowRoot) {
+                if (!trg.IMGS_m_over) {
+                    trg.shadowRoot.addEventListener("mouseover", PVI.m_over, true);
+                    trg.IMGS_m_over = true;
+                }
+
             } else {
                 trg.IMGS_c = true;
                 PVI.TRG = null;
@@ -3052,8 +3072,8 @@
 
         showHVR: function (visible = true, target) {
             clearTimeout(PVI.timers.hvr_hide);
-            if (!visible && PVI.HVR?.style.opacity !== "0") {
-                if (!target || target === PVI.TRG || PVI.ROOT.contains(target)) {
+            if (!visible){
+                if (PVI.HVR?.style.opacity !== "0" && (!target || target === PVI.TRG || PVI.ROOT.contains(target))) {
                     PVI.timers.hvr_hide = setTimeout(() => PVI.HVR.style.opacity = "0", 0);
                 }
                 return;
@@ -3122,7 +3142,7 @@
             if (e && PVI.x === e.clientX && PVI.y === e.clientY) return;
             rotate(0);
             let trg = e?.target;
-            while (trg?.shadowRoot) {
+            while (trg?.shadowRoot && trg !== PVI.TRG) {
                 const newTrg = trg.shadowRoot.elementsFromPoint(e.clientX, e.clientY)?.[0];
                 if (!newTrg || newTrg === trg) break;
                 trg = newTrg;
@@ -3187,9 +3207,11 @@
                     y = (h - PVI.DBOX["hpb"] > winH ? -((PVI.y * (h - winH + 80)) / winH) + 40 : (winH - h) / 2) - rot - PVI.DBOX["mt"] + (PVI.getCapHeight() / 2);
                 }
                 if (e[2] !== undefined) {
-                    PVI.BOX.style.width = Math.floor(e[2]) + "px";
-                    PVI.BOX.style.height = Math.floor(e[3]) + "px";
-                    PVI.updateCaption();
+                    w = Math.floor(e[2]);
+                    h = Math.ceil(e[3]);
+                    PVI.BOX.style.width = w + "px";
+                    PVI.BOX.style.height = h + "px";
+                    PVI.updateCaption(null, w, h);
                 }
                 if (x !== null) {
                     PVI.BOX.style.left = Math.floor(x) + "px";
@@ -3210,7 +3232,7 @@
                 ((trg?.IMGS_ || trg === PVI.ROOT) && PVI.TBOX &&
                     (PVI.TBOX.Left > e.pageX || PVI.TBOX.Right < e.pageX || PVI.TBOX.Top > e.pageY || PVI.TBOX.Bottom < e.pageY)
                 ) ||
-                (!trg?.IMGS_ && trg !== PVI.ROOT && PVI.TRG !== trg)
+                (!trg?.IMGS_ && trg !== PVI.ROOT && PVI.TRG !== trg && !PVI.DIV.contains(trg))
             )
                 PVI.m_over({ relatedTarget: PVI.TRG, clientX: e.clientX, clientY: e.clientY });
             else if (cfg.hz.move && PVI.state > 2 && !PVI.timers.m_move && (PVI.state === 3 || cfg.hz.placement < 2 || cfg.hz.placement > 3))
@@ -3570,6 +3592,7 @@
                 }
                 PVI.lastScrollTRG = null;
             } else {
+                PVI.iFrame = !!e.isIframe;
                 catchEvent.onkeydown = PVI.key_action;
                 if (e !== undefined) {
                     if (!e) {
