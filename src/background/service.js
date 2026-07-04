@@ -248,7 +248,7 @@ function onMessage(message, sender, sendResponse) {
 
     switch (msg.cmd) {
         case "hello": {
-            initTab(sender.tab, sendResponse);
+            initTab(sender, sendResponse);
             break;
         }
         case "toggle":
@@ -257,6 +257,10 @@ function onMessage(message, sender, sendResponse) {
 
         case "ignore_url":
             grantUrlAdd(msg.grantString);
+            break;
+
+        case "deinit_tabs":
+            deinitTabs();
             break;
 
         case "cfg_get":
@@ -429,6 +433,13 @@ function onMessage(message, sender, sendResponse) {
     return true;
 }
 
+async function deinitTabs() {
+    const tabs = await chrome.tabs.query({ url: "<all_urls>" });
+    for (const tab of tabs) {
+        chrome.tabs.sendMessage(tab.id, { cmd: "reinit" });
+    }
+}
+
 function sanitizeFilename(filename) {
     // replace invalid chars (\ / : * ? " < > |) + control chars
     return filename.replace(/[\\/:*?"<>|\r\n\x00-\x1f]/g, "_");
@@ -567,12 +578,13 @@ async function autoUpdateSieve(alarm) {
     }
 }
 
-function initTab(tab, sendResponse) {
+function initTab(sender, sendResponse) {
     const resp = {
         cmd: "hello",
+        isIframe: !!sender.frameId,
         prefs: {
             hz: cachedPrefs.hz,
-            sieve: grantsIsBlocked(tab.url) ? null : cachedPrefs.sieve,
+            sieve: grantsIsBlocked(sender.tab.url) ? null : cachedPrefs.sieve,
             tls: cachedPrefs.tls,
             keys: cachedPrefs.keys,
             grantUrls: cachedPrefs.grantUrls,
@@ -584,7 +596,7 @@ function initTab(tab, sendResponse) {
     if (typeof sendResponse === "function") {
         sendResponse(resp);
     } else {
-        chrome.tabs.sendMessage(tab.id, resp);
+        chrome.tabs.sendMessage(sender.tab.id, resp);
     }
 }
 
@@ -605,7 +617,7 @@ async function toggleTab(tab) {
 
     // init/deinit tabs with the same origin
     let tabs = await chrome.tabs.query({ url: new URL(tab.url).origin + "/*" }) || [];
-    tabs.forEach(initTab);
+    tabs.forEach(t => initTab({ tab: t }));
 }
 
 // check if Imagus is disabled on the given URL
@@ -633,6 +645,7 @@ async function grantUrlAdd(str) {
     if (!str) return;
     grantUrls.push({ op: str[1], url: str[2] });
     await updatePrefs({ grantUrls: grantUrls });
+    deinitTabs();
 }
 
 // disable Imagus on the given URL

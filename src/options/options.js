@@ -488,13 +488,6 @@ function updateSavedValues() {
     }
 }
 
-async function deinitTabs() {
-    const tabs = await chrome.tabs.query({ url: "<all_urls>" });
-    for (const tab of tabs) {
-        chrome.tabs.sendMessage(tab.id, { cmd: "reinit" });
-    }
-}
-
 window.onhashchange = function () {
     var section,
         args = [],
@@ -695,7 +688,7 @@ window.addEventListener(
                 await save();
                 color_trans(this, "green");
                 e.target.classList.remove("alert");
-                deinitTabs();
+                Port.send({ cmd: "deinit_tabs" });
             },
             false
         );
