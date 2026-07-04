@@ -402,6 +402,7 @@ var save = async function () {
 
     await Port.send({ cmd: "savePrefs", prefs: prefs });
     await readCfg();
+    applyCustomCssOptions();
     updateSavedValues();
 };
 
@@ -457,6 +458,16 @@ function onValueChange (e) {
         delete input_changes[id];
     }
     $("save_button").classList.toggle("alert", !!Object.keys(input_changes).length);
+}
+
+function applyCustomCssOptions() {
+    var styleEl = document.getElementById("customCssOptions_style");
+    if (!styleEl) {
+        styleEl = document.createElement("style");
+        styleEl.id = "customCssOptions_style";
+        document.head.appendChild(styleEl);
+    }
+    styleEl.textContent = cfg?.hz?.customCssOptions || "";
 }
 
 function updateSavedValues() {
@@ -523,7 +534,7 @@ window.onhashchange = function () {
                 }
             };
             if (args[0]) $(args[0] === "0" ? "app_installed" : "app_updated").style.display = "block";
-            section.querySelector("h3:not([data-lng])").textContent = " v" + app.version;
+            // section.querySelector("h3:not([data-lng])").textContent = " v" + app.version;
             Port.listen(function (response) {
                 Port.listen(null);
                 var alpha2,
@@ -561,7 +572,7 @@ window.onhashchange = function () {
     if (old !== hash && (old = $(old + "_sec"))) old.style.display = "none";
     if (section) {
         processLNG([section]);
-        section.style.display = "block";
+        section.style.display = "";
     }
     if (menu.active) menu.active.classList.remove("active");
     if ((menu.active = menu.querySelector('a[href="#' + hash + '"]'))) menu.active.classList.add("active");
@@ -688,6 +699,7 @@ window.addEventListener(
             },
             false
         );
+        document.querySelectorAll(".expand").forEach(el => el.addEventListener("click", e => e.target.style = ""));
         [].forEach.call(document.body.querySelectorAll(".action_buttons") || [], function (el) {
             el.onmousedown = function (e) {
                 e.preventDefault();
@@ -696,16 +708,19 @@ window.addEventListener(
 
         await readCfg();
         load();
+        applyCustomCssOptions();
         window.onhashchange();
-        var advanced_prefs = $("tls_advanced");
+        /* var advanced_prefs = $("tls_advanced");
         advanced_prefs.onchange = function () {
             document.body.classList[this.checked ? "add" : "remove"]("advanced");
         };
-        advanced_prefs.onchange();
-        document.body.style.display = "block";
+        advanced_prefs.onchange(); */
+        document.body.style.display = "";
 
-        $('hz_hoverCss').addEventListener('blur', () => $('hz_hoverCss_style').textContent = '');
-        $('hz_hoverCss').addEventListener('keyup', function() {
+        /* $('hz_hoverCss').addEventListener('blur', () => $('hz_hoverCss_style').textContent = '');
+        $('hz_hoverCss').addEventListener('focus', updateHoverStyle);
+        $('hz_hoverCss').addEventListener('keyup', updateHoverStyle);
+        function updateHoverStyle() {
             $('hz_hoverCss_style').textContent =
                 `.hz_hoverCss:after {
                     content: "";
@@ -722,7 +737,7 @@ window.addEventListener(
                     margin: 0;
                     ${this.value}
                 }`;
-        });
+        }; */
 
         $("allow_scripts_message").addEventListener("click", function (event) {
             event.preventDefault();

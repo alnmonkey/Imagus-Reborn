@@ -11,7 +11,7 @@
 	<script src="../lib/ace/ext-language_tools.js"></script>
 	<script src="../lib/beautify.min.js"></script>
 </head>
-<body spellcheck="false">
+<body spellcheck="false" style="display: none;">
 	<nav id="nav_menu">
 		<a href="#settings" data-lng="SC_PREFS"></a>
 		<a href="#tools" data-lng="SHORTCUTS"></a>
@@ -31,19 +31,21 @@
 					<button id="reset_button" type="reset" data-lng="BUTTON_RESET" style="display: none;"></button>
 					<button id="save_button" type="submit" data-lng="BUTTON_SAVE" title="[Ctrl + S]"></button>
 				</div>
-				<div class="advanced">
+				<!-- <div class="advanced">
 					<input type="checkbox" id="tls_advanced" name="tls_advanced">
 					<label for="tls_advanced" class="checkbox"></label>
 					<label for="tls_advanced" data-lng="ADVANCED"></label>
-				</div>
+				</div> -->
 			</aside>
 		</div>
 
-		<section id="settings_sec">
+		<section id="settings_sec" class="scroll" style="display: none;">
+			<h4 data-lng="HZ_GENERAL"></h4>
 			<div class="prow tiptop">
+				<label for="hz_deactivate" data-lng="HZ_ACTIVATION"></label>
 				<div class="tip" data-lng="HZ_ENDIS_TIP"></div>
 				<div>
-					<select name="hz_deactivate" class="fn number">
+					<select id="hz_deactivate" name="hz_deactivate" class="fn number">
 						<option value="0" data-lng="HZ_ENABLED"></option>
 						<option value="1" selected data-lng="HZ_DISABLED"></option>
 					</select>
@@ -194,7 +196,8 @@
 			<div class="prow">
 				<label for="hz_mediaVolume" data-lng="HZ_MEDIAVOLUME"></label>
 				<span>
-					<input id="hz_mediaVolume" name="hz_mediaVolume" type="number" step="10" min="0" max="100" value="40">
+					<output for="hz_mediaVolume"></output>
+					<input id="hz_mediaVolume" name="hz_mediaVolume" type="range" step="10" min="0" max="100">
 				</span>
 			</div>
 
@@ -215,13 +218,13 @@
 				</span>
 			</div>
 
-			<div class="prow advanced">
+			<!-- <div class="prow advanced">
 				<label for="hz_capLinkText" class="sub_opt" data-lng="HZ_CAP_LINKTEXT"></label>
 				<span>
 					<input id="hz_capLinkText" name="hz_capLinkText" type="checkbox" checked>
 					<label for="hz_capLinkText" class="checkbox"></label>
 				</span>
-			</div>
+			</div> -->
 
 			<div class="prow advanced">
 				<label for="hz_capStyle" data-lng="HZ_CAP_STYLE"></label>
@@ -269,6 +272,25 @@
 
 			<h4 data-lng="HZ_FULLZOOM"></h4>
 
+			<div class="prow advanced">
+				<label for="hz_fzDefault" data-lng="HZ_FZDEFAULT"></label>
+				<span>
+					<input id="hz_fzDefault" name="hz_fzDefault" type="checkbox">
+					<label for="hz_fzDefault" class="checkbox"></label>
+				</span>
+			</div>
+
+			<div class="prow">
+				<label for="hz_fzOnPress" data-lng="HZ_FZONPRESS"></label>
+				<span>
+					<select id="hz_fzOnPress" name="hz_fzOnPress" class="number">
+						<option value="0" data-lng="DISABLED"></option>
+						<option value="1" data-lng="HZ_FZONPRESS_CLICK"></option>
+						<option value="2" selected data-lng="HZ_FZONPRESS_LONG"></option>
+					</select>
+				</span>
+			</div>
+
 			<div class="prow tiptop advanced">
 				<div class="tip" data-lng="HZ_FZMODE_TIP"></div>
 
@@ -292,25 +314,6 @@
 						<option value="fith" data-lng="SC_MFITH"></option>
 						<option value="zoomlock" data-lng="SC_MZOOMLOCK"></option>
 					</select>
-				</span>
-			</div>
-
-			<div class="prow">
-				<label for="hz_fzOnPress" data-lng="HZ_FZONPRESS"></label>
-				<span>
-					<select id="hz_fzOnPress" name="hz_fzOnPress" class="number">
-						<option value="0" data-lng="DISABLED"></option>
-						<option value="1" data-lng="HZ_FZONPRESS_CLICK"></option>
-						<option value="2" selected data-lng="HZ_FZONPRESS_LONG"></option>
-					</select>
-				</span>
-			</div>
-
-			<div class="prow advanced">
-				<label for="hz_fzDefault" data-lng="HZ_FZDEFAULT"></label>
-				<span>
-					<input id="hz_fzDefault" name="hz_fzDefault" type="checkbox">
-					<label for="hz_fzDefault" class="checkbox"></label>
 				</span>
 			</div>
 
@@ -351,7 +354,7 @@
 				</span>
 			</div>
 
-			<div class="prow advanced wrap tiptop">
+			<!-- <div class="prow advanced wrap tiptop">
 				<div class="tip"><span>White-pink:
 						<code style="outline-offset: 1px; outline: rgb(255, 120, 120) dashed 2px; box-shadow: white 0px 0px 0px 2px;">padding: 1px;
 							translate: -1px -1px;
@@ -386,7 +389,7 @@
 				<label for="hz_hoverCss" data-lng="HZ_HOVER_CSS"></label>
 				<div class="hz_hoverCss" style="width: 100%;"><textarea id="hz_hoverCss" name="hz_hoverCss" rows="4" class="cb"></textarea></div>
 				<style id="hz_hoverCss_style"></style>
-			</div>
+			</div> -->
 
 			<div class="prow">
 				<label for="hz_placement" data-lng="HZ_PLACEMENT"></label>
@@ -404,38 +407,36 @@
 			<div class="prow tiptop">
 				<div class="tip" data-lng="HZ_FULLSPACE_TIP"></div>
 
-				<label for="hz_fullspace" class="sub_opt" data-lng="HZ_FULLSPACE"></label>
+				<label for="hz_fullspace" data-lng="HZ_FULLSPACE"></label>
 				<span>
 					<input id="hz_fullspace" name="hz_fullspace" type="checkbox" checked>
 					<label for="hz_fullspace" class="checkbox"></label>
 				</span>
 			</div>
 
-			<div class="prow">
+			<!-- <div class="prow">
 				<label for="hz_move" data-lng="HZ_MOVE"></label>
 				<span>
 					<input id="hz_move" name="hz_move" type="checkbox" checked>
 					<label for="hz_move" class="checkbox"></label>
 				</span>
-			</div>
+			</div> -->
 
-			<div class="prow advanced">
+			<!-- <div class="prow advanced">
 				<label for="hz_follow" data-lng="HZ_FOLLOW"></label>
 				<span>
 					<input id="hz_follow" name="hz_follow" type="checkbox" checked>
 					<label for="hz_follow" class="checkbox"></label>
 				</span>
-			</div>
+			</div> -->
 
-			<div class="prow tiptop advanced">
-				<!-- <div class="tip" data-lng="HZ_MINPOPUPDISTANCE_TIP"></div> -->
-
+			<!-- <div class="prow tiptop advanced">
 				<label for="hz_minPopupDistance" data-lng="HZ_MINPOPUPDISTANCE"></label>
 				<span>
 					<output for="hz_minPopupDistance"></output>px
 					<input id="hz_minPopupDistance" name="hz_minPopupDistance" type="range" step="1" min="0" max="100" value="20">
 				</span>
-			</div>
+			</div> -->
 
 			<div class="prow tiptop advanced">
 				<div class="tip" data-lng="HZ_HIDEIDLECURSOR_TIP"></div>
@@ -446,33 +447,72 @@
 				</span>
 			</div>
 
-			<div class="prow advanced">
+			<!-- <div class="prow advanced">
 				<label for="hz_thumbAsBG" data-lng="HZ_THUMBASBG"></label>
 				<span>
 					<input id="hz_thumbAsBG" name="hz_thumbAsBG" type="checkbox">
 					<label for="hz_thumbAsBG" class="checkbox"></label>
 				</span>
-			</div>
+			</div> -->
 
-			<div class="prow advanced">
+			<!-- <div class="prow advanced">
 				<label class="sub_opt" data-lng="HZ_THUMBASBGMASK"></label>
 				<span>
 					<input name="hz_thumbAsBGColor" type="color" value="#c3c3c3">
 					<output for="hz_thumbAsBGOpacity" data-as_percent="on"></output>%
 					<input name="hz_thumbAsBGOpacity" type="range" step="0.01" min="0" max="0.95" value="0.3">
 				</span>
+			</div> -->
+
+			<div class="prow tiptop advanced wrap">
+				<div class="tip"><span>Examples for #imagus-hover:</span><br>
+					<span>White-pink:
+					<code style="outline-offset: 1px; outline: rgb(255, 120, 120) dashed 2px; box-shadow: white 0px 0px 0px 2px;">padding: 1px;
+						translate: -1px -1px;
+						outline: rgb(255, 120, 120) dashed 2px;
+						box-shadow: white 0px 0px 0px 2px;</code>
+					</span>
+					<span>White-blue:
+					<code style="outline-offset: 1px; outline: rgb(90, 90, 255) dashed 2px; box-shadow: white 0px 0px 0px 2px;">padding: 1px;
+						translate: -1px -1px;
+						outline: rgb(90, 90, 255) dashed 2px;
+						box-shadow: white 0px 0px 0px 2px;</code>
+					</span>
+					<span>Classic:
+						<code style="outline: red dashed 1px; box-shadow: white 0px 0px 0px 1px;">outline: red dashed 1px;
+							box-shadow: white 0px 0px 0px 1px;</code>
+					</span>
+					<span>Shadow:
+						<code style="box-shadow: white 0 0 0 1px,rgb(255, 120, 120) 0px 0px 5px 3px, rgb(255, 255, 255) 0px 0px 5px 3px;">padding: 1px;
+							translate: -1px -1px;
+							box-shadow:
+							&nbsp;&nbsp;rgb(255, 120, 120) 0px 0px 4px 2px,
+							&nbsp;&nbsp;rgb(255, 255, 255) 0px 0px 4px 2px;</code>
+					</span>
+					<span>Overlay:
+						<code style="position: relative;"><div style="position: absolute; inset: -1px; border-radius: 2px; background-color: rgba(255, 120, 120, 0.1); box-shadow: white 0px 0px 0px 1px, rgb(255, 120, 120) 0px 0px 0px 2px;"></div>background-color: rgba(255, 120, 120, 0.1);
+							box-shadow:
+							&nbsp;&nbsp;white 0px 0px 0px 1px,
+							&nbsp;&nbsp;rgb(255, 120, 120) 0px 0px 0px 2px;</code>
+					</span>
+				</div>
+				<label for="hz_customCss" data-lng="HZ_CSS"></label>
+				<textarea id="hz_customCss" name="hz_customCss" rows="4" class="cb expand" style="min-height: 95px;"></textarea>
 			</div>
 
-			<div class="prow advanced wrap">
-				<label for="hz_popupCss" data-lng="HZ_CSS"></label>
-				<textarea id="hz_popupCss" name="hz_popupCss" rows="4" class="cb"></textarea>
+			<div class="prow wrap">
+				<label for="hz_customCssOptions" data-lng="HZ_CSS_OPTIONS"></label>
+				<textarea id="hz_customCssOptions" name="hz_customCssOptions" rows="4" class="cb expand" style="min-height: 95px;"></textarea>
 			</div>
 
-			<h3 data-lng="TLS_SENDIMGTO" class="advanced"></h3>
-			<textarea name="tls_sendToHosts" rows="8" class="advanced"></textarea>
+			<h4 data-lng="HZ_ACTIONS"></h4>
+			<div class="prow wrap">
+				<label data-lng="TLS_SENDIMGTO" for="tls_sendToHosts" class="advanced"></label>
+				<textarea id="tls_sendToHosts" name="tls_sendToHosts" rows="8" class="advanced expand" style="min-height: 95px;"></textarea>
+			</div>
 		</section>
 
-		<section id="tools_sec">
+		<section id="tools_sec" class="scroll" style="display: none;">
 			<div class="prow left advanced">
 				<span>
 					<input id="hz_scOffInInput" name="hz_scOffInInput" type="checkbox" checked>
@@ -563,7 +603,7 @@
 			</ul>
 		</section>
 
-		<section id="sieve_sec">
+		<section id="sieve_sec" style="display: none;">
 			<div class="inpbutt">
 				<div class="sieve_search">
 					<input id="sieve_search" tabindex="1" type="text" class="searchinput" maxlength="255" data-lng="SEARCH" data-lngattr="placeholder">
@@ -582,19 +622,19 @@
 				</div>
 			</div>
 
-			<div class="prow tiptop" style="justify-content: flex-end;">
-				<span>
-					<label for="tls_autoUpdateSieve" data-lng="SIV_AUTOUPDATE"></label>
-					<input id="tls_autoUpdateSieve" name="tls_autoUpdateSieve" type="checkbox" checked>
-					<label for="tls_autoUpdateSieve" class="checkbox"></label>
-				</span>
-			</div>
 
 			<div id="sieve_tips" style="display:none">
 				<span>
-					<div class="prow tiptop" style="justify-content: flex-end;">
+					<div class="prow tiptop right">
+						<label for="tls_autoUpdateSieve" data-lng="SIV_AUTOUPDATE"></label>
 						<span>
-							<label for="hz_debugRules" data-lng="DEBUG_RULES"></label>
+							<input id="tls_autoUpdateSieve" name="tls_autoUpdateSieve" type="checkbox" checked>
+							<label for="tls_autoUpdateSieve" class="checkbox"></label>
+						</span>
+					</div>
+					<div class="prow tiptop right">
+						<label for="hz_debugRules" data-lng="DEBUG_RULES"></label>
+						<span>
 							<input id="hz_debugRules" name="hz_debugRules" type="checkbox">
 							<label for="hz_debugRules" class="checkbox"></label>
 						</span>
@@ -608,7 +648,7 @@
 			<h3 class="container_info" data-lng="LOADING"></h3>
 		</section>
 
-		<section id="grants_sec">
+		<section id="grants_sec" class="scroll" style="display: none;">
 			<div class="inpbutt">
 				<!-- <input name="vw" type="checkbox">
 				<input name="hz" type="checkbox">
@@ -635,7 +675,7 @@
 			<div id="grants_help" data-lng="GRNT_HELP"></div>
 		</section>
 
-		<section id="info_sec">
+		<section id="info_sec" class="scroll" style="display: none;">
 			<div class="action_buttons">
 				<span data-action="prefs-import" data-lng="PREF_IMPORT" data-lngattr="title">&darr;</span>
 				<span data-action="prefs-export" data-lng="PREF_EXPORT" data-lngattr="title">&uarr;</span>

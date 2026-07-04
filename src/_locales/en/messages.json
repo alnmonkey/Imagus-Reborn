@@ -384,7 +384,7 @@
     "message": "Always view in Full-zoom mode"
   },
   "HZ_FZMODE": {
-    "message": "Default mode"
+    "message": "Move mode"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "move by the mouse cursor"
@@ -479,6 +479,9 @@
   "HZ_CSS": {
     "message": "Custom style (CSS)"
   },
+  "HZ_CSS_OPTIONS": {
+    "message": "Custom style for options page (CSS)"
+  },
   "HZ_MARKONHOVER_CR": {
     "message": "change cursor"
   },
@@ -534,7 +537,7 @@
     "message": "Website rules:"
   },
   "GRNT_ELEMENT": {
-    "message": "Element rules:"
+    "message": "Image/Link rules:"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignore element..."
@@ -610,5 +613,15 @@
   },
   "OPTIONS": {
     "message": "Options"
+  },
+  "HZ_GENERAL": {
+    "message": "General"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Activation"
+  },
+  "HZ_ACTIONS": {
+    "message": "Actions"
+  },
   }
 }
