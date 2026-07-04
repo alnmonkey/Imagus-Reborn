@@ -230,7 +230,7 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
         }
     });
     textArea.onkeydown = function (e) {
-        if (e.code === "Enter" && (e.ctrlKey || e.metaKey)) {
+        if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
             $("imprt_text").click();
         } else if (e.code === "KeyR" && e.altKey) {
