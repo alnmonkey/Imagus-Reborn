@@ -1,4 +1,49 @@
-#imagus-hvr {
+#imagus-popup {
+    margin: 0;
+    padding: 0;
+    visibility: visible;
+    cursor: default;
+    display: none;
+    z-index: 2147483647;
+    position: fixed;
+    box-sizing: content-box;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+}
+
+#imagus-popup.dragging {
+    transition: all 0s;
+    opacity: .5;
+}
+
+#imagus-popup.video1 {
+    border-color: hsl(18deg 100% 82% / 70%) !important;
+    box-shadow: hsl(18deg 50% 50% / 70%) 0px 0px 2px 0px !important;
+}
+#imagus-popup.video2 {
+    border-color: hsl(240deg 100% 90% / 70%) !important;
+    box-shadow: hsl(240deg 50% 50% / 70%) 0px 0px 2px 0px !important;
+}
+
+#imagus-loader {
+  background-clip: padding-box;
+  position: fixed;
+  z-index: 2147483647;
+  left: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#imagus-hover {
     position: absolute;
     box-sizing: content-box;
     pointer-events: none;
@@ -12,7 +57,7 @@
     margin: 0;
 }
 
-#imagus-cap {
+#imagus-caption {
     left: 0;
     right: auto;
     display: block;
@@ -28,17 +73,40 @@
     overflow: hidden;
     box-sizing: border-box;
     text-overflow: ellipsis;
+    border-radius: 0 0 3px 3px;
+    background: rgba(0, 0, 0, .6);
+    color: #fff;
 }
 
-#imagus-main:not(.dragging) #imagus-cap {
+#imagus-caption.outside:not(.bottom),
+#imagus-caption.bottom:not(.outside) {
+    border-radius: 3px 3px 0 0;
+}
+
+#imagus-caption.light {
+    background: rgba(255, 255, 255, .9);
+    color: #000;
+}
+
+#imagus-caption b {
+    margin-right: 4px;
+}
+
+#imagus-caption b:first-child {
+    transition: background-color .1s;
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
+#imagus-popup:not(.dragging) #imagus-caption {
     cursor: grab;
 }
 
-#imagus-main.dragging iframe {
+#imagus-popup.dragging iframe {
     pointer-events: none;
 }
 
-#imagus-cap:hover {
+#imagus-caption:hover {
     opacity: .1;
 }
 
@@ -64,7 +132,10 @@
     color: black;
     backdrop-filter: blur(6px);
 }
-[data-fz="true"] > #imagus-toolbar {
+#imagus-popup:not(.album) > #imagus-toolbar :is([data-action="gallery"], [data-action="goto"]) {
+    display: none;
+}
+#imagus-popup.fz > #imagus-toolbar {
     display: flex;
 }
 #imagus-toolbar[data-mode="3"] {
@@ -137,7 +208,7 @@ div:hover > #imagus-toolbar:hover {
     transform-origin: top right;
 }
 
-#imagus-glr {
+#imagus-gallery {
     position: absolute;
     inset: 0;
     display: flex;
@@ -149,14 +220,15 @@ div:hover > #imagus-toolbar:hover {
     cursor: default;
     z-index: 5;
     background: #dedede;
+    gap: 8px;
+    padding: 8px;
 }
-#imagus-glr > * {
+#imagus-gallery > * {
     width: 150px;
     height: 150px;
-    margin: 4px;
 }
-#imagus-glr video,
-#imagus-glr img {
+#imagus-gallery video,
+#imagus-gallery img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -165,25 +237,25 @@ div:hover > #imagus-toolbar:hover {
     background: white;
     margin: 0;
 }
-#imagus-glr > .vid {
+#imagus-gallery > .vid {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-#imagus-glr > .vid:before,
-#imagus-glr > .vid:after {
+#imagus-gallery > .vid:before,
+#imagus-gallery > .vid:after {
     content: "";
     position: absolute;
     opacity: 0.5;
     pointer-events: none;
 }
-#imagus-glr > .vid:before {
+#imagus-gallery > .vid:before {
     background: #000000;
     width: 80px;
     height: 80px;
     border-radius: 20px;
 }
-#imagus-glr > .vid:after {
+#imagus-gallery > .vid:after {
     width: 0;
     height: 0;
     border-top: 22px solid transparent;
@@ -200,12 +272,6 @@ div:hover > #imagus-toolbar:hover {
 }
 
 #imagus-videojs > #imagus-player {
-    --bottom: 0;
-    --left: 0;
-    --margin: auto;
-    --position: absolute;
-    --right: 0;
-    --top: 0;
     height: 100%;
     width: 100%;
 }
@@ -236,7 +302,7 @@ div:hover > #imagus-toolbar:hover {
 }
 
 /* this is for Videojs to select the best suitable video resolution */
-#imagus-main[style*="display: none"] video {
+#imagus-popup[style*="display: none"] video {
     width: 100vw;
     height: 100vh;
 }
