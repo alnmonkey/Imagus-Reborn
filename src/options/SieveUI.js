@@ -705,7 +705,7 @@ var sieve_sec,
             // assume that Sieve updates from GitHub repo
             const [_, user, repo] = /https:\/\/raw\.githubusercontent\.com\/([^/]+)\/([^/]+)/i.exec(cfg.sieveRepository) || [];
             if (!user || !repo) return;
-            const lastCheck = new Date(cfg.sieveUpdateLast || 0);
+            const lastCheck = new Date((await chrome.storage.local.get({sieveUpdateLast: 0})).sieveUpdateLast);
 
             // get date of last commit
             const res = await fetch(`https://api.github.com/repos/${user}/${repo}/commits?per_page=1`);
