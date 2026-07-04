@@ -52,7 +52,7 @@ var cfg = {
         await chrome.storage.local.set(items);
         callback?.();
     },
-    remove(keys) {
+    async remove(keys) {
         return chrome.storage.local.remove(keys);
     },
 };
@@ -730,3 +730,10 @@ if (chrome.contextMenus) {
         }
     });
 }
+
+cfg.get("open_settings", ({ open_settings }) => {
+    if (open_settings) {
+        cfg.remove("open_settings");
+        chrome.runtime.openOptionsPage();
+    }
+});

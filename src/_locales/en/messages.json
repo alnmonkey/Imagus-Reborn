@@ -45,7 +45,7 @@
     "message": "Invalid format!"
   },
   "BUTTON_RESET": {
-    "message": "Default"
+    "message": "Reset settings"
   },
   "BUTTON_SAVE": {
     "message": "Save"
@@ -616,6 +616,9 @@
   },
   "HZ_GENERAL": {
     "message": "General"
+  },
+  "RESET_CONFIRM": {
+    "message": "Reset all settings to default?"
   },
   "HZ_ACTIVATION": {
     "message": "Activation"

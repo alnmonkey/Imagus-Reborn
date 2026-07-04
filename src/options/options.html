@@ -30,6 +30,18 @@
 				<div class="op_buttons">
 					<button id="reset_button" type="reset" data-lng="BUTTON_RESET" style="display: none;"></button>
 					<button id="save_button" type="submit" data-lng="BUTTON_SAVE" title="[Ctrl + S]"></button>
+					<div id="menu_wrap">
+						<button id="menu_button" type="button">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 6" width="10" height="6" fill="currentColor">
+								<polygon points="0,0 10,0 5,6"/>
+							</svg>
+						</button>
+						<div id="menu_dropdown" class="menu_dropdown">
+							<button type="button" data-action="prefs-export" data-lng="PREF_EXPORT"></button>
+							<button type="button" data-action="prefs-import" data-lng="PREF_IMPORT"></button>
+							<button type="button" data-action="prefs-reset" data-lng="BUTTON_RESET" class="alert"></button>
+						</div>
+					</div>
 				</div>
 				<!-- <div class="advanced">
 					<input type="checkbox" id="tls_advanced" name="tls_advanced">
@@ -676,10 +688,10 @@
 		</section>
 
 		<section id="info_sec" class="scroll" style="display: none;">
-			<div class="action_buttons">
+			<!-- <div class="action_buttons">
 				<span data-action="prefs-import" data-lng="PREF_IMPORT" data-lngattr="title">&darr;</span>
 				<span data-action="prefs-export" data-lng="PREF_EXPORT" data-lngattr="title">&uarr;</span>
-			</div>
+			</div> -->
 
 			<h3></h3>
 			<pre id="app_installed" data-lng="APP_INSTALLED"></pre>

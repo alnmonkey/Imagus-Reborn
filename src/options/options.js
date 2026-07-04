@@ -433,7 +433,7 @@ var prefs = function (data, options, ev) {
     }
     data = {};
     for (i = 0; i < 5; ++i) if (pref_keys[i] in cfg) data[pref_keys[i]] = cfg[pref_keys[i]];
-    download(JSON.stringify(data, null, ev.shiftKey ? 2 : 0), app.name + "-conf.json", ev.ctrlKey);
+    download(JSON.stringify(data, null, 2), app.name + "-conf.json", ev.ctrlKey);
 };
 
 function onValueChange (e) {
@@ -523,7 +523,7 @@ window.onhashchange = function () {
                 }
             };
         else if (hash === "info") {
-            section.querySelector(".action_buttons").onclick = function (e) {
+            /* section.querySelector(".action_buttons").onclick = function (e) {
                 switch (e.target.dataset.action) {
                     case "prefs-import":
                         ImprtHandler(_("SC_PREFS"), prefs, { overwrite: 1 });
@@ -532,7 +532,7 @@ window.onhashchange = function () {
                         prefs(0, 0, e);
                         break;
                 }
-            };
+            }; */
             if (args[0]) $(args[0] === "0" ? "app_installed" : "app_updated").style.display = "block";
             // section.querySelector("h3:not([data-lng])").textContent = " v" + app.version;
             Port.listen(function (response) {
@@ -699,6 +699,40 @@ window.addEventListener(
             },
             false
         );
+        var menu_button = $("menu_button");
+        var menu_dropdown = $("menu_dropdown");
+        menu_button.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu_dropdown.classList.toggle("open");
+        });
+        document.addEventListener("click", function (e) {
+            if (!e.target.closest("#menu_wrap")) {
+                menu_dropdown.classList.remove("open");
+            }
+        });
+        menu_dropdown.addEventListener("click", async function (e) {
+            var btn = e.target.closest("button[data-action]");
+            if (!btn) return;
+            var action = btn.dataset.action;
+            menu_dropdown.classList.remove("open");
+            switch (action) {
+                case "prefs-import":
+                    ImprtHandler(_("SC_PREFS"), prefs, { overwrite: 1 });
+                    break;
+                case "prefs-export":
+                    prefs(0, 0, e);
+                    break;
+                case "prefs-reset":
+                    if (!window.confirm(_("RESET_CONFIRM"))) {
+                        return;
+                    }
+                    await chrome.storage.local.clear();
+                    await chrome.storage.local.set({ open_settings: true })
+                    chrome.runtime.reload();
+                    break;
+            }
+        });
+
         document.querySelectorAll(".expand").forEach(el => el.addEventListener("click", e => e.target.style = ""));
         [].forEach.call(document.body.querySelectorAll(".action_buttons") || [], function (el) {
             el.onmousedown = function (e) {
