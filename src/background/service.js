@@ -317,23 +317,7 @@ function onMessage(message, sender, sendResponse) {
             break;
 
         case "open":
-            if (!Array.isArray(msg.url)) {
-                msg.url = [msg.url];
-            }
-            msg.url.forEach(function (url) {
-                if (url && typeof url === "string") {
-                    let tabOptions = { url, active: !msg.nf };
-                    if (sender?.tab?.id) {
-                        tabOptions.openerTabId = sender.tab.id;
-                        tabOptions.index = sender.tab.index + 1;
-                    }
-                    chrome.tabs.create(tabOptions)
-                    .catch(error => {
-                        delete tabOptions.openerTabId;
-                        chrome.tabs.create(tabOptions);
-                    });
-                }
-            });
+            openUrl(msg, sender);
             break;
         case "resolve": {
             const data = {
@@ -618,6 +602,42 @@ async function toggleTab(tab) {
     // init/deinit tabs with the same origin
     let tabs = await chrome.tabs.query({ url: new URL(tab.url).origin + "/*" }) || [];
     tabs.forEach(t => initTab({ tab: t }));
+}
+
+function openUrl(msg, sender) {
+    const urls = Array.isArray(msg.url) ? msg.url : [msg.url];
+    const active = msg.active !== undefined ? msg.active : !msg.nf;
+    for (const url of urls) {
+        if (!url || typeof url !== "string") continue;
+        if (msg.inWindow) {
+            chrome.windows.create({
+                type: "popup",
+                url: url,
+                top: msg.top,
+                left: msg.left,
+                width: msg.width,
+                height: msg.height,
+            })
+            .catch(error => {
+                chrome.windows.create({
+                    type: "popup",
+                    url: url,
+                })
+            });
+
+        } else {
+            let tabOptions = { url, active };
+            if (sender?.tab?.id) {
+                tabOptions.openerTabId = sender.tab.id;
+                tabOptions.index = sender.tab.index + 1;
+            }
+            chrome.tabs.create(tabOptions)
+            .catch(error => {
+                delete tabOptions.openerTabId;
+                chrome.tabs.create(tabOptions);
+            });
+        }
+    }
 }
 
 // check if Imagus is disabled on the given URL

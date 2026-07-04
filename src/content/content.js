@@ -77,7 +77,7 @@
         }
     }
 
-    var openTab = function (e) {
+    var openTab = async function (e) {
         let src = PVI.EXTENSION?.IFRAME?.src || (PVI.isVideo() ? PVI.PLAYER?.src() : PVI.CNT.src);
         if (PVI.galleryState === 2 && PVI.TRG?.href) {
             src = PVI.TRG.href
@@ -93,19 +93,24 @@
                 "tab";
 
             if (how === "bg") {
-                Port.send({ cmd: "open", url: src, nf: true });
+                Port.send({ cmd: "open", url: src, active: false });
 
             } else if (how === "popup") {
                 const w = PVI.PLAYER?.videoWidth() || PVI.CNT.naturalWidth || PVI.CNT.clientWidth || 0;
                 const h = PVI.PLAYER?.videoHeight() || PVI.CNT.naturalHeight || PVI.CNT.clientHeight || 0;
-                window.open(src, "", [
-                    "popup=true",
-                    w ? `width=${w},left=${(window.screen.width - w) / 2}` : "",
-                    h ? `height=${h},top=${(window.screen.height - h) / 2}` : ""
-                ].filter(Boolean).join(","));
+                Port.send({
+                    cmd: "open",
+                    url: src,
+                    active: true,
+                    inWindow: true,
+                    width: Math.min(w, window.screen.width),
+                    height: Math.min(h, window.screen.height),
+                    top: Math.max(0, Math.floor((window.screen.height - h) / 2)),
+                    left: Math.max(0, Math.floor((window.screen.width - w) / 2)),
+                });
 
             } else {
-                window.open(src);
+                Port.send({ cmd: "open", url: src, active: true });
             }
 
             if (how !== "bg") PVI.reset();
@@ -143,7 +148,7 @@
         for (; i < hosts.length; ++i)
             if (sf.host === i || (sf.host === undefined && hosts[i][0][0] === "+"))
                 urls.push(hosts[i][1].replace("%url", encodeURIComponent(sf.url)).replace("%raw_url", sf.url));
-        Port.send({ cmd: "open", url: urls, nf: !!sf.nf });
+        Port.send({ cmd: "open", url: urls, active: sf.active });
     };
 
     var checkBG = function (imgs) {
