@@ -45,7 +45,7 @@
     "message": "Ungültiges Format!"
   },
   "BUTTON_RESET": {
-    "message": "Standard"
+    "message": "Einstellungen zurücksetzen"
   },
   "BUTTON_SAVE": {
     "message": "Speichern"
@@ -288,7 +288,7 @@
     "message": "Beschreibungstext anzeigen"
   },
   "HZ_FZMODE": {
-    "message": "Standardmodus"
+    "message": "Bewegungsmodus"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "mit dem Mauszeiger bewegen"
@@ -543,7 +543,7 @@
     "message": "Gehe zu / Suchen"
   },
   "GRNT_ELEMENT": {
-    "message": "Elementregeln:"
+    "message": "Bild-/Linkregeln:"
   },
   "GRNT_WEBSITE": {
     "message": "Website-Regeln:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "niemals"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Aktivierung"
+  },
+  "GET_HELP": {
+    "message": "Holen Sie sich Hilfe"
+  },
+  "HZ_ACTIONS": {
+    "message": "Aktionen"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Benutzerdefinierter Stil für die Optionsseite (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Allgemein"
+  },
+  "RESET_CONFIRM": {
+    "message": "Alle Einstellungen auf Standard zurücksetzen?"
   }
 }

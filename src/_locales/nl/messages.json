@@ -45,7 +45,7 @@
     "message": "Incorrect formaat!"
   },
   "BUTTON_RESET": {
-    "message": "Reset"
+    "message": "Instellingen resetten"
   },
   "BUTTON_SAVE": {
     "message": "Opslaan"
@@ -303,7 +303,7 @@
     "message": "Onderschrift weergeven"
   },
   "HZ_FZMODE": {
-    "message": "Oorspronkelijke modus"
+    "message": "Verplaatsmodus"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "met de cursor mee bewegen"
@@ -543,7 +543,7 @@
     "message": "Ga naar / Zoeken"
   },
   "GRNT_ELEMENT": {
-    "message": "Elementregels:"
+    "message": "Regels voor afbeeldingen/links:"
   },
   "GRNT_WEBSITE": {
     "message": "Websiteregels:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "nooit"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Activering"
+  },
+  "GET_HELP": {
+    "message": "Krijg hulp"
+  },
+  "HZ_ACTIONS": {
+    "message": "Acties"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Aangepaste stijl voor optiepagina (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Algemeen"
+  },
+  "RESET_CONFIRM": {
+    "message": "Alle instellingen terugzetten naar standaard?"
   }
 }

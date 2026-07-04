@@ -42,7 +42,7 @@
     "message": "无效的格式！"
   },
   "BUTTON_RESET": {
-    "message": "重置"
+    "message": "重置设置"
   },
   "BUTTON_SAVE": {
     "message": "保存"
@@ -282,7 +282,7 @@
     "message": "显示标题文字"
   },
   "HZ_FZMODE": {
-    "message": "默认模式"
+    "message": "移动模式"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "根据鼠标指针位置移动"
@@ -543,7 +543,7 @@
     "message": "转到/搜索"
   },
   "GRNT_ELEMENT": {
-    "message": "元素规则："
+    "message": "图片/链接规则："
   },
   "GRNT_WEBSITE": {
     "message": "网站规则："
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "绝不"
+  },
+  "HZ_ACTIVATION": {
+    "message": "激活"
+  },
+  "GET_HELP": {
+    "message": "获得帮助"
+  },
+  "HZ_ACTIONS": {
+    "message": "行动"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "选项页面的自定义样式 (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "一般的"
+  },
+  "RESET_CONFIRM": {
+    "message": "将所有设置重置为默认值？"
   }
 }

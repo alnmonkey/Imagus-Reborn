@@ -45,7 +45,7 @@
     "message": "¡Formato no válido!"
   },
   "BUTTON_RESET": {
-    "message": "Predeterminado"
+    "message": "Restablecer configuración"
   },
   "BUTTON_SAVE": {
     "message": "Guardar"
@@ -303,7 +303,7 @@
     "message": "Mostrar texto de la imagen"
   },
   "HZ_FZMODE": {
-    "message": "Modo de desplazamiento predeterminado"
+    "message": "Modo de movimiento"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "mover con el cursor del ratón"
@@ -543,7 +543,7 @@
     "message": "Ir a / Buscar"
   },
   "GRNT_ELEMENT": {
-    "message": "Reglas de elementos:"
+    "message": "Reglas de imagen/enlace:"
   },
   "GRNT_WEBSITE": {
     "message": "Reglas del sitio web:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "nunca"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Activación"
+  },
+  "GET_HELP": {
+    "message": "obtener ayuda"
+  },
+  "HZ_ACTIONS": {
+    "message": "Comportamiento"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Estilo personalizado para la página de opciones (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "General"
+  },
+  "RESET_CONFIRM": {
+    "message": "¿Restablecer todas las configuraciones a los valores predeterminados?"
   }
 }

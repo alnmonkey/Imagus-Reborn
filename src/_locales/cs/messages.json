@@ -303,7 +303,7 @@
     "message": "Zobrazovat text titulku"
   },
   "HZ_FZMODE": {
-    "message": "Výchozí režim"
+    "message": "Režim pohybu"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "pohybovat se s kurzorem myši"
@@ -543,7 +543,7 @@
     "message": "Přejít / Hledat"
   },
   "GRNT_ELEMENT": {
-    "message": "Pravidla prvků:"
+    "message": "Pravidla pro obrázky/odkazy:"
   },
   "GRNT_WEBSITE": {
     "message": "Pravidla webu:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "nikdy"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Aktivace"
+  },
+  "GET_HELP": {
+    "message": "Získejte pomoc"
+  },
+  "HZ_ACTIONS": {
+    "message": "Akce"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Vlastní styl stránky možností (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Generál"
+  },
+  "RESET_CONFIRM": {
+    "message": "Obnovit všechna nastavení na výchozí?"
   }
 }

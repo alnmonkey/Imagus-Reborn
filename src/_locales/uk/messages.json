@@ -282,7 +282,7 @@
     "message": "Показувати текст заголовка"
   },
   "HZ_FZMODE": {
-    "message": "Режим за замовчуванням"
+    "message": "Режим руху"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "переміщати рухом курсора"
@@ -543,7 +543,7 @@
     "message": "Перейти / Пошук"
   },
   "GRNT_ELEMENT": {
-    "message": "Правила елемента:"
+    "message": "Правила зображення/посилання:"
   },
   "GRNT_WEBSITE": {
     "message": "Правила сайту:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "ніколи"
+  },
+  "HZ_ACTIVATION": {
+    "message": "активація"
+  },
+  "GET_HELP": {
+    "message": "Отримати допомогу"
+  },
+  "HZ_ACTIONS": {
+    "message": "Дії"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Спеціальний стиль для сторінки параметрів (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Загальний"
+  },
+  "RESET_CONFIRM": {
+    "message": "Скинути всі налаштування до стандартних?"
   }
 }

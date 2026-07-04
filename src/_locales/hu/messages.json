@@ -45,7 +45,7 @@
     "message": "Helytelen formátum!"
   },
   "BUTTON_RESET": {
-    "message": "Alap"
+    "message": "Beállítások visszaállítása"
   },
   "BUTTON_SAVE": {
     "message": "Mentés"
@@ -303,7 +303,7 @@
     "message": "Fejlécszöveg megjelenítése"
   },
   "HZ_FZMODE": {
-    "message": "Alapértelmezett mód"
+    "message": "Mozgatás mód"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "mozgatás az egér mozgatásával"
@@ -543,7 +543,7 @@
     "message": "Ugrás / Keresés"
   },
   "GRNT_ELEMENT": {
-    "message": "Az elemek szabályai:"
+    "message": "Kép/link szabályok:"
   },
   "GRNT_WEBSITE": {
     "message": "A weboldal szabályai:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "soha"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Aktiválás"
+  },
+  "GET_HELP": {
+    "message": "Kérjen segítséget"
+  },
+  "HZ_ACTIONS": {
+    "message": "Akciók"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Egyéni stílus a beállítások oldalához (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Általános"
+  },
+  "RESET_CONFIRM": {
+    "message": "Visszaállítja az összes beállítást az alapértelmezettre?"
   }
 }

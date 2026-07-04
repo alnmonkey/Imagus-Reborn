@@ -42,7 +42,7 @@
     "message": "Άκυρη μορφή!"
   },
   "BUTTON_RESET": {
-    "message": "Επαναφορά"
+    "message": "Επαναφορά ρυθμίσεων"
   },
   "BUTTON_SAVE": {
     "message": "Αποθήκευση"
@@ -300,7 +300,7 @@
     "message": "Εμφάνιση λεζάντας"
   },
   "HZ_FZMODE": {
-    "message": "Προεπιλεγμένη λειτουργία"
+    "message": "Λειτουργία μετακίνησης"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "μετακίνηση με τον κέρσορα"
@@ -543,7 +543,7 @@
     "message": "Μετάβαση / Αναζήτηση"
   },
   "GRNT_ELEMENT": {
-    "message": "Κανόνες στοιχείων:"
+    "message": "Κανόνες εικόνας/συνδέσμου:"
   },
   "GRNT_WEBSITE": {
     "message": "Κανόνες ιστότοπου:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "ποτέ"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Δραστηριοποίηση"
+  },
+  "GET_HELP": {
+    "message": "Λάβετε βοήθεια"
+  },
+  "HZ_ACTIONS": {
+    "message": "Δράσεις"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Προσαρμοσμένο στυλ για τη σελίδα επιλογών (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Γενικός"
+  },
+  "RESET_CONFIRM": {
+    "message": "Επαναφορά όλων των ρυθμίσεων στις προεπιλογές;"
   }
 }

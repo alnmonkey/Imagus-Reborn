@@ -45,7 +45,7 @@
     "message": "Nieprawidłowy format!"
   },
   "BUTTON_RESET": {
-    "message": "Resetuj"
+    "message": "Zresetuj ustawienia"
   },
   "BUTTON_SAVE": {
     "message": "Zapisz"
@@ -285,7 +285,7 @@
     "message": "Pokazuj podpis obrazka"
   },
   "HZ_FZMODE": {
-    "message": "Domyślny tryb"
+    "message": "Tryb przenoszenia"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "przemieszczaj za kursorem"
@@ -543,7 +543,7 @@
     "message": "Przejdź do / Wyszukaj"
   },
   "GRNT_ELEMENT": {
-    "message": "Zasady elementu:"
+    "message": "Zasady dotyczące obrazów/linków:"
   },
   "GRNT_WEBSITE": {
     "message": "Regulamin serwisu:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "nigdy"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Aktywacja"
+  },
+  "GET_HELP": {
+    "message": "Uzyskaj pomoc"
+  },
+  "HZ_ACTIONS": {
+    "message": "Działania"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Niestandardowy styl strony opcji (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Ogólny"
+  },
+  "RESET_CONFIRM": {
+    "message": "Zresetować wszystkie ustawienia do domyślnych?"
   }
 }

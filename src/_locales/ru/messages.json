@@ -45,7 +45,7 @@
     "message": "Неверный формат!"
   },
   "BUTTON_RESET": {
-    "message": "По умолчанию"
+    "message": "Сбросить настройки"
   },
   "BUTTON_SAVE": {
     "message": "Сохранить"
@@ -309,7 +309,7 @@
     "message": "Показывать текст заголовка"
   },
   "HZ_FZMODE": {
-    "message": "Режим по умолчанию"
+    "message": "Режим перемещения"
   },
   "HZ_FZMODE_FOLLOW": {
     "message": "перемещать движением курсора"
@@ -543,7 +543,7 @@
     "message": "Перейти / Поиск"
   },
   "GRNT_ELEMENT": {
-    "message": "Правила элемента:"
+    "message": "Правила изображения/ссылки:"
   },
   "GRNT_WEBSITE": {
     "message": "Правила сайта:"
@@ -610,5 +610,23 @@
   },
   "TOOLBAR_NEVER": {
     "message": "никогда"
+  },
+  "RESET_CONFIRM": {
+    "message": "Сбросить все настройки по умолчанию?"
+  },
+  "HZ_ACTIVATION": {
+    "message": "Активация"
+  },
+  "GET_HELP": {
+    "message": "Получить помощь"
+  },
+  "HZ_ACTIONS": {
+    "message": "Действия"
+  },
+  "HZ_CSS_OPTIONS": {
+    "message": "Пользовательский стиль для страницы параметров (CSS)"
+  },
+  "HZ_GENERAL": {
+    "message": "Общие"
   }
 }
