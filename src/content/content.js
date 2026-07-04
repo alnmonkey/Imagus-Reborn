@@ -175,7 +175,12 @@
             nname.height = node.clientHeight;
             nname.getContext("2d").drawImage(node, 0, 0, nname.width, nname.height);
             return nname.toDataURL("image/jpeg");
-        } else if (node.poster) return node.poster;
+        } else if (nname === "SVG") {
+            const svg = new XMLSerializer().serializeToString(node);
+            return `data:image/svg+xml;base64,${btoa(svg)}`;
+        } else if (node.poster) {
+            return node.poster;
+        }
         return null;
     };
 
@@ -339,10 +344,14 @@
         if (e.target === PVI.CNT) {
             pdsp(e, false);
         } else if (e.ctrlKey && !elapsed && !e.shiftKey && !e.altKey && cfg.tls.opzoom && PVI.state < 2) {
-            const imgSrc = checkIMG(e.target) || checkBG(win.getComputedStyle(e.target).backgroundImage);
+            const tags = ['IMG', 'VIDEO', 'SVG', 'CANVAS', 'EMBED', 'OBJECT', 'AREA'];
+            const elements = getElementsFromPoint(e.clientX, e.clientY) || [];
+            const target = elements.find(e => tags.includes(e?.nodeName?.toUpperCase())) || elements[0];
+            if (!target) return;
+            const imgSrc = checkIMG(target) || checkBG(win.getComputedStyle(target).backgroundImage);
 
             if (imgSrc) {
-                PVI.TRG = PVI.nodeToReset = e.target;
+                PVI.TRG = PVI.nodeToReset = target;
                 PVI.fireHide = true;
                 PVI.x = e.clientX;
                 PVI.y = e.clientY;
