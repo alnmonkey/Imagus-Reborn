@@ -626,5 +626,7 @@
   "HZ_ACTIONS": {
     "message": "Actions"
   },
+  "GET_HELP": {
+    "message": "Get help"
   }
 }
