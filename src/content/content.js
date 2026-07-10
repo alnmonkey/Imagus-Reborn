@@ -525,7 +525,7 @@
             PVI.VID.classList.add("content");
             PVI.DIV.appendChild(PVI.VID);
 
-            if (cfg.hz.thumbAsBG || cfg.hz.history) {
+            if (true /* cfg.hz.thumbAsBG || cfg.hz.history */) {
                 PVI.IMG.addEventListener("load", PVI.content_onload);
             }
             if (cfg.hz.hideIdleCursor >= 50) {
@@ -1840,7 +1840,7 @@
             if (PVI.CNT !== PVI.IMG) {
                 PVI.CNT = PVI.IMG;
             }
-            if (cfg.hz.thumbAsBG) {
+            if (true /* cfg.hz.thumbAsBG */) {
                 if (PVI.interlacer) PVI.interlacer.style.display = "none";
                 PVI.CNT.loaded = PVI.TRG.IMGS_SVG || PVI.stack[src] === 1;
             }
@@ -1930,7 +1930,7 @@
         },
 
         content_onload: function (e) {
-            if (cfg.hz.thumbAsBG) this.loaded = true;
+            /* if (cfg.hz.thumbAsBG) */ this.loaded = true;
             if (PVI.TRG) delete PVI.TRG.IMGS_c_resolved;
             if (PVI.stack[this.src] && !(PVI.TRG || e).IMGS_SVG) PVI.stack[this.src] = 1;
             if (PVI.interlacer) PVI.interlacer.style.display = "none";
@@ -2030,7 +2030,7 @@
                     }
                     PVI.TRG.IMGS_thumb = false;
                 }
-                if (PVI.CNT === PVI.IMG && !PVI.IMG.loaded && cfg.hz.thumbAsBG && PVI.TRG.IMGS_thumb !== false && !PVI.TRG.IMGS_album) {
+                if (PVI.CNT === PVI.IMG && !PVI.IMG.loaded && /* cfg.hz.thumbAsBG && */ PVI.TRG.IMGS_thumb !== false && !PVI.TRG.IMGS_album) {
                     var inner_thumb, w, h;
                     if (typeof PVI.TRG.IMGS_thumb !== "string") {
                         PVI.TRG.IMGS_thumb = null;
@@ -2046,19 +2046,20 @@
                     } else if (PVI.TRG.IMGS_thumb) {
                         w = true;
                         if (!PVI.TRG.IMGS_thumb_ok) {
-                            w = (inner_thumb || PVI.TRG).clientWidth;
-                            h = (inner_thumb || PVI.TRG).clientHeight;
+                            const thumb = inner_thumb || PVI.TRG;
+                            w = thumb.naturalWidth || thumb.clientWidth;
+                            h = thumb.naturalHeight || thumb.clientHeight;
                             PVI.TRG.IMGS_thumb_ok = Math.abs(PVI.IMG.naturalWidth / PVI.IMG.naturalHeight - w / h) <= 0.2;
-                            w = w < 1024 && h < 1024 && w < PVI.IMG.naturalWidth && h < PVI.IMG.naturalHeight;
+                            w = (w < 1024 || h < 1024) && w < PVI.IMG.naturalWidth && h < PVI.IMG.naturalHeight;
                         }
                         if (w && PVI.TRG.IMGS_thumb_ok) {
                             if (PVI.interlacer) w = PVI.interlacer.style;
                             else {
                                 PVI.interlacer = doc.createElement("div");
-                                h = PVI.interlacer;
-                                if (cfg.hz.thumbAsBGOpacity > 0) {
+                                PVI.interlacer.id = "imagus-preview";
+                                /* if (cfg.hz.thumbAsBGOpacity > 0) {
                                     w = parseInt(cfg.hz.thumbAsBGColor.slice(1), 16);
-                                    h.appendChild(doc.createElement("div")).style.cssText =
+                                    PVI.interlacer.appendChild(doc.createElement("div")).style.cssText =
                                         "width: 100%; height: 100%; background-color: rgba(" +
                                         (w >> 16) +
                                         "," +
@@ -2068,14 +2069,12 @@
                                         "," +
                                         parseFloat(cfg.hz.thumbAsBGOpacity) +
                                         ")";
-                                }
-                                w = h.style;
-                                w.cssText =
-                                    "position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat";
-                                PVI.DIV.insertBefore(h, PVI.IMG);
+                                } */
+                                // PVI.interlacer.style.cssText = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat";
+                                PVI.DIV.insertBefore(PVI.interlacer, PVI.IMG);
                             }
-                            w.backgroundImage = "url(" + PVI.TRG.IMGS_thumb + ")";
-                            w.display = "block";
+                            PVI.interlacer.style.backgroundImage = "url(" + PVI.TRG.IMGS_thumb + ")";
+                            PVI.interlacer.style.display = "block";
                         }
                         delete PVI.TRG.IMGS_thumb;
                         delete PVI.TRG.IMGS_thumb_ok;
