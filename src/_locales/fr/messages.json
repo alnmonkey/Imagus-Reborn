@@ -628,5 +628,8 @@
   },
   "RESET_CONFIRM": {
     "message": "Réinitialiser tous les paramètres par défaut ?"
+  },
+  "SIV_RULES_CNT": {
+    "message": "Nombre total de règles (nombre de règles actives)"
   }
 }

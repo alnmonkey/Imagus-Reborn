@@ -628,5 +628,8 @@
   },
   "RESET_CONFIRM": {
     "message": "Obnovit všechna nastavení na výchozí?"
+  },
+  "SIV_RULES_CNT": {
+    "message": "Celkový počet pravidel (počet aktivních)"
   }
 }

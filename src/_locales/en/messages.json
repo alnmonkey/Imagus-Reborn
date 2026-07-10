@@ -628,5 +628,8 @@
   },
   "GET_HELP": {
     "message": "Get help"
+  },
+  "SIV_RULES_CNT": {
+    "message": "Total rules count (count of active)"
   }
 }

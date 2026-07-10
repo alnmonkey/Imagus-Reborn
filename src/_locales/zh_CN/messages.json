@@ -628,5 +628,8 @@
   },
   "RESET_CONFIRM": {
     "message": "将所有设置重置为默认值？"
+  },
+  "SIV_RULES_CNT": {
+    "message": "规则总数（活动规则数）"
   }
 }

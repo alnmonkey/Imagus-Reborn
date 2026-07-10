@@ -628,5 +628,8 @@
   },
   "RESET_CONFIRM": {
     "message": "Zresetować wszystkie ustawienia do domyślnych?"
+  },
+  "SIV_RULES_CNT": {
+    "message": "Całkowita liczba reguł (liczba aktywnych)"
   }
 }

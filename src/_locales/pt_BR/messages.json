@@ -628,5 +628,8 @@
   },
   "RESET_CONFIRM": {
     "message": "Redefinir todas as configurações para o padrão?"
+  },
+  "SIV_RULES_CNT": {
+    "message": "Contagem total de regras (contagem de ativas)"
   }
 }
