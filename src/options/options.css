@@ -24,12 +24,11 @@ body {
     height: 100vh;
     font: 13px / 150% Verdana, Lucida Grande, Lucida Sans Unicode, Tahoma, sans-serif;
     margin: 0 auto;
-    min-width: 700px;
     min-height: 300px;
     padding: 0px 0px 10px;
     position: relative;
     box-sizing: border-box;
-    width: min-content;
+    width: fit-content;
     min-height: 310px;
 }
 body > form {
@@ -175,6 +174,8 @@ body > form > section {
     overflow: hidden;
     padding-right: 4px;
     padding-left: 15px;
+    width: max-content;
+    min-width: 700px;
 }
 section.scroll {
     overflow: auto;
@@ -492,6 +493,7 @@ h3 {
 }
 #sieve_container {
     margin-top: 10px;
+    width: min-content;
     min-width: 800px;
     overflow-y: auto;
     padding: 0 4px 40px 0;
@@ -596,6 +598,7 @@ span.clear_search:hover {
     cursor: pointer;
     display: block;
     height: 17px;
+    line-height: 17px;
     overflow: hidden;
     padding: 5px;
     text-align: center;
@@ -787,12 +790,14 @@ span.clear_search:hover {
 }
 
 section.warning {
-    width: 100%;
+    width: calc(100% - 28px);
     background: antiquewhite;
-    padding: 14px 30px;
-    margin: 20px 0;
+    padding: 20px 30px;
+    margin: 0px 14px 20px;
     border-radius: 6px;
     transition: background-color 0.5s;
+    flex-shrink: 0;
+    min-width: unset;
 }
 
 .ace_layer.ace_marker-layer {
