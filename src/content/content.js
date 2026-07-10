@@ -3070,6 +3070,7 @@
         },
 
         showHVR: function (visible = true, target) {
+            if (!PVI.HVR) return;
             clearTimeout(PVI.timers.hvr_hide);
             if (!visible){
                 if (PVI.HVR?.style.opacity !== "0" && (!target || target === PVI.TRG || PVI.ROOT.contains(target))) {
