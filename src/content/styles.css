@@ -19,7 +19,6 @@
 
 #imagus-popup.dragging {
     transition: all 0s;
-    opacity: .5;
 }
 
 #imagus-popup.video1 {
