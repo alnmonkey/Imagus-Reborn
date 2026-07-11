@@ -103,7 +103,9 @@ async function updateSieve(local) {
             newSieve = merged;
         }
         await updatePrefs({ sieve: newSieve });
-        await cfg.set({ sieveUpdateLast: Date.now() });
+        if (!local) {
+            await cfg.set({ sieveUpdateLast: Date.now() });
+        }
         console.info(manifest.name + ": Sieve updated from " + (local ? "local" : "remote") + " repository.");
         return { updated_sieve: newSieve };
 
