@@ -2849,7 +2849,8 @@
                     } else {
                         PVI.resize(
                             (e.deltaY || -e.wheelDelta) > 0 ? "-" : "+",
-                            PVI.fullZm > 1 ? xy_img : null
+                            PVI.fullZm > 1 ? xy_img : null,
+                            PVI.DIV.contains(target)
                         );
                     }
                 }
@@ -2865,7 +2866,7 @@
             PVI.DIV.style.setProperty("cursor", cursor || "");
         },
 
-        resize: function (x, xy_img) {
+        resize: function (x, xy_img, overPopup) {
             if (PVI.state !== 4 || !PVI.fullZm) return;
             var s = PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src].slice() : [PVI.CNT.naturalWidth, PVI.CNT.naturalHeight];
             var rot = PVI.DIV.curdeg % 180;
@@ -2902,14 +2903,14 @@
                     let k = [parseInt(PVI.DIV.style.width, 10), 0];
                     k[1] = (k[0] * s[rot ? 0 : 1]) / s[rot ? 1 : 0];
                     if (xy_img) {
-                        if (xy_img[1] === undefined || rot) {
+                        if (xy_img[1] === undefined) {
                             xy_img[0] = k[0] / 2;
                             xy_img[1] = k[1] / 2;
-                        } else if (PVI.DIV.curdeg % 360)
-                            if (!(PVI.DIV.curdeg % 180)) {
-                                xy_img[0] = k[0] - xy_img[0];
-                                xy_img[1] = k[1] - xy_img[1];
-                            }
+                        }
+                        if (PVI.fullZm > 1 && overPopup) {
+                            xy_img[0] -= parseFloat(PVI.BOX.style.left) || 0;
+                            xy_img[1] -= parseFloat(PVI.BOX.style.top) || 0;
+                        }
                         xy_img[0] /= k[rot ? 1 : 0];
                         xy_img[1] /= k[rot ? 0 : 1];
                     }
@@ -3168,6 +3169,7 @@
                     w,
                     h;
                 if (!e) e = {};
+                const rot = PVI.state === 4 && PVI.DIV.curdeg % 180;
                 if (mdownstart === true) mdownstart = false;
                 if (trg) {
                     PVI.x = e.clientX;
@@ -3183,7 +3185,6 @@
                         y = parseFloat(w.top) + e[1];
                     } else x = null;
                 } else {
-                    var rot = PVI.state === 4 && PVI.DIV.curdeg % 180;
                     if (PVI.BOX === PVI.DIV) {
                         if (PVI.TRG.IMGS_SVG) {
                             h = PVI.stack[PVI.IMG.src];
@@ -3197,14 +3198,13 @@
                         w = PVI.LDR.wh[0];
                         h = PVI.LDR.wh[1];
                     }
+                    let shift = 0;
                     if (rot) {
-                        rot = w;
-                        w = h;
-                        h = rot;
-                        rot = (w - h) / 2;
-                    } else rot = 0;
-                    x = (w - PVI.DBOX["wpb"] > winW ? -((PVI.x * (w - winW + 80)) / winW) + 40 : (winW - w) / 2) + rot - PVI.DBOX["ml"];
-                    y = (h - PVI.DBOX["hpb"] > winH ? -((PVI.y * (h - winH + 80)) / winH) + 40 : (winH - h) / 2) - rot - PVI.DBOX["mt"] + (PVI.getCapHeight() / 2);
+                        [w, h] = [h, w];
+                        shift = (w - h) / 2;
+                    }
+                    x = (w - PVI.DBOX["wpb"] > winW ? -((PVI.x * (w - winW + 80)) / winW) + 40 : (winW - w) / 2) + shift - PVI.DBOX["ml"];
+                    y = (h - PVI.DBOX["hpb"] > winH ? -((PVI.y * (h - winH + 80)) / winH) + 40 : (winH - h) / 2) - shift - PVI.DBOX["mt"] + (PVI.getCapHeight() / 2);
                 }
                 if (e[2] !== undefined) {
                     w = Math.floor(e[2]);
