@@ -456,6 +456,7 @@
             2 - visible
         */
         galleryState: 0,
+        galleryGridSize: 150,
         rgxHTTPs: /^https?:\/\/(?:www\.)?/,
         pageProtocol: win.location.protocol.replace(/^(?!https?:).+/, "http:"),
         palette: {
@@ -1871,7 +1872,7 @@
                 return;
             }
             PVI.CNT.src = src;
-            PVI.checkContentRediness(src, true);
+            PVI.checkContentRediness(src, !src.startsWith("data:image/"));
         },
         checkContentRediness: function (src, showLoader) {
             if (PVI.CNT.naturalWidth || (PVI.TRG.IMGS_SVG && PVI.stack[src])) {
@@ -2535,15 +2536,6 @@
                 PVI.resetNode(PVI.TRG, true);
 
                 if (!PVI.GLR.childElementCount) {
-                    // calculate gallery dimensions
-                    const GRID_SIZE = 158;
-                    const ratio = window.innerWidth / window.innerHeight;
-                    const w = Math.floor(Math.ceil(Math.sqrt(album.length)) * Math.sqrt(ratio));
-                    const h = Math.max(2, Math.ceil(album.length / w));
-                    PVI.GLR._height = Math.floor(Math.min(h * GRID_SIZE, window.innerHeight / 1.4)) + 16;
-                    PVI.GLR._width  = Math.floor(Math.min(w * GRID_SIZE, window.innerWidth  / 1.4));
-                    PVI.GLR._width = Math.floor(PVI.GLR._width / GRID_SIZE) * GRID_SIZE + 30;
-
                     let nodes = [];
                     for (let i = 0; i < album.length; i++) {
                         if (!album[i][0]) continue;
@@ -2571,9 +2563,19 @@
                     buildNodes(PVI.GLR, nodes);
                     setTimeout(() => PVI.GLR.scrollTop = 0, 100);
 
-                } else {
+                } else if (state === undefined) {
                     setTimeout(() => PVI.GLR.querySelector(`[data-idx="${album[0]}"]`)?.scrollIntoView({ block: "center" }), 100);
                 }
+
+                // calculate gallery dimensions
+                const GRID_SIZE = cfg.hz.galleryGridSize + 8;
+                const ratio = window.innerWidth / window.innerHeight;
+                const w = Math.floor(Math.ceil(Math.sqrt(album.length)) * Math.sqrt(ratio));
+                const h = Math.max(2, Math.ceil(album.length / w));
+                PVI.DIV.style.setProperty('--gallery-grid-size', `${cfg.hz.galleryGridSize}px`);
+                PVI.GLR._height = Math.floor(Math.min(h * GRID_SIZE, window.innerHeight / 1.2)) + 16;
+                PVI.GLR._width  = Math.floor(Math.min(w * GRID_SIZE, window.innerWidth  / 1.2));
+                // PVI.GLR._width = Math.floor(PVI.GLR._width / GRID_SIZE) * GRID_SIZE + 30;
                 PVI.set(`data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="${PVI.GLR._width}" height="${PVI.GLR._height}"></svg>`);
             }
         },
@@ -2581,7 +2583,7 @@
         galleryClick: function (ev) {
             ev.preventDefault();
             if (ev.target.localName !== "img" && ev.target.localName !== "video") {
-                PVI.reset();
+                // PVI.reset();
                 return;
             }
             let idx = ev.target.dataset.idx;
@@ -2803,7 +2805,14 @@
                 }
                 return;
 
-            } else if (PVI.galleryState === 2 && PVI.GLR.contains(target)) {
+            } else if (PVI.galleryState === 2 && PVI.GLR.contains(target) && e.ctrlKey) {
+                pdsp(e);
+                cfg.hz.galleryGridSize = Math.round(cfg.hz.galleryGridSize * (e.deltaY < 0 ? 1.25 : (1 / 1.25)));
+                Port.send({ cmd: "savePrefs", prefs: { hz: { galleryGridSize: cfg.hz.galleryGridSize } } });
+                PVI.gallery(2);
+                return;
+
+            } else if (PVI.galleryState === 2 && PVI.GLR.contains(target) && !e.altKey) {
                 // scroll over gallery
                 return;
 

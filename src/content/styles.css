@@ -15,6 +15,7 @@
     height: auto;
     max-width: none;
     max-height: none;
+    --gallery-grid-size: 150px;
 }
 
 #imagus-popup.dragging {
@@ -235,8 +236,9 @@ div:hover > #imagus-toolbar:hover {
     padding: 8px;
 }
 #imagus-gallery > * {
-    width: 150px;
-    height: 150px;
+    width: var(--gallery-grid-size);
+    height: var(--gallery-grid-size);
+    position: relative;
 }
 #imagus-gallery video,
 #imagus-gallery img {
@@ -262,17 +264,17 @@ div:hover > #imagus-toolbar:hover {
 }
 #imagus-gallery > .vid:before {
     background: #000000;
-    width: 80px;
-    height: 80px;
-    border-radius: 20px;
+    width: 60%;
+    height: 60%;
+    border-radius: 20%;
 }
 #imagus-gallery > .vid:after {
     width: 0;
     height: 0;
-    border-top: 22px solid transparent;
-    border-bottom: 22px solid transparent;
-    border-left: 34px solid #ffffff;
-    margin-left: 8px;
+    border-top: calc(var(--gallery-grid-size) / 5) solid transparent;
+    border-bottom: calc(var(--gallery-grid-size) / 5) solid transparent;
+    border-left: calc(var(--gallery-grid-size) / 3.5) solid #ffffff;
+    margin-left: 5%;
 }
 
 #imagus-videojs {

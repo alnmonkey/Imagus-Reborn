@@ -22,6 +22,7 @@
 		"hideControlsDelay": 2000,
 		"mediaLoop": "default",
 		"smoothScroll": false,
+		"galleryGridSize": 150,
 		"scrollDelay": 0,
 		"pileWheel": 1,
 		"pileCycle": false,
