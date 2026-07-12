@@ -631,5 +631,8 @@
   },
   "SIV_RULES_CNT": {
     "message": "Celkový počet pravidel (počet aktivních)"
+  },
+  "SC_MFITBOTH": {
+    "message": "Přizpůsobit obojímu"
   }
 }

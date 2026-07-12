@@ -631,5 +631,8 @@
   },
   "SIV_RULES_CNT": {
     "message": "Totaal aantal regels (aantal actieve regels)"
+  },
+  "SC_MFITBOTH": {
+    "message": "Aan beide aanpassen"
   }
 }

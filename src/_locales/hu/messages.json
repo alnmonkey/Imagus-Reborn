@@ -631,5 +631,8 @@
   },
   "SIV_RULES_CNT": {
     "message": "A szabályok teljes száma (aktívak száma)"
+  },
+  "SC_MFITBOTH": {
+    "message": "Igazítás mindkettőhöz"
   }
 }

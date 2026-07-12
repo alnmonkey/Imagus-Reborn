@@ -339,7 +339,7 @@ var load = function () {
         }
     }
 
-    const fzExtra = [cfg.keys.mOrig, cfg.keys.mFit, cfg.keys.mFitW, cfg.keys.mFitH, cfg.keys.mZoomLock].filter(Boolean).map(k => `<b>${k}</b>`).join(", ");
+    const fzExtra = [cfg.keys.mOrig, cfg.keys.mFit, cfg.keys.mFitBoth, cfg.keys.mFitW, cfg.keys.mFitH, cfg.keys.mZoomLock].filter(Boolean).map(k => `<b>${k}</b>`).join(", ");
     document.querySelector("label[for='keys_hz-fullZm'] .extra").innerHTML = fzExtra ? ", " + fzExtra : "";
 };
 

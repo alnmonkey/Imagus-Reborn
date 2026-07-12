@@ -631,5 +631,8 @@
   },
   "SIV_RULES_CNT": {
     "message": "Contagem total de regras (contagem de ativas)"
+  },
+  "SC_MFITBOTH": {
+    "message": "Ajustar a ambos"
   }
 }

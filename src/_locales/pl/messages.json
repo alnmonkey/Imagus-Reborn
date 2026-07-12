@@ -631,5 +631,8 @@
   },
   "SIV_RULES_CNT": {
     "message": "Całkowita liczba reguł (liczba aktywnych)"
+  },
+  "SC_MFITBOTH": {
+    "message": "Dopasuj do obu"
   }
 }

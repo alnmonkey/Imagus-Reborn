@@ -631,5 +631,8 @@
   },
   "SIV_RULES_CNT": {
     "message": "Nombre total de règles (nombre de règles actives)"
+  },
+  "SC_MFITBOTH": {
+    "message": "Ajuster aux deux"
   }
 }

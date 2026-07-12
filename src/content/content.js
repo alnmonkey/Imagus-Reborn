@@ -2458,7 +2458,7 @@
                     PVI.PLAYER.currentTime(PVI.PLAYER.duration() * ((e.keyCode - 48) / 10));
                     PVI.PLAYER.userActive(true);
 
-                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitW || key === cfg.keys.mFitH || key === cfg.keys.mZoomLock) {
+                } else if (key === cfg.keys.mOrig || key === cfg.keys.mFit || key === cfg.keys.mFitBoth || key === cfg.keys.mFitW || key === cfg.keys.mFitH || key === cfg.keys.mZoomLock) {
                     PVI.resizeMode = cfg.hz.resizeMode = key;
                     if (cfg.hz.resizeModeType === "memory") {
                         Port.send({ cmd: "savePrefs", prefs: { hz: { resizeMode: key } } });
@@ -2632,6 +2632,7 @@
                 let resizeModes = {
                     "orig": cfg.keys.mOrig,
                     "fit":  cfg.keys.mFit,
+                    "fitboth": cfg.keys.mFitBoth,
                     "fitw": cfg.keys.mFitW,
                     "fith": cfg.keys.mFitH,
                     "zoomlock": cfg.keys.mZoomLock,
@@ -2893,6 +2894,12 @@
                     x = winWI > s[0] ? false : cfg.keys.mFitW;
                 } else {
                     x = winHI > s[1] ? false : cfg.keys.mFitH;
+                }
+            } else if (x === cfg.keys.mFitBoth) {
+                if (winWI / winHI < s[0] / s[1]) {
+                    x = cfg.keys.mFitW;
+                } else {
+                    x = cfg.keys.mFitH;
                 }
             }
             switch (typeof x === "number" ? "num" : x) {
