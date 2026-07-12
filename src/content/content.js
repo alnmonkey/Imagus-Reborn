@@ -25,6 +25,7 @@
     let albumDeltaAccum = 0;
     let wheelLastXY;
     let albumDeltaTimer;
+    let lastZoomScrollTime = 0;
     function applyAccumulatedZoom() {
         wheelRAF = null;
         const delta = wheelDeltaAccum;
@@ -2811,6 +2812,10 @@
 
             } else if (isScroll && PVI.TRG.IMGS_album) {
                 if (d !== null) {
+                    if (e.timeStamp - lastZoomScrollTime < 500) {
+                        pdsp(e);
+                        return;
+                    }
                     if (cfg.hz.smoothScroll) {
                         let rawDelta;
                         if (cfg.hz.pileWheel === 2) {
@@ -2839,6 +2844,7 @@
 
             } else if (PVI.fullZm) {
                 if (d !== null) {
+                    lastZoomScrollTime = e.timeStamp;
                     const xy_img = PVI.DIV.contains(target) ?
                         [e.clientX, e.clientY] : [];
 
