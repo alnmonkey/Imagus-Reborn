@@ -2014,11 +2014,7 @@
 
         assign_src: function () {
             if (!PVI.TRG || PVI.switchToHiResInFZ()) return;
-            if (PVI.TRG.IMGS_album) {
-                delete PVI.TRG.IMGS_thumb;
-                delete PVI.TRG.IMGS_thumb_ok;
-                if (PVI.interlacer) PVI.interlacer.style.display = "none";
-            } else if (!PVI.TRG.IMGS_SVG) {
+            if (!PVI.TRG.IMGS_SVG) {
                 if (PVI.TRG !== PVI.HLP && PVI.TRG.IMGS_thumb && !PVI.isEnlargeable(PVI.TRG, PVI.IMG)) {
                     if (PVI.TRG.IMGS_HD_stack && !PVI.TRG.IMGS_HD) {
                         PVI.show("load");
@@ -2031,12 +2027,22 @@
                     }
                     PVI.TRG.IMGS_thumb = false;
                 }
-                if (PVI.CNT === PVI.IMG && !PVI.IMG.loaded && /* cfg.hz.thumbAsBG && */ PVI.TRG.IMGS_thumb !== false && !PVI.TRG.IMGS_album) {
+                if (PVI.CNT === PVI.IMG && !PVI.IMG.loaded && PVI.TRG.IMGS_thumb !== false) {
                     var inner_thumb, w, h;
-                    if (typeof PVI.TRG.IMGS_thumb !== "string") {
-                        PVI.TRG.IMGS_thumb = null;
-                        if (PVI.TRG.hasAttribute("src")) PVI.TRG.IMGS_thumb = PVI.TRG.src;
-                        else if (PVI.TRG.childElementCount) {
+                    if (PVI.TRG.IMGS_album) {
+                        const album = PVI.stack[PVI.TRG.IMGS_album] || [];
+                        const thumb = album[album[0]]?.[2];
+                        if (thumb && thumb !== PVI.IMG.src) {
+                            PVI.TRG.IMGS_thumb = thumb;
+                            PVI.TRG.IMGS_thumb_ok = true;
+                        } else {
+                            delete PVI.TRG.IMGS_thumb;
+                            delete PVI.TRG.IMGS_thumb_ok;
+                            if (PVI.interlacer) PVI.interlacer.style.display = "none";
+                        }
+                    } else if (typeof PVI.TRG.IMGS_thumb !== "string") {
+                        PVI.TRG.IMGS_thumb = PVI.TRG?.src || PVI.TRG?.IMGS_MEDIA?.src || null;
+                        if (!PVI.TRG.IMGS_thumb && PVI.TRG.childElementCount) {
                             inner_thumb = PVI.TRG.querySelector("img[src]");
                             if (inner_thumb) PVI.TRG.IMGS_thumb = inner_thumb.src;
                         }
@@ -2058,20 +2064,6 @@
                             else {
                                 PVI.interlacer = doc.createElement("div");
                                 PVI.interlacer.id = "imagus-preview";
-                                /* if (cfg.hz.thumbAsBGOpacity > 0) {
-                                    w = parseInt(cfg.hz.thumbAsBGColor.slice(1), 16);
-                                    PVI.interlacer.appendChild(doc.createElement("div")).style.cssText =
-                                        "width: 100%; height: 100%; background-color: rgba(" +
-                                        (w >> 16) +
-                                        "," +
-                                        ((w >> 8) & 255) +
-                                        "," +
-                                        (w & 255) +
-                                        "," +
-                                        parseFloat(cfg.hz.thumbAsBGOpacity) +
-                                        ")";
-                                } */
-                                // PVI.interlacer.style.cssText = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 100% 100%; background-repeat: no-repeat";
                                 PVI.DIV.insertBefore(PVI.interlacer, PVI.IMG);
                             }
                             PVI.interlacer.style.backgroundImage = "url(" + PVI.TRG.IMGS_thumb + ")";
