@@ -3147,7 +3147,8 @@
             }
             if (PVI.TRG.IMGS_album) {
                 PVI.createCAP();
-                PVI.album("" + PVI.stack[PVI.TRG.IMGS_album][0]);
+                const idx = PVI.TRG.IMGS_album_idx ?? PVI.stack[PVI.TRG.IMGS_album][0];
+                PVI.album(String(idx));
                 return;
             }
             PVI.set(src);
