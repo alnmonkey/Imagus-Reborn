@@ -39,7 +39,7 @@ body > form {
 h4 {
     margin: 24px 0 10px;
 }
-h4:first-child {
+section > h4:first-child {
     margin-top: 0;
 }
 a {
