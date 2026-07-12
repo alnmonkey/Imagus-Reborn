@@ -442,6 +442,7 @@ function onValueChange (e) {
     if (t.id === 'sieve_search') return;
 
     const id = t.id || t.name || t.dataset.id;
+    if (!id) return;
 
     let value;
     if (t.classList.contains('ace_text-input')) {
