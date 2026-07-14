@@ -1207,7 +1207,7 @@
                                 )
                                     imgs = PVI.getImages(tmp_el[i], true);
                             }
-                            PVI.TRG.IMGS_MEDIA = tmp_el[i];
+                            if (PVI.TRG) PVI.TRG.IMGS_MEDIA = tmp_el[i];
                             break;
                         }
                     }
@@ -3541,7 +3541,7 @@
                 }
 
             } else if (d.cmd === "ignore_element") {
-                let url = PVI.find(PVI.contextEvent.target || PVI.TRG, PVI.contextEvent.clientX, PVI.contextEvent.clientY, true);
+                let url = PVI.find(PVI.TRG || PVI.contextEvent.target, PVI.contextEvent.clientX, PVI.contextEvent.clientY, true);
                 if (!url) {
                     window.alert(_("CANNOT_FIND_URL"));
                     return;
