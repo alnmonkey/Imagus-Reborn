@@ -2567,7 +2567,7 @@
                 const h = Math.max(2, Math.ceil(album.length / w));
                 PVI.DIV.style.setProperty('--gallery-grid-size', `${cfg.hz.galleryGridSize}px`);
                 PVI.GLR._height = Math.floor(Math.min(h * GRID_SIZE, window.innerHeight / 1.2)) + 16;
-                PVI.GLR._width  = Math.floor(Math.min(w * GRID_SIZE, window.innerWidth  / 1.2));
+                PVI.GLR._width  = Math.floor(Math.min(w * GRID_SIZE, window.innerWidth  / 1.2)) + 16;
                 // PVI.GLR._width = Math.floor(PVI.GLR._width / GRID_SIZE) * GRID_SIZE + 30;
                 PVI.set(`data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="${PVI.GLR._width}" height="${PVI.GLR._height}"></svg>`);
             }
