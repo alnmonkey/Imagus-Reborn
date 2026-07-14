@@ -1480,9 +1480,9 @@
             } while (++i <= 5 && (n = n.parentNode) && n.nodeType === 1);
             if (!trg.IMGS_caption)
                 if (trg.alt && trg.alt !== trg.src && trg.alt !== imgs) trg.IMGS_caption = trg.alt;
-                else if (tmp_el && cfg.hz.capLinkText) trg.IMGS_caption = tmp_el;
+                else if (tmp_el /* && cfg.hz.capLinkText */) trg.IMGS_caption = tmp_el;
             if (trg.IMGS_caption)
-                if ((!cfg.hz.capLinkText && trg.IMGS_caption === tmp_el) || trg.IMGS_caption === trg.href) delete trg.IMGS_caption;
+                if (/* (!cfg.hz.capLinkText && trg.IMGS_caption === tmp_el) || */ trg.IMGS_caption === trg.href) delete trg.IMGS_caption;
                 else PVI.prepareCaption(trg, trg.IMGS_caption);
             if (attrModNode) PVI.listen_attr_changes(attrModNode);
             return ret;
@@ -2111,9 +2111,9 @@
                 PVI.CAP.style.display = "none";
             }
             if ((animDIV && PVI.anim.left) || animLDR)
-                PVI.BOX.style.left = (cfg.hz.follow ? e.clientX || PVI.x : parseInt(PVI.BOX.style.left, 10) + PVI.BOX.offsetWidth / 2) + "px";
+                PVI.BOX.style.left = (/* cfg.hz.follow ?  */e.clientX || PVI.x/*  : parseInt(PVI.BOX.style.left, 10) + PVI.BOX.offsetWidth / 2 */) + "px";
             if ((animDIV && PVI.anim.top) || animLDR)
-                PVI.BOX.style.top = (cfg.hz.follow ? e.clientY || PVI.y : parseInt(PVI.BOX.style.top, 10) + PVI.BOX.offsetHeight / 2) + "px";
+                PVI.BOX.style.top = (/* cfg.hz.follow ?  */e.clientY || PVI.y/*  : parseInt(PVI.BOX.style.top, 10) + PVI.BOX.offsetHeight / 2 */) + "px";
             if (animDIV) {
                 if (PVI.anim.width) PVI.DIV.style.width = "0";
                 if (PVI.anim.height) PVI.DIV.style.height = "0";
@@ -3245,7 +3245,7 @@
                 (!trg?.IMGS_ && trg !== PVI.ROOT && PVI.TRG !== trg && !PVI.DIV.contains(trg))
             )
                 PVI.m_over({ relatedTarget: PVI.TRG, clientX: e.clientX, clientY: e.clientY });
-            else if (cfg.hz.move && PVI.state > 2 && !PVI.timers.m_move && (PVI.state === 3 || cfg.hz.placement < 2 || cfg.hz.placement > 3))
+            else if (/* cfg.hz.move && */ PVI.state > 2 && !PVI.timers.m_move && (PVI.state === 3 || cfg.hz.placement < 2 || cfg.hz.placement > 3))
                 PVI.timers.m_move = win.requestAnimationFrame(PVI.m_move_show);
         },
 
@@ -3495,7 +3495,7 @@
                         }
                         if (cfg.hz.capText && d.m[0]) {
                             if (d.m[1]) PVI.prepareCaption(trg, d.m[1]);
-                            else if (cfg.hz.capLinkText && trg.IMGS_caption) d.m[1] = trg.IMGS_caption;
+                            else if (/* cfg.hz.capLinkText && */ trg.IMGS_caption) d.m[1] = trg.IMGS_caption;
                         } else if (d.m[0] && d.m[1]) {
                             PVI.prepareCaption(trg, d.m[1]);
                         }
