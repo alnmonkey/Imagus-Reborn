@@ -2845,21 +2845,16 @@
             } else if (PVI.fullZm) {
                 if (d !== null) {
                     lastZoomScrollTime = e.timeStamp;
-                    const xy_img = PVI.DIV.contains(target) ?
-                        [e.clientX, e.clientY] : [];
+                    const xy_img = PVI.DIV.contains(target) ? [e.clientX, e.clientY] : [];
+                    wheelLastXY = PVI.fullZm > 1 ? xy_img : null;
 
                     if (cfg.hz.smoothScroll) {
                         wheelDeltaAccum += (e.deltaY || -e.wheelDelta || 0);
-                        wheelLastXY = PVI.fullZm > 1 ? xy_img : null;
                         if (!wheelRAF) {
                             wheelRAF = requestAnimationFrame(applyAccumulatedZoom);
                         }
                     } else {
-                        PVI.resize(
-                            (e.deltaY || -e.wheelDelta) > 0 ? "-" : "+",
-                            PVI.fullZm > 1 ? xy_img : null,
-                            PVI.DIV.contains(target)
-                        );
+                        PVI.resize((e.deltaY || -e.wheelDelta) > 0 ? "-" : "+", xy_img);
                     }
                 }
                 pdsp(e);
@@ -2874,7 +2869,7 @@
             PVI.DIV.style.setProperty("cursor", cursor || "");
         },
 
-        resize: function (x, xy_img, overPopup) {
+        resize: function (x, xy_img) {
             if (PVI.state !== 4 || !PVI.fullZm) return;
             var s = PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src].slice() : [PVI.CNT.naturalWidth, PVI.CNT.naturalHeight];
             var rot = PVI.DIV.curdeg % 180;
@@ -2917,13 +2912,13 @@
                     let k = [parseInt(PVI.DIV.style.width, 10), 0];
                     k[1] = (k[0] * s[rot ? 0 : 1]) / s[rot ? 1 : 0];
                     if (xy_img) {
+                        if (PVI.fullZm > 1 && xy_img.length) {
+                            xy_img[0] -= parseFloat(PVI.BOX.style.left) || 0;
+                            xy_img[1] -= parseFloat(PVI.BOX.style.top) || 0;
+                        }
                         if (xy_img[1] === undefined) {
                             xy_img[0] = k[0] / 2;
                             xy_img[1] = k[1] / 2;
-                        }
-                        if (PVI.fullZm > 1 && overPopup) {
-                            xy_img[0] -= parseFloat(PVI.BOX.style.left) || 0;
-                            xy_img[1] -= parseFloat(PVI.BOX.style.top) || 0;
                         }
                         xy_img[0] /= k[rot ? 1 : 0];
                         xy_img[1] /= k[rot ? 0 : 1];
