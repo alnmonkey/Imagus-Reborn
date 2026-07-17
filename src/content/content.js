@@ -669,7 +669,6 @@
             PVI.createVideojs(() => {
                 PVI.CNT = PVI.VIDEOJS;
                 PVI.PLAYER.src(src);
-                PVI.PLAYER.muted(false);
             });
         },
 
@@ -712,6 +711,7 @@
             };
 
             // videojs.log.level('all');
+            videojs.log.history.disable();
             videojs(PVI.VID, playerOptions, () => {
                 PVI.VIDEOJS = PVI.VID.parentElement;
                 PVI.VIDEOJS.classList.add("content");
@@ -734,6 +734,8 @@
                 }
 
                 PVI.PLAYER.on("loadedmetadata", e => {
+                    PVI.PLAYER.muted(false);
+
                     // select original audio
                     for (let aud of PVI.PLAYER.audioTracks()?.tracks_ || []) {
                         if (aud?.id?.toLowerCase().includes("original")) {
