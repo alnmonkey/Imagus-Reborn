@@ -2668,7 +2668,7 @@
             }
 
             if (PVI.VIDEOJS?.contains(e.target)) {
-                if (e.target.localName === "video") {
+                if (e.target.matches("video, .vjs-poster, .vjs-poster *")) {
                     if ((e.offsetY || e.layerY || 0) < Math.min(PVI.CNT.clientHeight - 40, (2 * PVI.CNT.clientHeight) / 3)) {
                         PVI.DIV.click();
 
