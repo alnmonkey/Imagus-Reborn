@@ -653,16 +653,14 @@
                 "P": { tag: "i", text: "P", attrs: { "data-action": "preferences", title: _("PREFERENCES") } },
             };
             const btns = cfg.hz.toolbarButtons.toUpperCase().split("").map(b => BOTTONS[b] || null).filter(Boolean);
-            if (btns.length) {
-                buildNodes(PVI.DIV, [{
-                    tag: "div",
-                    attrs: { id: "imagus-toolbar", "data-mode": cfg.hz.toolbar },
-                    nodes: btns,
-                }]);
-                PVI.TBAR = PVI.DIV.querySelector("#imagus-toolbar");
-                PVI.TBAR.addEventListener("click", PVI.tbarClick);
-                PVI.TBAR.addEventListener("mousedown", PVI.tbarClick);
-            }
+            buildNodes(PVI.DIV, [{
+                tag: "div",
+                attrs: { id: "imagus-toolbar", "data-mode": cfg.hz.toolbar },
+                nodes: btns,
+            }]);
+            PVI.TBAR = PVI.DIV.querySelector("#imagus-toolbar");
+            PVI.TBAR.addEventListener("click", PVI.tbarClick);
+            PVI.TBAR.addEventListener("mousedown", PVI.tbarClick);
 
             PVI.reset();
         },

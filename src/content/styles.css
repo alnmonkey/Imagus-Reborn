@@ -153,8 +153,9 @@
 #imagus-toolbar[data-mode="3"] {
     opacity: 1;
 }
+#imagus-toolbar:empty,
 #imagus-toolbar[data-mode="4"] {
-    display: none;
+    visibility: hidden;
 }
 div:hover > #imagus-toolbar[data-mode="1"] {
     opacity: 1;
