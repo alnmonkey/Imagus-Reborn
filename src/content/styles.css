@@ -282,6 +282,7 @@ div:hover > #imagus-toolbar:hover {
     width: 100%;
     position: relative;
     z-index: -1;
+    overflow: hidden;
 }
 
 #imagus-videojs > #imagus-player {
@@ -291,6 +292,20 @@ div:hover > #imagus-toolbar:hover {
 
 #imagus-videojs video {
     outline: none;
+}
+
+#imagus-videojs .vjs-progress-holder .vjs-play-progress,
+#imagus-videojs .vjs-slider-horizontal .vjs-volume-level {
+    display: flex;
+    align-items: center;
+}
+
+#imagus-videojs .vjs-slider-horizontal .vjs-volume-level .vjs-svg-icon {
+    transform: none;
+}
+
+#imagus-videojs .vjs-play-progress .vjs-svg-icon {
+    top: unset;
 }
 
 #imagus-videojs .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
