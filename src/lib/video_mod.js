@@ -15064,7 +15064,7 @@
       if (!this.enabled()) {
         return;
       }
-      const doc = this.bar.el_.ownerDocument;
+      const doc = this.bar.el_.getRootNode();
       this.off('mousedown', this.handleMouseDown_);
       this.off('touchstart', this.handleMouseDown_);
       this.off('keydown', this.handleKeyDown_);
@@ -15123,7 +15123,7 @@
      * @fires Slider#slideractive
      */
     handleMouseDown(event) {
-      const doc = this.bar.el_.ownerDocument;
+      const doc = this.bar.el_.getRootNode();
       if (event.type === 'mousedown') {
         event.preventDefault();
       }
@@ -15177,7 +15177,7 @@
      * @fires Slider#sliderinactive
      */
     handleMouseUp(event) {
-      const doc = this.bar.el_.ownerDocument;
+      const doc = this.bar.el_.getRootNode();
       unblockTextSelection();
       this.removeClass('vjs-sliding');
       /**
@@ -16460,7 +16460,7 @@
      * Cleanup listeners after the user finishes interacting with the progress controls
      */
     removeListenersAddedOnMousedownAndTouchstart() {
-      const doc = this.el_.ownerDocument;
+      const doc = this.el_.getRootNode();
       this.off(doc, 'mousemove', this.throttledHandleMouseSeek);
       this.off(doc, 'touchmove', this.throttledHandleMouseSeek);
       this.off(doc, 'mouseup', this.handleMouseUpHandler_);
@@ -16477,7 +16477,7 @@
      * @listens touchstart
      */
     handleMouseDown(event) {
-      const doc = this.el_.ownerDocument;
+      const doc = this.el_.getRootNode();
       const seekBar = this.getChild('seekBar');
       if (seekBar) {
         seekBar.handleMouseDown(event);
@@ -17273,7 +17273,7 @@
      * @listens touchstart
      */
     handleMouseDown(event) {
-      const doc = this.el_.ownerDocument;
+      const doc = this.el_.getRootNode();
       this.on(doc, 'mousemove', this.throttledHandleMouseMove);
       this.on(doc, 'touchmove', this.throttledHandleMouseMove);
       this.on(doc, 'mouseup', this.handleMouseUpHandler_);
@@ -17290,7 +17290,7 @@
      * @listens mouseup
      */
     handleMouseUp(event) {
-      const doc = this.el_.ownerDocument;
+      const doc = this.el_.getRootNode();
       this.off(doc, 'mousemove', this.throttledHandleMouseMove);
       this.off(doc, 'touchmove', this.throttledHandleMouseMove);
       this.off(doc, 'mouseup', this.handleMouseUpHandler_);
@@ -27059,7 +27059,7 @@
       };
 
       // Bail out if the user is focused on an interactive form element.
-      if (excludeElement(this.el_.ownerDocument.activeElement)) {
+      if (excludeElement(this.el_.getRootNode().activeElement)) {
         return;
       }
       if (typeof userActions.hotkeys === 'function') {
@@ -69590,7 +69590,8 @@ ${segmentInfoString(segmentInfo)}`); // If there's an init segment associated wi
           }
         });
       }
-      this.button.$('.vjs-icon-placeholder').innerHTML = this.getQualityDisplayString(selQuality);
+      // this.button.$('.vjs-icon-placeholder').innerHTML = this.getQualityDisplayString(selQuality);
+      this.button.$('.vjs-button').innerHTML = this.getQualityDisplayString(selQuality);
       this.button.show();
       let qualityItems = this.qualityLevels;
       if (this.options.sortEnabled) {

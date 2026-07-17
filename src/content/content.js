@@ -685,10 +685,10 @@
             PVI.VID.setAttribute("class", "video-js");
             PVI.VID.setAttribute("id", "imagus-videojs");
 
-            injectCss("content/styles_doc.css", "", true);
-            injectCss("lib/videojs_all.min.css");
+            injectCss("lib/videojs_mod.css");
 
-            await injectJs("lib/videojs_mod.min.js");
+            // await injectJs("lib/videojs_mod.min.js");
+            await injectJs("lib/video_mod.js");
             const playerOptions = {
                 autoplay: cfg.hz.autoplay ? "any" : false,
                 controls: true,
