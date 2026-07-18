@@ -123,7 +123,7 @@
     }
 
     var isUrlIgnored = function(url) {
-        if (!cfg.grantUrls?.length || !url) return false;
+        if (!cfg.hz.grantUrlsEnabled || !cfg.grantUrls?.length || !url) return false;
 
         for (const g of cfg.grantUrls) {
             if (g.op[1] && typeof g.url === "string") {

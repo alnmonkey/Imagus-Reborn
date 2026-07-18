@@ -159,6 +159,26 @@ function cacheSieve(newSieve) {
     cachedPrefs.sieve = cachedSieve;
 }
 
+async function toggleIgnoreElementMenu(enabled) {
+    if (!chrome.contextMenus) return;
+
+    enabled ??= cachedPrefs?.hz?.grantUrlsEnabled !== false;
+
+    try {
+        await chrome.contextMenus.remove("ignore-element");
+    } catch (err) {
+        // It's fine if the menu doesn't exist yet.
+    }
+
+    if (enabled) {
+        chrome.contextMenus.create({
+            id: "ignore-element",
+            title: _("IGNORE_ELEMENT"),
+            contexts: ["page", "link", "image", "video", "audio", "editable"]
+        });
+    }
+}
+
 async function updatePrefs(prefs, callback) {
     prefs = prefs || {};
 
@@ -225,6 +245,7 @@ async function updatePrefs(prefs, callback) {
         cacheSieve(changes.sieve);
     }
     await cfg.set(changes);
+    await toggleIgnoreElementMenu(newPrefs?.hz?.grantUrlsEnabled);
     if (!prefs.sieve) {
         const data = await cfg.get("sieve");
         if (!data?.sieve) {
@@ -749,12 +770,8 @@ if (chrome.contextMenus) {
             });
         }
 
-        // Add on-page context menu to ignore elements
-        chrome.contextMenus.create({
-            id: "ignore-element",
-            title: _("IGNORE_ELEMENT"),
-            contexts: ["page", "link", "image", "video", "audio", "editable"]
-        });
+        // Add on-page context menu to ignore elements (if enabled in settings)
+        toggleIgnoreElementMenu();
     });
 
     chrome.contextMenus.onClicked.addListener((info, tab) => {
