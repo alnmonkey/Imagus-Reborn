@@ -634,5 +634,8 @@
   },
   "SC_MFITBOTH": {
     "message": "Προσαρμογή και στα δύο"
+  },
+  "HZ_SC_FRAMESTEP": {
+    "message": "Ένα καρέ πίσω/εμπρός"
   }
 }

@@ -634,5 +634,8 @@
   },
   "SC_MFITBOTH": {
     "message": "Ajustar a ambos"
+  },
+  "HZ_SC_FRAMESTEP": {
+    "message": "Avanzar/atrás un fotograma"
   }
 }

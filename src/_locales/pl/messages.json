@@ -634,5 +634,8 @@
   },
   "SC_MFITBOTH": {
     "message": "Dopasuj do obu"
+  },
+  "HZ_SC_FRAMESTEP": {
+    "message": "Do tyłu/do przodu o jedną klatkę"
   }
 }

@@ -87,6 +87,8 @@
 		"hz_fullSpace": "F",
 		"hz_caption": "C",
 		"openTab": "O",
+		"framePrev": ",",
+		"frameNext": ".",
 		"hz_history": "H"
 	},
 	"grants": [],

@@ -2434,13 +2434,13 @@
                         }
                     }
 
-                } else if (key === "," || key === ".") {
+                } else if (key === cfg.keys.frameNext || key === cfg.keys.framePrev) {
                     if (PVI.isVideo()) {
                         if (PVI.isAudio) {
-                            PVI.PLAYER.currentTime(PVI.PLAYER.currentTime() + (key === "." ? 4 : -4));
+                            PVI.PLAYER.currentTime(PVI.PLAYER.currentTime() + (key === cfg.keys.frameNext ? 4 : -4));
                         } else {
                             PVI.PLAYER.pause();
-                            PVI.PLAYER.currentTime(PVI.PLAYER.currentTime() + (key === "." ? 1 : -1) / 30);
+                            PVI.PLAYER.currentTime(PVI.PLAYER.currentTime() + (key === cfg.keys.frameNext ? 1 : -1) / 30);
                         }
                         pv = true;
                     }

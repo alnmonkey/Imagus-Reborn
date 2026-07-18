@@ -634,5 +634,8 @@
   },
   "SC_MFITBOTH": {
     "message": "Ajuster aux deux"
+  },
+  "HZ_SC_FRAMESTEP": {
+    "message": "Reculer/avancer d’une image"
   }
 }

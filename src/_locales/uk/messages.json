@@ -634,5 +634,8 @@
   },
   "SC_MFITBOTH": {
     "message": "За шириною й висотою"
+  },
+  "HZ_SC_FRAMESTEP": {
+    "message": "На один кадр назад/вперед"
   }
 }

@@ -634,5 +634,8 @@
   },
   "SC_MFITBOTH": {
     "message": "适应宽高"
+  },
+  "HZ_SC_FRAMESTEP": {
+    "message": "后退/前进一帧"
   }
 }
