@@ -3244,7 +3244,7 @@
                 (!trg?.IMGS_ && trg !== PVI.ROOT && PVI.TRG !== trg && !PVI.DIV.contains(trg))
             )
                 PVI.m_over({ relatedTarget: PVI.TRG, clientX: e.clientX, clientY: e.clientY });
-            else if (/* cfg.hz.move && */ PVI.state > 2 && !PVI.timers.m_move && (PVI.state === 3 || cfg.hz.placement < 2 || cfg.hz.placement > 3))
+            else if (cfg.hz.move && PVI.state > 2 && !PVI.timers.m_move && (PVI.state === 3 || cfg.hz.placement < 2 || cfg.hz.placement > 3))
                 PVI.timers.m_move = win.requestAnimationFrame(PVI.m_move_show);
         },
 
