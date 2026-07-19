@@ -2823,10 +2823,11 @@
                 )
             ) {
                 pdsp(e);
+                const wheelDown = cfg.hz.invertWheel ? e.deltaY < 0 : e.deltaY > 0;
                 if (target.closest(".vjs-volume-panel")) {
-                    PVI.key_action({ which: e.deltaY > 0 ? 38 : 40, target: PVI.CNT });
+                    PVI.key_action({ which: wheelDown ? 38 : 40, target: PVI.CNT });
                 } else {
-                    PVI.key_action({ which: e.deltaY > 0 ? 39 : 37, ctrlKey: true, target: PVI.CNT });
+                    PVI.key_action({ which: wheelDown ? 39 : 37, ctrlKey: true, target: PVI.CNT });
                 }
                 return;
 

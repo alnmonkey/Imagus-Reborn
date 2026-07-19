@@ -593,6 +593,9 @@
   "HZ_MEDIALOOP_NEVER": {
     "message": "Never loop"
   },
+  "HZ_INVERTWHEEL": {
+    "message": "Invert mouse wheel direction (volume and timeline)"
+  },
   "HZ_SMOOTHSCROLL": {
     "message": "Smooth scroll support (trackpad / smooth-scroll mouse)"
   },

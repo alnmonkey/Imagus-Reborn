@@ -22,6 +22,7 @@
 		"autoplay": true,
 		"hideControlsDelay": 2000,
 		"mediaLoop": "default",
+		"invertWheel": false,
 		"smoothScroll": false,
 		"galleryGridSize": 150,
 		"scrollDelay": 0,
