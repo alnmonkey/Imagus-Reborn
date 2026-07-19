@@ -757,6 +757,7 @@
                     }
 
                     PVI.content_onready(e);
+                    PVI.updateCaption(e);
                 });
 
                 PVI.PLAYER.on("error", PVI.content_onerror);
@@ -789,6 +790,7 @@
                         delete mqSelector.selectedIndexPrevious;
                     }
                 });
+                PVI.PLAYER.on("timeupdate", PVI.updateCaption);
 
                 PVI.PLAYER.volume(cfg.hz.mediaVolume / 100);
 
@@ -809,8 +811,10 @@
             buildNodes(PVI.CAP, [
                 { tag: "b", attrs: { style: "display: none;" } },
                 { tag: "b", attrs: { style: `display: ${cfg.hz.capWH ? "inline-block" : "none"}` } },
+                { tag: "b", attrs: { class: "time", style: "display: none;" } },
                 { tag: "span", attrs: { style: "color: inherit; display: " + (cfg.hz.capText ? "inline-block" : "none") } },
             ]);
+            PVI.CAP_TIME = PVI.CAP.children[2];
             var e = PVI.CAP.firstElementChild;
             do {
                 e.IMGS_ = e.IMGS_c = true;
@@ -869,6 +873,20 @@
             var c = PVI.CAP,
                 h;
             if (!c || c.state === 0 || !PVI.TRG) return;
+
+            if (e?.type === "timeupdate" || e?.type === "loadedmetadata") {
+                // display video remaining time
+                if (PVI.PLAYER.duration()) {
+                    let remain = Math.floor(PVI.PLAYER.duration() - PVI.PLAYER.currentTime());
+                    if (Number.isFinite(remain) && (PVI.PLAYER._remain !== remain || e.type === "loadedmetadata")) {
+                        PVI.PLAYER._remain = remain;
+                        const text = `[-${Math.floor(remain / 60)}:${('0' + (remain % 60)).slice(-2)}]`;
+                        PVI.CAP_TIME.textContent = text;
+                        PVI.CAP_TIME.style.display = "inline-block";
+                    }
+                }
+                return;
+            }
 
             if (PVI.TRG?.IMGS_album)
                 if (c.firstChild.style.display === "none" && (h = PVI.stack[PVI.TRG.IMGS_album]) && h[2]) {
@@ -1760,6 +1778,7 @@
             PVI.gallery(1);
             PVI.resetNode(PVI.TRG, true);
             PVI.CAP.style.display = "none";
+            PVI.CAP_TIME.style.display = "none";
             PVI.CAP.firstChild.textContent = idx + " / " + (album.length - 1);
             PVI.prepareCaption(PVI.TRG, album[idx][1]);
             PVI.set(album[idx][0]);
@@ -2154,6 +2173,7 @@
             if (PVI.CAP) {
                 PVI.CAP.style.display = "none";
                 PVI.CAP.children[0].style.display = "none";
+                PVI.CAP_TIME.style.display = "none";
             }
             if (PVI.IMG.scale) {
                 delete PVI.IMG.scale;
@@ -2966,6 +2986,7 @@
                 if (PVI.CAP) {
                     PVI.CAP.style.display = "none";
                     PVI.CAP.children[0].style.display = "none";
+                    PVI.CAP_TIME.style.display = "none";
                 }
                 clearTimeout(PVI.timers.preview);
                 clearInterval(PVI.timers.onReady);

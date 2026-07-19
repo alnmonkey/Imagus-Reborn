@@ -110,6 +110,15 @@
     opacity: .1;
 }
 
+#imagus-caption .time {
+    margin-right: 4px;
+    color: #ccffd0;
+}
+
+#imagus-caption.light .time {
+    color: #306f35;
+}
+
 #imagus-preview {
     position: absolute;
     top: 0;
