@@ -1216,7 +1216,7 @@
                     if (typeof x === "number" && typeof y === "number") {
                         tmp_el = getElementsFromPoint(x, y);
                         for (i = 0; i < 5; ++i) {
-                            if (tmp_el[i] === doc.body) break;
+                            if (!tmp_el[i] || tmp_el[i] === doc.body) break;
                             if (!tmp_el[i].currentSrc && tmp_el[i].style.backgroundImage.lastIndexOf("url(", 0) !== 0) continue;
                             var elRect = tmp_el[i].getBoundingClientRect();
                             if (x >= elRect.left && x < elRect.right && y >= elRect.top && y < elRect.bottom) {
@@ -2008,6 +2008,7 @@
         },
 
         isEnlargeable: function (img, oImg, isOverflow) {
+            if (!img) return true;
             if (PVI.CNT && PVI.CNT !== PVI.IMG) return true;
             if (!oImg) oImg = img;
             var w = img.clientWidth;
