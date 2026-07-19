@@ -1511,7 +1511,12 @@
 
         show: function (msg, delayed) {
             if (PVI.iFrame) {
-                win.parent.postMessage({ vdfDpshPtdhhd: "from_frame", msg: msg }, "*");
+                win.parent.postMessage({
+                    vdfDpshPtdhhd: "from_frame",
+                    msg: msg,
+                    x: PVI.x,
+                    y: PVI.y
+                 }, "*");
                 return;
             }
             if (!delayed && typeof msg === "string") {
@@ -1808,6 +1813,8 @@
                         thumb: i.IMGS_thumb ? [i.IMGS_thumb, i.IMGS_thumb_ok] : null,
                         album: i.IMGS_album ? { id: i.IMGS_album, list: PVI.stack[i.IMGS_album] } : null,
                         caption: i.IMGS_caption,
+                        x: PVI.x,
+                        y: PVI.y,
                     },
                     "*"
                 );
@@ -3421,7 +3428,12 @@
                     PVI.hide({ target: PVI.TRG, clientX: PVI.DIV.offsetWidth / 2 + cfg.hz.margin, clientY: PVI.DIV.offsetHeight / 2 + cfg.hz.margin });
                     return;
                 }
-                PVI.x = PVI.y = 0;
+
+                const iframe = Array.from(document.querySelectorAll("iframe")).find(f => f.contentWindow === e.source);
+                const rect = iframe?.getBoundingClientRect();
+                PVI.x = (d.x + rect.x) || 0;
+                PVI.y = (d.y + rect.y) || 0;
+
                 if (typeof d.msg === "string") {
                     PVI.show(d.msg);
                     return;
