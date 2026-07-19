@@ -1028,8 +1028,7 @@
                         }
                     });
                 }
-            /* commented out because that did not allow large images (bigger than viewport)
-            if (el.clientWidth > topWinW * 0.7 && el.clientHeight > topWinH * 0.7) return null; */
+            if (el.clientWidth > topWinW * 0.8 && el.clientHeight > topWinH * 0.8) return null;
             imgs = { imgSRC_o: el.currentSrc || el.src || el.data || null };
             if (!imgs.imgSRC_o && el.localName === "image") {
                 imgs.imgSRC_o = el.getAttributeNS("http://www.w3.org/1999/xlink", "href");
@@ -2983,7 +2982,7 @@
         },
 
         m_over: function (e) {
-            if (cfg.hz.deactivate && (PVI.freeze || e[cfg._freezeTriggerEventKey]) || PVI.fullZm) return;
+            if (cfg.hz.deactivate && (PVI.freeze || e[cfg._freezeTriggerEventKey]) || PVI.fullZm || doc.fullscreenElement) return;
 
             var src, trg, cache;
 
@@ -3045,6 +3044,7 @@
                 return;
             }
 
+            if (e.target?.clientWidth > topWinW * 0.8 || e.target?.clientHeight > topWinH * 0.8) return;
             if (trg.IMGS_c && trg.IMGS_c !== true) {
                 cache = trg.IMGS_c;
             }
@@ -3183,7 +3183,7 @@
         },
 
         m_move: function (e) {
-            if (e && PVI.x === e.clientX && PVI.y === e.clientY) return;
+            if (e && PVI.x === e.clientX && PVI.y === e.clientY || doc.fullscreenElement) return;
             rotate(0);
             let trg = e?.target;
             while (trg?.shadowRoot && trg !== PVI.TRG) {
