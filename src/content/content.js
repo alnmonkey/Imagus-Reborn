@@ -346,7 +346,7 @@
             return;
         }
 
-        if (e.target === PVI.CNT) {
+        if (PVI.DIV.contains(e.target) || e.target === PVI.ROOT) {
             pdsp(e, false);
         } else if (e.ctrlKey && !elapsed && !e.shiftKey && !e.altKey && cfg.tls.opzoom && PVI.state < 2) {
             const tags = ['IMG', 'VIDEO', 'SVG', 'CANVAS', 'EMBED', 'OBJECT', 'AREA'];
