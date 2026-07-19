@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Egy képkockát hátra/előre"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Egérgörgő irányának megfordítása (hangerő és idővonal)"
   }
 }

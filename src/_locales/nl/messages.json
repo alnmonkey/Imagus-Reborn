@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Eén frame achteruit/vooruit"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Richting van het muiswiel omkeren (volume en tijdlijn)"
   }
 }

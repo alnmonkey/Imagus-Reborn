@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "后退/前进一帧"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "反转鼠标滚轮方向（音量和时间轴）"
   }
 }

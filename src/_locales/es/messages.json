@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Avanzar/atrás un fotograma"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Invertir la dirección de la rueda del ratón (volumen y línea de tiempo)"
   }
 }

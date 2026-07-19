@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Reculer/avancer d’une image"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Inverser le sens de la molette de la souris (volume et barre de lecture)"
   }
 }

@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Do tyłu/do przodu o jedną klatkę"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Odwróć kierunek kółka myszy (głośność i oś czasu)"
   }
 }

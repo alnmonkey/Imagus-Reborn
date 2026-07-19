@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Ein Bild vor/zurück"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Richtung des Mausrads umkehren (Lautstärke und Zeitleiste)"
   }
 }

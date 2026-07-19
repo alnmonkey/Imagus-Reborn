@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "O jeden snímek zpět/vpřed"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Obrátit směr kolečka myši (hlasitost a časová osa)"
   }
 }

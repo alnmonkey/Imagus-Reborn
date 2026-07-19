@@ -637,5 +637,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Retroceder/avançar um quadro"
+  },
+  "HZ_INVERTWHEEL": {
+    "message": "Inverter a direção da roda do rato (volume e linha do tempo)"
   }
 }
