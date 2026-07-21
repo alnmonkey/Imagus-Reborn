@@ -561,7 +561,7 @@
     "message": "Botones de la barra de herramientas"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Los controles se ocultan después (ms, 0 = siempre visible)"
+    "message": "Los controles se ocultan después"
   },
   "HZ_MEDIA": {
     "message": "Medios"
@@ -640,5 +640,8 @@
   },
   "HZ_INVERTWHEEL": {
     "message": "Invertir la dirección de la rueda del ratón (volumen y línea de tiempo)"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - siempre oculto\n<b>0</b> - siempre visible\n<b>&gt;0</b> - ocultar después del tiempo especificado (ms)\n\nTambién visible al pausar y mientras se mantiene pulsada la barra espaciadora. Se puede alternar con Shift+Espacio."
   }
 }

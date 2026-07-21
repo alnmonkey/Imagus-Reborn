@@ -561,7 +561,7 @@
     "message": "Przyciski paska narzędzi"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Elementy sterujące ukryj po (ms, 0 = zawsze widoczne)"
+    "message": "Sterowanie ukryj po"
   },
   "HZ_MEDIA": {
     "message": "Media"
@@ -640,5 +640,8 @@
   },
   "HZ_INVERTWHEEL": {
     "message": "Odwróć kierunek kółka myszy (głośność i oś czasu)"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - zawsze ukryte\n<b>0</b> - zawsze widoczne\n<b>&gt;0</b> - ukryj po określonym czasie (ms)\n\nWidoczne również podczas wstrzymania odtwarzania oraz po przytrzymaniu klawisza Spacja. Można przełączać za pomocą Shift+Spacja."
   }
 }

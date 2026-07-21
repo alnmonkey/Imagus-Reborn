@@ -561,7 +561,7 @@
     "message": "Knoppen op de werkbalk"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Besturingselementen verbergen na (ms, 0 = altijd zichtbaar)"
+    "message": "Bedieningselementen verbergen zich daarna"
   },
   "HZ_MEDIA": {
     "message": "Media"
@@ -640,5 +640,8 @@
   },
   "HZ_INVERTWHEEL": {
     "message": "Richting van het muiswiel omkeren (volume en tijdlijn)"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - altijd verborgen\n<b>0</b> - altijd zichtbaar\n<b>&gt;0</b> - verbergen na de opgegeven tijd (ms)\n\nOok zichtbaar tijdens pauzeren en wanneer de spatiebalk wordt ingedrukt gehouden. Kan worden in- of uitgeschakeld met Shift+Spatie."
   }
 }

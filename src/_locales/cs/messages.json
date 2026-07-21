@@ -561,7 +561,7 @@
     "message": "Tlačítka na panelu nástrojů"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Ovládací prvky skrýt po (ms, 0 = vždy viditelné)"
+    "message": "Ovládací prvky se skryjí po"
   },
   "HZ_MEDIA": {
     "message": "Média"
@@ -640,5 +640,8 @@
   },
   "HZ_INVERTWHEEL": {
     "message": "Obrátit směr kolečka myši (hlasitost a časová osa)"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - vždy skryté\n<b>0</b> - vždy viditelné\n<b>&gt;0</b> - skrýt po zadané době (ms)\n\nTaké viditelné při pozastavení a při podržení mezerníku. Lze přepínat pomocí Shift+Space."
   }
 }

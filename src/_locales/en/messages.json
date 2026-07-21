@@ -579,7 +579,10 @@
     "message": "Default media volume (%)"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Controls hide after (ms, 0 = always visible)"
+    "message": "Controls hide after"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - always hidden\n<b>0</b> - always visible\n<b>&gt;0</b> - hide after the specified time (ms)\n\nAlso visible on pause and when Space is held. Can be toggled with Shift+Space."
   },
   "HZ_MEDIALOOP": {
     "message": "Media looping behavior"

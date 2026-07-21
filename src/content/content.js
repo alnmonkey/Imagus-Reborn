@@ -688,7 +688,7 @@
             const playerOptions = {
                 autoplay: cfg.hz.autoplay ? "any" : false,
                 muted: false,
-                controls: true,
+                controls: cfg.hz.hideControlsDelay >= 0,
                 experimentalSvgIcons: true,
                 liveui: true,
                 playbackRates: [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2],
@@ -760,6 +760,19 @@
 
                     PVI.content_onready(e);
                     PVI.updateCaption(e);
+
+                    PVI.PLAYER._isAudio = PVI.PLAYER.videoHeight() === 0;
+                    PVI.PLAYER.audioPosterMode(PVI.PLAYER._isAudio);
+                    PVI.PLAYER.poster(!PVI.PLAYER._isAudio ? "" :
+                        `data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDc1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjkuNzYgMThoMi41MTg2djAuODE1MDNjNi4zMDI1IDEuMzkzOCA3LjAyMjcgNC4zMzExIDMuMzY4OSA4LjkzNzggMC4zODY1My00LjU3OTEtMC4wODk1MS01LjU1OTUtMy4zNjg5LTUuNzcyMnYxMS41NzZhMS40NzI5IDEuNDI1MyAwIDAgMSAwIDAuMTg1MDZjMCAxLjUwNDEtMS42Mjc1IDIuOTk2My0zLjY0MTYgMy4zMzQ5cy0zLjYzNzUtMC42MTAyOS0zLjYzNzUtMi4xMTgzYzAtMi4wNTE0IDIuOTEzMi0zLjgzNSA0Ljc2MDUtMy4yMDV6bTM3LjE0OCAwaDIuNTE4NnYwLjgxNTAzYzYuMjk4NSAxLjM5MzggNy4wMTg2IDQuMzMxMSAzLjM2NDkgOC45Mzc4IDAuNDA2ODgtNC41NzkxLTAuMDg5NTEtNS41NTk1LTMuMzY0OS01Ljc3MjJ2MTEuNTc2IDAuMTg1MDZjMCAxLjUwNDEtMS42Mjc1IDIuOTk2My0zLjY2MTkgMy4zMzQ5LTIuMDM0NCAwLjMzODYxLTMuNjYxOS0wLjYxMDI5LTMuNjYxOS0yLjExODMgMC0yLjA1MTQgMi45MTMyLTMuODM1IDQuNzYwNS0zLjIwNXYtMTMuNzUzem0tMTMuMjE5IDI3LjAyNmE0LjU4MTQgNC40MzM1IDAgMCAxIDEuODMwOSAwLjAzMTV2LTEyLjQzOGwtMTMuNjAyIDMuNzc1OXEwIDcuMzQ3MSAwIDE0LjY4NmMwIDIuMjkxNS0yLjYxMjIgMy45NjEtNC43MDc2IDQuMzMxMS0yLjU5OTkgMC40MzMxMS00LjcxMTYtMC43ODc0Ny00LjcxMTYtMi43NTYyczIuMTIzOS0zLjg3NDQgNC43MDc2LTQuMzA3NWE1LjI4OTQgNS4xMTg2IDAgMCAxIDIuNjQwNiAwLjE2NTM3di0xNy43ODFsMTcuNzE1LTMuOTAxOXYyMC4wMzNjMC4xOTUzIDIuMTI2Mi0yLjAzNDQgMy43MzY2LTMuODg5NyA0LjA0NzYtMi4xNzI3IDAuMzYyMjQtMy45MzA0LTAuNjYxNDgtMy45MzA0LTIuMjg3NiAwLTEuNjI2MSAxLjc1NzctMy4yMzY1IDMuOTMwNC0zLjU5ODd6Ii8+PC9zdmc+`,
+                    );
+                    const controlsTimeout = PVI.PLAYER._isAudio ? 0 : cfg.hz.hideControlsDelay;
+                    PVI.PLAYER.controls(PVI.PLAYER._isAudio || cfg.hz.hideControlsDelay >= 0);
+                    PVI.PLAYER.options({
+                        inactivityTimeout: controlsTimeout,
+                    });
+                    PVI.PLAYER.cache_.inactivityTimeout = controlsTimeout;
+                    PVI.PLAYER.userActive(false);
                 });
 
                 PVI.PLAYER.on("error", PVI.content_onerror);
@@ -770,14 +783,17 @@
                 });
 
                 PVI.PLAYER.on("playing", (e) => {
-                    const isAudio = PVI.PLAYER.videoHeight() === 0;
-                    PVI.PLAYER.audioPosterMode(isAudio);
-                    PVI.PLAYER.poster(!isAudio ? "" :
-                        `data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDc1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJtMjkuNzYgMThoMi41MTg2djAuODE1MDNjNi4zMDI1IDEuMzkzOCA3LjAyMjcgNC4zMzExIDMuMzY4OSA4LjkzNzggMC4zODY1My00LjU3OTEtMC4wODk1MS01LjU1OTUtMy4zNjg5LTUuNzcyMnYxMS41NzZhMS40NzI5IDEuNDI1MyAwIDAgMSAwIDAuMTg1MDZjMCAxLjUwNDEtMS42Mjc1IDIuOTk2My0zLjY0MTYgMy4zMzQ5cy0zLjYzNzUtMC42MTAyOS0zLjYzNzUtMi4xMTgzYzAtMi4wNTE0IDIuOTEzMi0zLjgzNSA0Ljc2MDUtMy4yMDV6bTM3LjE0OCAwaDIuNTE4NnYwLjgxNTAzYzYuMjk4NSAxLjM5MzggNy4wMTg2IDQuMzMxMSAzLjM2NDkgOC45Mzc4IDAuNDA2ODgtNC41NzkxLTAuMDg5NTEtNS41NTk1LTMuMzY0OS01Ljc3MjJ2MTEuNTc2IDAuMTg1MDZjMCAxLjUwNDEtMS42Mjc1IDIuOTk2My0zLjY2MTkgMy4zMzQ5LTIuMDM0NCAwLjMzODYxLTMuNjYxOS0wLjYxMDI5LTMuNjYxOS0yLjExODMgMC0yLjA1MTQgMi45MTMyLTMuODM1IDQuNzYwNS0zLjIwNXYtMTMuNzUzem0tMTMuMjE5IDI3LjAyNmE0LjU4MTQgNC40MzM1IDAgMCAxIDEuODMwOSAwLjAzMTV2LTEyLjQzOGwtMTMuNjAyIDMuNzc1OXEwIDcuMzQ3MSAwIDE0LjY4NmMwIDIuMjkxNS0yLjYxMjIgMy45NjEtNC43MDc2IDQuMzMxMS0yLjU5OTkgMC40MzMxMS00LjcxMTYtMC43ODc0Ny00LjcxMTYtMi43NTYyczIuMTIzOS0zLjg3NDQgNC43MDc2LTQuMzA3NWE1LjI4OTQgNS4xMTg2IDAgMCAxIDIuNjQwNiAwLjE2NTM3di0xNy43ODFsMTcuNzE1LTMuOTAxOXYyMC4wMzNjMC4xOTUzIDIuMTI2Mi0yLjAzNDQgMy43MzY2LTMuODg5NyA0LjA0NzYtMi4xNzI3IDAuMzYyMjQtMy45MzA0LTAuNjYxNDgtMy45MzA0LTIuMjg3NiAwLTEuNjI2MSAxLjc1NzctMy4yMzY1IDMuOTMwNC0zLjU5ODd6Ii8+PC9zdmc+`,
-                    );
-                    PVI.PLAYER.options({ inactivityTimeout: isAudio ? 0 : cfg.hz.hideControlsDelay });
+                    PVI.PLAYER.controls(PVI.PLAYER._isAudio || cfg.hz.hideControlsDelay >= 0);
+                    PVI.PLAYER.options({
+                        inactivityTimeout: PVI.PLAYER._isAudio ? 0 : cfg.hz.hideControlsDelay,
+                    });
                     PVI.PLAYER.userActive(true);
                 });
+
+                PVI.PLAYER.on("pause", (e) => {
+                    PVI.PLAYER.controls(true);
+                });
+
                 PVI.PLAYER.on("resize", () => {
                     const vWidth = PVI.PLAYER.videoWidth();
                     const vHeight = PVI.PLAYER.videoHeight();
@@ -2270,8 +2286,9 @@
 
         keyup_space: function (e) {
             if (PVI.spaceIsDown && shortcut.key(e) === "Space") {
-                PVI.PLAYER.options({ inactivityTimeout: cfg.hz.hideControlsDelay });
-                PVI.PLAYER.userActive(false);
+                PVI.PLAYER.options({ inactivityTimeout: PVI.PLAYER._isAudio ? 0 : cfg.hz.hideControlsDelay });
+                PVI.PLAYER.controls(cfg.hz.hideControlsDelay >= 0 || PVI.PLAYER._isAudio);
+                PVI.PLAYER.userActive(PVI.PLAYER._isAudio || cfg.hz.hideControlsDelay === 0);
                 if (PVI.spaceIsDown === 1) {
                     PVI.playerIsPaused = !PVI.PLAYER.paused();
                 } else if (PVI.spaceIsDown === 2) {
@@ -2328,6 +2345,7 @@
                         PVI.PLAYER.play();
                         PVI.PLAYER.playbackRate(2);
                         PVI.PLAYER.options({ inactivityTimeout: 0 });
+                        PVI.PLAYER.controls(true);
                         PVI.PLAYER.userActive(true);
                     }
                 } else {

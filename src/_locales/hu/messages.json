@@ -561,7 +561,7 @@
     "message": "Az eszköztár gombjai"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "A vezérlők elrejtése után (ms, 0 = mindig látható)"
+    "message": "A vezérlők elrejtőznek utána"
   },
   "HZ_MEDIA": {
     "message": "Média"
@@ -640,5 +640,8 @@
   },
   "HZ_INVERTWHEEL": {
     "message": "Egérgörgő irányának megfordítása (hangerő és idővonal)"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - mindig rejtve\n<b>0</b> - mindig látható\n<b>&gt;0</b> - elrejtés a megadott idő után (ms)\n\nSzüneteltetéskor és a Szóköz lenyomva tartásakor is látható. A Shift+Szóköz billentyűkombinációval kapcsolható."
   }
 }

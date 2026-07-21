@@ -561,7 +561,7 @@
     "message": "Schaltflächen in der Symbolleiste"
   },
   "HZ_HIDECONTROLSDELAY": {
-    "message": "Steuerelemente werden ausgeblendet nach (ms, 0 = immer sichtbar)"
+    "message": "Die Steuerelemente werden danach ausgeblendet"
   },
   "HZ_MEDIA": {
     "message": "Medien"
@@ -640,5 +640,8 @@
   },
   "HZ_INVERTWHEEL": {
     "message": "Richtung des Mausrads umkehren (Lautstärke und Zeitleiste)"
+  },
+  "HZ_HIDECONTROLS_TIP": {
+    "message": "<b>-1</b> - immer ausgeblendet\n<b>0</b> - immer sichtbar\n<b>&gt;0</b> - nach der angegebenen Zeit ausblenden (ms)\n\nAuch sichtbar bei pausierter Wiedergabe und solange die Leertaste gedrückt wird. Kann mit Shift+Leertaste umgeschaltet werden."
   }
 }
