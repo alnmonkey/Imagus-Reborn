@@ -431,6 +431,34 @@
         )
     }
 
+    const iframes = new Map();
+    function findIframe(contentWin) {
+        if (!contentWin) return;
+        if (iframes.has(contentWin)) {
+            return iframes.get(contentWin);
+        }
+
+        const iframe = Array.from(document.querySelectorAll("iframe")).find(f => f.contentWindow === contentWin);
+        if (iframe) {
+            iframes.set(contentWin, iframe);
+            return iframe;
+        }
+
+        const roots = findRoots(doc);
+        for (const root of roots) {
+            root.querySelectorAll("iframe").forEach(f => iframes.set(f.contentWindow, f));
+            if (iframes.has(contentWin)) {
+                return iframes.get(contentWin);
+            }
+        }
+    }
+
+    function findRoots(el) {
+        return [...el.querySelectorAll('*')]
+            .filter(e => !!e.shadowRoot)
+            .flatMap(e => [e.shadowRoot, ...findRoots(e.shadowRoot)]);
+    }
+
     var PVI = {
         TRG: null,
         DIV: null,
@@ -3457,8 +3485,8 @@
                     return;
                 }
 
-                const iframe = Array.from(document.querySelectorAll("iframe")).find(f => f.contentWindow === e.source);
-                const rect = iframe?.getBoundingClientRect();
+                const iframe = findIframe(e.source);
+                const rect = iframe?.getBoundingClientRect() || { x: 0, y: 0 };
                 PVI.x = (d.x + rect.x) || 0;
                 PVI.y = (d.y + rect.y) || 0;
 
