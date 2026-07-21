@@ -55526,7 +55526,9 @@
       transmuxer.removeEventListener('message', listenForEndEvent); // transfer ownership of bytes back to us.
 
       if (event.data.data) {
-        event.data.data = new Uint8Array(event.data.data, options.byteOffset || 0, options.byteLength || event.data.data.byteLength);
+        event.data.data =
+          IS_FIREFOX ? cloneInto(new Uint8Array(event.data.data, options.byteOffset || 0, options.byteLength || event.data.data.byteLength), window) :
+          new Uint8Array(event.data.data, options.byteOffset || 0, options.byteLength || event.data.data.byteLength);
         if (options.data) {
           options.data = event.data.data;
         }
@@ -57383,7 +57385,7 @@
       // This likely occurs when you have an non-timed ID3 tag like TIT2,
       // which is the "Title/Songname/Content description" frame
 
-      if (typeof time !== 'number' || window.isNaN(time) || time < 0 || !(time < Infinity)) {
+      if (typeof time !== 'number' || isNaN(time) || time < 0 || !(time < Infinity)) {
         return;
       } // If we have no frames, we can't create a cue.
 
@@ -57394,7 +57396,7 @@
         const cue = new Cue(time, time, frame.value || frame.url || frame.data || '');
         cue.frame = frame;
         cue.value = frame;
-        deprecateOldCue(cue);
+        // deprecateOldCue(cue);
         metadataTrack.addCue(cue);
       });
     });
