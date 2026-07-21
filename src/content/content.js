@@ -3208,7 +3208,7 @@
             if (e && PVI.x === e.clientX && PVI.y === e.clientY || doc.fullscreenElement) return;
             rotate(0);
             let trg = e?.target;
-            while (trg?.shadowRoot && trg !== PVI.TRG) {
+            while (trg?.shadowRoot && trg !== PVI.TRG && e.clientX && e.clientY) {
                 const newTrg = trg.shadowRoot.elementsFromPoint(e.clientX, e.clientY)?.[0];
                 if (!newTrg || newTrg === trg) break;
                 trg = newTrg;
