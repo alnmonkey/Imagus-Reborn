@@ -42,7 +42,7 @@
     "message": "Formato inválido!"
   },
   "BUTTON_RESET": {
-    "message": "Redefinir configurações"
+    "message": "Redefinir tudo"
   },
   "BUTTON_SAVE": {
     "message": "Salvar"
@@ -543,7 +543,7 @@
     "message": "Ir para / Pesquisar"
   },
   "GRNT_ELEMENT": {
-    "message": "Regras de imagem/link:"
+    "message": "Regras de imagem/link (ignorar elemento):"
   },
   "GRNT_WEBSITE": {
     "message": "Regras do site:"
@@ -627,7 +627,7 @@
     "message": "Em geral"
   },
   "RESET_CONFIRM": {
-    "message": "Redefinir todas as configurações para o padrão?"
+    "message": "Redefinir todas as configurações e peneirar para o padrão?"
   },
   "SIV_RULES_CNT": {
     "message": "Contagem total de regras (contagem de ativas)"

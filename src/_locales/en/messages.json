@@ -45,7 +45,7 @@
     "message": "Invalid format!"
   },
   "BUTTON_RESET": {
-    "message": "Reset settings"
+    "message": "Reset all"
   },
   "BUTTON_SAVE": {
     "message": "Save"
@@ -540,7 +540,7 @@
     "message": "Website rules:"
   },
   "GRNT_ELEMENT": {
-    "message": "Image/Link rules:"
+    "message": "Image/Link (ignore element) rules:"
   },
   "IGNORE_ELEMENT": {
     "message": "Ignore element..."
@@ -627,7 +627,7 @@
     "message": "General"
   },
   "RESET_CONFIRM": {
-    "message": "Reset all settings to default?"
+    "message": "Reset all settings and sieve to default?"
   },
   "HZ_ACTIVATION": {
     "message": "Activation"

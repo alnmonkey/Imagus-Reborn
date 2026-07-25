@@ -45,7 +45,7 @@
     "message": "Nieprawidłowy format!"
   },
   "BUTTON_RESET": {
-    "message": "Zresetuj ustawienia"
+    "message": "Zresetuj wszystko"
   },
   "BUTTON_SAVE": {
     "message": "Zapisz"
@@ -543,7 +543,7 @@
     "message": "Przejdź do / Wyszukaj"
   },
   "GRNT_ELEMENT": {
-    "message": "Zasady dotyczące obrazów/linków:"
+    "message": "Reguły obrazu/linku (ignoruj ​​element):"
   },
   "GRNT_WEBSITE": {
     "message": "Regulamin serwisu:"
@@ -627,7 +627,7 @@
     "message": "Ogólny"
   },
   "RESET_CONFIRM": {
-    "message": "Zresetować wszystkie ustawienia do domyślnych?"
+    "message": "Zresetować wszystkie ustawienia i sito do ustawień domyślnych?"
   },
   "SIV_RULES_CNT": {
     "message": "Całkowita liczba reguł (liczba aktywnych)"

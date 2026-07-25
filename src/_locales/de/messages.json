@@ -45,7 +45,7 @@
     "message": "Ungültiges Format!"
   },
   "BUTTON_RESET": {
-    "message": "Einstellungen zurücksetzen"
+    "message": "Alles zurücksetzen"
   },
   "BUTTON_SAVE": {
     "message": "Speichern"
@@ -543,7 +543,7 @@
     "message": "Gehe zu / Suchen"
   },
   "GRNT_ELEMENT": {
-    "message": "Bild-/Linkregeln:"
+    "message": "Bild-/Link-Regeln (Element ignorieren):"
   },
   "GRNT_WEBSITE": {
     "message": "Website-Regeln:"
@@ -627,7 +627,7 @@
     "message": "Allgemein"
   },
   "RESET_CONFIRM": {
-    "message": "Alle Einstellungen auf Standard zurücksetzen?"
+    "message": "Alle Einstellungen und Sieb auf Standard zurücksetzen?"
   },
   "SIV_RULES_CNT": {
     "message": "Gesamtzahl der Regeln (Anzahl der aktiven)"

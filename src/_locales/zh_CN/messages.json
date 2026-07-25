@@ -42,7 +42,7 @@
     "message": "无效的格式！"
   },
   "BUTTON_RESET": {
-    "message": "重置设置"
+    "message": "全部重置"
   },
   "BUTTON_SAVE": {
     "message": "保存"
@@ -543,7 +543,7 @@
     "message": "转到/搜索"
   },
   "GRNT_ELEMENT": {
-    "message": "图片/链接规则："
+    "message": "图像/链接（忽略元素）规则："
   },
   "GRNT_WEBSITE": {
     "message": "网站规则："
@@ -627,7 +627,7 @@
     "message": "一般的"
   },
   "RESET_CONFIRM": {
-    "message": "将所有设置重置为默认值？"
+    "message": "将所有设置和筛子重置为默认值？"
   },
   "SIV_RULES_CNT": {
     "message": "规则总数（活动规则数）"

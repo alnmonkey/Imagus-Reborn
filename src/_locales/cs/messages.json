@@ -45,7 +45,7 @@
     "message": "Neplatný formát!"
   },
   "BUTTON_RESET": {
-    "message": "Obnovit nastavení"
+    "message": "Resetovat vše"
   },
   "BUTTON_SAVE": {
     "message": "Uložit"
@@ -543,7 +543,7 @@
     "message": "Přejít / Hledat"
   },
   "GRNT_ELEMENT": {
-    "message": "Pravidla pro obrázky/odkazy:"
+    "message": "Pravidla obrázku/odkazu (ignorovat prvek):"
   },
   "GRNT_WEBSITE": {
     "message": "Pravidla webu:"
@@ -627,7 +627,7 @@
     "message": "Generál"
   },
   "RESET_CONFIRM": {
-    "message": "Obnovit všechna nastavení na výchozí?"
+    "message": "Obnovit všechna nastavení a síto na výchozí?"
   },
   "SIV_RULES_CNT": {
     "message": "Celkový počet pravidel (počet aktivních)"

@@ -45,7 +45,7 @@
     "message": "¡Formato no válido!"
   },
   "BUTTON_RESET": {
-    "message": "Restablecer configuración"
+    "message": "Restablecer todo"
   },
   "BUTTON_SAVE": {
     "message": "Guardar"
@@ -543,7 +543,7 @@
     "message": "Ir a / Buscar"
   },
   "GRNT_ELEMENT": {
-    "message": "Reglas de imagen/enlace:"
+    "message": "Reglas de imagen/enlace (ignorar elemento):"
   },
   "GRNT_WEBSITE": {
     "message": "Reglas del sitio web:"
@@ -627,7 +627,7 @@
     "message": "General"
   },
   "RESET_CONFIRM": {
-    "message": "¿Restablecer todas las configuraciones a los valores predeterminados?"
+    "message": "¿Restablecer todas las configuraciones y el tamiz a los valores predeterminados?"
   },
   "SIV_RULES_CNT": {
     "message": "Recuento total de reglas (recuento de activas)"

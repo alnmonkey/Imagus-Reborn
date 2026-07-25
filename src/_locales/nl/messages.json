@@ -45,7 +45,7 @@
     "message": "Incorrect formaat!"
   },
   "BUTTON_RESET": {
-    "message": "Instellingen resetten"
+    "message": "Alles resetten"
   },
   "BUTTON_SAVE": {
     "message": "Opslaan"
@@ -543,7 +543,7 @@
     "message": "Ga naar / Zoeken"
   },
   "GRNT_ELEMENT": {
-    "message": "Regels voor afbeeldingen/links:"
+    "message": "Regels voor afbeeldingen/links (element negeren):"
   },
   "GRNT_WEBSITE": {
     "message": "Websiteregels:"
@@ -627,7 +627,7 @@
     "message": "Algemeen"
   },
   "RESET_CONFIRM": {
-    "message": "Alle instellingen terugzetten naar standaard?"
+    "message": "Alle instellingen resetten en naar standaard zeven?"
   },
   "SIV_RULES_CNT": {
     "message": "Totaal aantal regels (aantal actieve regels)"

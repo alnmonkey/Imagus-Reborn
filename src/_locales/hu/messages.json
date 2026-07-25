@@ -45,7 +45,7 @@
     "message": "Helytelen formátum!"
   },
   "BUTTON_RESET": {
-    "message": "Beállítások visszaállítása"
+    "message": "Összes visszaállítása"
   },
   "BUTTON_SAVE": {
     "message": "Mentés"
@@ -543,7 +543,7 @@
     "message": "Ugrás / Keresés"
   },
   "GRNT_ELEMENT": {
-    "message": "Kép/link szabályok:"
+    "message": "Kép/link (elem figyelmen kívül hagyása) szabályai:"
   },
   "GRNT_WEBSITE": {
     "message": "A weboldal szabályai:"
@@ -627,7 +627,7 @@
     "message": "Általános"
   },
   "RESET_CONFIRM": {
-    "message": "Visszaállítja az összes beállítást az alapértelmezettre?"
+    "message": "Visszaállítja az összes beállítást és a szitát az alapértelmezettre?"
   },
   "SIV_RULES_CNT": {
     "message": "A szabályok teljes száma (aktívak száma)"
