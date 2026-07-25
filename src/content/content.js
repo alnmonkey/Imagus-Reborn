@@ -3097,7 +3097,7 @@
                 return;
             }
 
-            if (e.target?.clientWidth > topWinW * 0.8 && e.target?.clientHeight > topWinH * 0.8) return;
+            if (e.target?.clientWidth > topWinW * 0.8 && e.target?.clientHeight > topWinH * 0.8 && !e.target.shadowRoot) return;
             if (trg.IMGS_c && trg.IMGS_c !== true) {
                 cache = trg.IMGS_c;
             }
