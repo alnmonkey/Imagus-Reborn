@@ -643,5 +643,8 @@
   },
   "HZ_HIDECONTROLS_TIP": {
     "message": "<b>-1</b> - siempre oculto\n<b>0</b> - siempre visible\n<b>&gt;0</b> - ocultar después del tiempo especificado (ms)\n\nTambién visible al pausar y mientras se mantiene pulsada la barra espaciadora. Se puede alternar con Shift+Espacio."
+  },
+  "HZ_SC_CLEAR": {
+    "message": "para borrar una tecla de acceso rápido enfocada en esta página"
   }
 }

@@ -643,5 +643,8 @@
   },
   "HZ_SC_FRAMESTEP": {
     "message": "Backward/forward one frame"
+  },
+  "HZ_SC_CLEAR": {
+    "message": "to clear a focused hotkey on this page"
   }
 }

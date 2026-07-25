@@ -643,5 +643,8 @@
   },
   "HZ_HIDECONTROLS_TIP": {
     "message": "<b>-1</b> - altijd verborgen\n<b>0</b> - altijd zichtbaar\n<b>&gt;0</b> - verbergen na de opgegeven tijd (ms)\n\nOok zichtbaar tijdens pauzeren en wanneer de spatiebalk wordt ingedrukt gehouden. Kan worden in- of uitgeschakeld met Shift+Spatie."
+  },
+  "HZ_SC_CLEAR": {
+    "message": "om een ​​gerichte sneltoets op deze pagina te wissen"
   }
 }

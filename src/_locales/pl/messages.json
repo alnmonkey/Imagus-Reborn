@@ -643,5 +643,8 @@
   },
   "HZ_HIDECONTROLS_TIP": {
     "message": "<b>-1</b> - zawsze ukryte\n<b>0</b> - zawsze widoczne\n<b>&gt;0</b> - ukryj po określonym czasie (ms)\n\nWidoczne również podczas wstrzymania odtwarzania oraz po przytrzymaniu klawisza Spacja. Można przełączać za pomocą Shift+Spacja."
+  },
+  "HZ_SC_CLEAR": {
+    "message": "aby wyczyścić aktywny klawisz skrótu na tej stronie"
   }
 }

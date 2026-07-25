@@ -643,5 +643,8 @@
   },
   "HZ_HIDECONTROLS_TIP": {
     "message": "<b>-1</b> - 始终隐藏\n<b>0</b> - 始终显示\n<b>&gt;0</b> - 在指定时间后隐藏（毫秒）\n\n暂停时以及按住 Space 键时也会显示。可使用 Shift+Space 切换。"
+  },
+  "HZ_SC_CLEAR": {
+    "message": "清除此页面上的聚焦热键"
   }
 }

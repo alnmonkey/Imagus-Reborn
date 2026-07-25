@@ -643,5 +643,8 @@
   },
   "HZ_HIDECONTROLS_TIP": {
     "message": "<b>-1</b> - vždy skryté\n<b>0</b> - vždy viditelné\n<b>&gt;0</b> - skrýt po zadané době (ms)\n\nTaké viditelné při pozastavení a při podržení mezerníku. Lze přepínat pomocí Shift+Space."
+  },
+  "HZ_SC_CLEAR": {
+    "message": "pro vymazání aktivní klávesové zkratky na této stránce"
   }
 }

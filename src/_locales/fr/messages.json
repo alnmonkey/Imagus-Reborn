@@ -643,5 +643,8 @@
   },
   "HZ_HIDECONTROLS_TIP": {
     "message": "<b>-1</b> - toujours masqué\n<b>0</b> - toujours visible\n<b>&gt;0</b> - masquer après le délai spécifié (ms)\n\nÉgalement visible lorsque la lecture est en pause et lorsque la barre d'espace est maintenue enfoncée. Peut être activé ou désactivé avec Maj+Espace."
+  },
+  "HZ_SC_CLEAR": {
+    "message": "pour effacer un raccourci clavier ciblé sur cette page"
   }
 }
