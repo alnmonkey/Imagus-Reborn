@@ -306,13 +306,14 @@
             PVI.contextEvent = e;
         }
 
-        if (!mdownstart || e.button !== 2 || PVI.md_x !== e.clientX || PVI.md_y !== e.clientY) {
+        const isCursorMoved = Math.abs(PVI.md_x - e.clientX) > 5 || Math.abs(PVI.md_y - e.clientY) > 5;
+        if (!mdownstart || e.button !== 2 || isCursorMoved) {
             if (mdownstart) mdownstart = null;
 
             if (
                 e.button === 2 &&
                 (!PVI.fireHide || PVI.state > 2) &&
-                (Math.abs(PVI.md_x - e.clientX) > 5 || Math.abs(PVI.md_y - e.clientY) > 5) &&
+                isCursorMoved &&
                 cfg.hz.actTrigger === "m2" &&
                 !cfg.hz.deactivate
             ) {
