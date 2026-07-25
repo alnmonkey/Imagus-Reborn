@@ -2959,10 +2959,8 @@
             let winWI = winW - PVI.DBOX["wpb"] - PVI.DBOX["wm"];
             let winHI = winH - PVI.DBOX["hpb"] - PVI.DBOX["hm"] - PVI.getCapHeight();
             if (x === cfg.keys.mZoomLock) {
-                if (PVI.lockedZoom) {
-                    s[0] *= PVI.lockedZoom;
-                    s[1] *= PVI.lockedZoom;
-                }
+                s[0] *= cfg.hz.lockedZoom || 1;
+                s[1] *= cfg.hz.lockedZoom || 1;
             } else if (x === cfg.keys.mFit || x === false) {
                 if (winWI / winHI < s[0] / s[1]) {
                     x = winWI > s[0] ? false : cfg.keys.mFitW;
@@ -3018,7 +3016,11 @@
 
             if (PVI.resizeMode === cfg.keys.mZoomLock) {
                 const natW = PVI.TRG.IMGS_SVG ? PVI.stack[PVI.IMG.src][0] : PVI.CNT.naturalWidth;
-                PVI.lockedZoom = natW > 0 ? s[rot ? 1 : 0] / natW : 1;
+                const zoom = natW > 0 ? s[rot ? 1 : 0] / natW : 1;
+                if (zoom !== cfg.hz.lockedZoom) {
+                    cfg.hz.lockedZoom = zoom;
+                    Port.send({ cmd: "savePrefs", prefs: { hz: { lockedZoom: cfg.hz.lockedZoom } } });
+                }
             }
             if (!xy_img) xy_img = [true, null];
             xy_img.push(Math.floor(s[rot ? 1 : 0]), Math.ceil(s[rot ? 0 : 1]));
