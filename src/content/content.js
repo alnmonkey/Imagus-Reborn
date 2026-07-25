@@ -516,16 +516,20 @@
             PVI.ROOT = doc.createElement("div");
             PVI.ROOT.attachShadow({ mode: "open" });
             doc.documentElement.appendChild(PVI.ROOT);
-            await injectCss("content/styles.css");
-            await injectCss("", cfg.hz.customCss);
 
             var x, y, z, p;
             PVI.HLP = doc.createElement("a");
             PVI.DIV = doc.createElement("div");
             PVI.VID = doc.createElement("video");
             PVI.IMG = doc.createElement("img");
-            PVI.LDR = PVI.IMG.cloneNode(false);
             PVI.CNT = PVI.IMG;
+            PVI.LDR = PVI.IMG.cloneNode(false);
+            PVI.HVR = doc.createElement("div");
+            PVI.GLR = doc.createElement("div");
+
+            await injectCss("content/styles.css")
+            await injectCss("", cfg.hz.customCss);
+
             PVI.DIV.id = "imagus-popup";
             PVI.DIV.IMGS_ = PVI.DIV.IMGS_c = PVI.LDR.IMGS_ = PVI.LDR.IMGS_c = PVI.VID.IMGS_ = PVI.VID.IMGS_c = PVI.IMG.IMGS_ = PVI.IMG.IMGS_c = true;
             PVI.DIV.curdeg = 0;
@@ -655,13 +659,11 @@
             }
 
             // mark over the hovered object
-            PVI.HVR = doc.createElement("div");
             PVI.HVR.id = "imagus-hover";
             PVI.HVR.style.cssText = `display: none;`;
             docEl.appendChild(PVI.HVR);
 
             // gallery container
-            PVI.GLR = doc.createElement("div");
             PVI.GLR.id = 'imagus-gallery';
             PVI.GLR.classList.add("content");
             PVI.GLR.style.display = 'none';
