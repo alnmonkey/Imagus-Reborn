@@ -95,6 +95,12 @@
   "HZ_FULLSPACE": {
     "message": "Use all available space"
   },
+  "HZ_SCALEUP_TIP": {
+    "message": "Can also be toggled with a hotkey."
+  },
+  "HZ_SCALEUP": {
+    "message": "Scale up small images to fit window"
+  },
   "HZ_PLACEMENT_CURCOR": {
     "message": "cursor at pop-up corner"
   },
@@ -241,6 +247,9 @@
   },
   "SC_MZOOMLOCK": {
     "message": "Zoom lock"
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "toggle scale up small images to fit window"
   },
   "SC_SENDTO": {
     "message": "Send image to..."

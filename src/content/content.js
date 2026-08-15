@@ -1690,6 +1690,12 @@
                     wImageWinMin = Math.min(w, winW - wBor),
                     hImageWinMin = Math.min(h, winH - hBor),
                     hImageAreaMin = Math.min(h, (fs ? winH : tbMax) - hBor);
+
+                if (cfg.hz.scaleUp) {
+                    wImageAreaMin = wImageWinMin = winW - wBor;
+                    hImageAreaMin = hImageWinMin = winH - hBor;
+                }
+
                 if ((fs = wImageAreaMin / ratio) > hImageWinMin) wImageAreaMin = hImageWinMin * ratio;
                 else hImageWinMin = fs;
                 if ((fs = hImageAreaMin * ratio) > wImageWinMin) hImageAreaMin = wImageWinMin / ratio;
@@ -2543,8 +2549,15 @@
                     } else {
                         PVI.fzEnable(e);
                     }
+                } else if (key === cfg.keys.toggleScaleUp) {
+                    if (!PVI.fullZm && PVI.state > 2) {
+                        cfg.hz.scaleUp = !cfg.hz.scaleUp;
+                        Port.send({ cmd: "savePrefs", prefs: { hz: { scaleUp: cfg.hz.scaleUp } } });
+                        PVI.show();
+                    }
                 } else if (key === cfg.keys.hz_fullSpace) {
                     cfg.hz.fullspace = !cfg.hz.fullspace;
+                    Port.send({ cmd: "savePrefs", prefs: { hz: { fullspace: cfg.hz.fullspace } } });
                     PVI.show();
                 } else if (key === cfg.keys.flipH) flip(PVI.CNT, 0);
                 else if (key === cfg.keys.flipV) flip(PVI.CNT, 1);
