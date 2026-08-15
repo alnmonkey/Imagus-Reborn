@@ -52,7 +52,7 @@
 			</aside>
 		</div>
 
-		<section id="settings_sec" class="scroll" style="display: none;">
+		<section id="settings_sec" class="" style="display: none;">
 			<h4 data-lng="HZ_GENERAL"></h4>
 			<div class="prow tiptop">
 				<label for="hz_deactivate" data-lng="HZ_ACTIVATION"></label>
@@ -536,7 +536,7 @@
 			</div>
 		</section>
 
-		<section id="tools_sec" class="scroll" style="display: none;">
+		<section id="tools_sec" class="" style="display: none;">
 			<div class="prow left advanced">
 				<span>
 					<input id="hz_scOffInInput" name="hz_scOffInInput" type="checkbox" checked>
@@ -684,7 +684,7 @@
 			<h3 class="container_info" data-lng="LOADING"></h3>
 		</section>
 
-		<section id="grants_sec" class="scroll" style="display: none;">
+		<section id="grants_sec" class="" style="display: none;">
 			<div class="inpbutt">
 				<!-- <input name="vw" type="checkbox">
 				<input name="hz" type="checkbox">
@@ -699,25 +699,28 @@
 				</div>
 			</div>
 
-			<label>
-				<span data-lng="GRNT_WEBSITE"></span>
-				<textarea class="grants" name="grants_" tabindex="1" data-lng="GRNT_RULEPERLINE"  data-lngattr="placeholder"></textarea>
-			</label>
-			<div>
-				<span>
-					<input id="hz_grantUrlsEnabled" name="hz_grantUrlsEnabled" type="checkbox" checked>
-					<label for="hz_grantUrlsEnabled" class="checkbox"></label>
-				</span>
-				<label for="hz_grantUrlsEnabled" data-lng="GRNT_ELEMENT"></label>
+			<div class="prow wrap">
+				<label>
+					<span data-lng="GRNT_WEBSITE"></span>
+					<textarea class="grants" name="grants_" tabindex="1" data-lng="GRNT_RULEPERLINE"  data-lngattr="placeholder"></textarea>
+				</label>
 			</div>
-			<label>
-				<textarea class="grants" name="grantUrls_" tabindex="2" data-lng="GRNT_RULEPERLINE"  data-lngattr="placeholder"></textarea>
-			</label>
+
+			<div class="prow wrap">
+				<label>
+					<span>
+						<input id="hz_grantUrlsEnabled" name="hz_grantUrlsEnabled" type="checkbox" checked>
+						<label for="hz_grantUrlsEnabled" class="checkbox"></label>
+					</span>
+					<label for="hz_grantUrlsEnabled" data-lng="GRNT_ELEMENT"></label>
+					<textarea class="grants" name="grantUrls_" tabindex="2" data-lng="GRNT_RULEPERLINE"  data-lngattr="placeholder"></textarea>
+				</label>
+			</div>
 
 			<div id="grants_help" data-lng="GRNT_HELP"></div>
 		</section>
 
-		<section id="info_sec" class="scroll" style="display: none;">
+		<section id="info_sec" class="" style="display: none;">
 			<!-- <div class="action_buttons">
 				<span data-action="prefs-import" data-lng="PREF_IMPORT" data-lngattr="title">&darr;</span>
 				<span data-action="prefs-export" data-lng="PREF_EXPORT" data-lngattr="title">&uarr;</span>
