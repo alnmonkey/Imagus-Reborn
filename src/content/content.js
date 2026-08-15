@@ -214,7 +214,7 @@
         }
         if (e.type === "mouseup") {
             if ([1, 3, 4].includes(e.button)) {
-                if (e.button === 1 && PVI.TBAR.contains(e.target)) {
+                if (e.button === 1 && PVI.TBAR?.contains(e.target)) {
                     // middle click on the toolbar
                     PVI.tbarClick(e);
                 } else {
@@ -3029,6 +3029,7 @@
                         xy_img[1] *= k[rot ? 0 : 1] - s[1];
                     }
                     break;
+                }
             }
 
             if (PVI.resizeMode === cfg.keys.mZoomLock) {
@@ -3823,5 +3824,6 @@
     };
 
     window.addEventListener("mousemove", PVI.onInitMouseMove, true);
+    window.catchEvent ||= {};
     catchEvent.onmessage = PVI.winOnMessage;
 })(window, document);
