@@ -775,20 +775,6 @@ span.clear_search:hover {
 #locales_table td:last-child {
     text-align: center;
 }
-@media (max-width: 1024px) {
-    body {
-        width: 650px;
-    }
-    .prow input[type="text"] {
-        width: 245px;
-    }
-    .prow input[type="color"] + input[type="text"] {
-        width: 183px;
-    }
-    .sieve_shorter_inp {
-        width: 88.7% !important;
-    }
-}
 
 section.warning {
     width: calc(100% - 28px);

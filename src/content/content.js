@@ -159,7 +159,7 @@
 
     var checkBG = function (imgs) {
         if (imgs)
-            if (Array.isArray((imgs = imgs.match(/\burl\(([^'"\)][^\)]*|"[^"\\]+(?:\\.[^"\\]*)*|'[^'\\]+(?:\\.[^'\\]*)*)(?=['"]?\))/g)))) {
+            if (Array.isArray((imgs = imgs.match(/\burl\(([^'")][^)]*|"[^"\\]+(?:\\.[^"\\]*)*|'[^'\\]+(?:\\.[^'\\]*)*)(?=['"]?\))/g)))) {
                 var i = imgs.length;
                 while (i--) imgs[i] = imgs[i].slice(/'|"/.test(imgs[i][4]) ? 5 : 4);
                 return imgs;
@@ -765,7 +765,7 @@
                     }
                 }
 
-                PVI.PLAYER.on("loadstart", e => {
+                PVI.PLAYER.on("loadstart", () => {
                     PVI.PLAYER.muted(false);
                 });
 
@@ -809,12 +809,12 @@
 
                 PVI.PLAYER.on("error", PVI.content_onerror);
 
-                qLevels.on("change", (e) => {
+                qLevels.on("change", () => {
                     const level = qLevels[qLevels.selectedIndex];
                     setSize(level.width, level.height);
                 });
 
-                PVI.PLAYER.on("playing", (e) => {
+                PVI.PLAYER.on("playing", () => {
                     PVI.PLAYER.controls(PVI.PLAYER._isAudio || cfg.hz.hideControlsDelay >= 0);
                     PVI.PLAYER.options({
                         inactivityTimeout: PVI.PLAYER._isAudio ? 0 : cfg.hz.hideControlsDelay,
@@ -822,7 +822,7 @@
                     PVI.PLAYER.userActive(true);
                 });
 
-                PVI.PLAYER.on("pause", (e) => {
+                PVI.PLAYER.on("pause", () => {
                     PVI.PLAYER.controls(true);
                 });
 
@@ -832,7 +832,7 @@
                     PVI.PLAYER.width(vWidth);
                     PVI.PLAYER.height(vHeight);
                     setSize(vWidth, vHeight);
-                })
+                });
                 PVI.PLAYER.on("fullscreenchange", () => {
                     if (!mqSelector.selectedIndexPrevious) {
                         mqSelector.selectedIndexPrevious = mqSelector.selectedIndex;
@@ -1000,6 +1000,7 @@
                         target.style.cssText.indexOf("opacity") === -1
                     )
                         return;
+                // eslint-disable-next-line no-fallthrough
                 case "href":
                 case "src":
                 case "title":
@@ -1103,7 +1104,7 @@
                 }
             }
             if (!imgs.imgBG_o) return imgs.imgSRC ? imgs : null;
-            imgs.imgBG_o = imgs.imgBG_o.match(/\burl\(([^'"\)][^\)]*|"[^"\\]+(?:\\.[^"\\]*)*|'[^'\\]+(?:\\.[^'\\]*)*)(?=['"]?\))/g);
+            imgs.imgBG_o = imgs.imgBG_o.match(/\burl\(([^'")][^)]*|"[^"\\]+(?:\\.[^"\\]*)*|'[^'\\]+(?:\\.[^'\\]*)*)(?=['"]?\))/g);
             if (!imgs.imgBG_o || imgs.imgBG_o.length !== 1) return imgs.imgSRC ? imgs : null;
             el = imgs.imgBG_o[0];
             imgs.imgBG_o = PVI.normalizeURL(el.slice(/'|"/.test(el[4]) ? 5 : 4));
@@ -1576,7 +1577,7 @@
                 PVI.HD_cursor(true);
                 PVI.BOX = PVI.LDR;
                 PVI.LDR.style.backgroundColor =
-                    cfg.hz.LDRbgOpacity < 100 ? PVI.palette[msg].replace(/\(([^\)]+)/, "a($1, " + cfg.hz.LDRbgOpacity / 100) : PVI.palette[msg];
+                    cfg.hz.LDRbgOpacity < 100 ? PVI.palette[msg].replace(/\(([^)]+)/, "a($1, " + cfg.hz.LDRbgOpacity / 100) : PVI.palette[msg];
                 if (cfg.hz.LDRdelay > 20) {
                     clearTimeout(PVI.timers.delayed_loader);
                     if (msg[0] !== "R" && PVI.state !== 3 && !PVI.fullZm) {
@@ -1919,10 +1920,8 @@
             if (PVI.CNT !== PVI.IMG) {
                 PVI.CNT = PVI.IMG;
             }
-            if (true /* cfg.hz.thumbAsBG */) {
                 if (PVI.interlacer) PVI.interlacer.style.display = "none";
                 PVI.CNT.loaded = PVI.TRG.IMGS_SVG || PVI.stack[src] === 1;
-            }
             if (!PVI.TRG.IMGS_SVG && !PVI.stack[src] && cfg.hz.preload === 1) new Image().src = src;
             PVI.CNT.removeAttribute("src");
             if (PVI.TRG.IMGS_SVG && !PVI.stack[src]) {
@@ -2845,7 +2844,7 @@
         // for backward compatibility with Extension rule
         wheeler: function () {},
 
-        onWheel: function (e, force) {
+        onWheel: function (e) {
             if (e.clientX >= winW || e.clientY >= winH) return;
             const target =
                 PVI.ROOT.shadowRoot.elementsFromPoint?.(e.clientX, e.clientY)?.[0] ||
@@ -2991,7 +2990,7 @@
                     break;
                 case "+":
                 case "-":
-                case "num":
+                case "num": {
                     let k = [parseInt(PVI.DIV.style.width, 10), 0];
                     k[1] = (k[0] * s[rot ? 0 : 1]) / s[rot ? 1 : 0];
                     if (xy_img) {
@@ -3465,7 +3464,7 @@
                     if (!frms[i] || !frms[i].postMessage) continue;
                     try {
                         if (frms[i].location.href.lastIndexOf("about:", 0) === 0) continue;
-                    } catch (ex) {}
+                    } catch (ex) { /* ignore */ }
                     frms[i].postMessage({ vdfDpshPtdhhd: cmd, parent: doc.body.nodeName.toUpperCase() }, "*");
                 }
                 if (cmd === "isFrame") {

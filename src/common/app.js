@@ -58,7 +58,7 @@ function buildNodes(element, nodes) {
 window.addEventListener(
     "message",
     function (event) {
-        if (event.data.hasOwnProperty("vdfDpshPtdhhd")) {
+        if (event.data?.vdfDpshPtdhhd) {
             event.stopImmediatePropagation();
             catchEvent?.onmessage?.(event);
         }

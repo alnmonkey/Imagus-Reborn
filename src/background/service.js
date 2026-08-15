@@ -396,7 +396,7 @@ function onMessage(message, sender, sendResponse) {
 
                     if (rule.res === 1) {
                         data.params._ = body;
-                        data.params.base = base.replace(/(\/)[^\/]*(?:[?#].*)*$/, "$1");
+                        data.params.base = base.replace(/(\/)[^/]*(?:[?#].*)*$/, "$1");
                         context.postMessage(data);
                         return;
                     }
@@ -641,7 +641,7 @@ function openUrl(msg, sender) {
                 width: msg.width,
                 height: msg.height,
             })
-            .catch(error => {
+            .catch(() => {
                 chrome.windows.create({
                     type: "popup",
                     url: url,
@@ -655,7 +655,7 @@ function openUrl(msg, sender) {
                 tabOptions.index = sender.tab.index + 1;
             }
             chrome.tabs.create(tabOptions)
-            .catch(error => {
+            .catch(() => {
                 delete tabOptions.openerTabId;
                 chrome.tabs.create(tabOptions);
             });

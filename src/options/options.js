@@ -281,7 +281,6 @@ var setDefault = function (query) {
 var load = function () {
     var fields = document.querySelectorAll("input[name*=_], select[name*=_], textarea[name*=_]"),
         i = fields.length,
-        j,
         m,
         fld,
         fld_type,
@@ -452,7 +451,7 @@ function onValueChange (e) {
     }
 
     if (value !== undefined && t.defValue !== undefined && t.defValue != value ||
-        t.hasOwnProperty("defChecked") && t.defChecked !== undefined && t.defChecked !== t.checked
+        t.defChecked !== undefined && t.defChecked !== t.checked
     ) {
         input_changes[id] = true;
     } else {
