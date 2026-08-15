@@ -452,20 +452,51 @@ function sanitizeFilename(filename) {
     return filename.replace(/[\\/:*?"<>|\r\n\x00-\x1f]/g, "_");
 }
 
+function getDownloadDirectory(msg) {
+    let dir = (cachedPrefs?.hz?.saveDir ?? "").trim();
+    if (!dir) return "";
+
+    if (msg.domain) {
+        dir = dir.replace(/\{domain\}/gi, msg.domain);
+    }
+    const now = new Date();
+    dir = dir.replace(/\{Y\}/gi, now.getFullYear());
+    dir = dir.replace(/\{M\}/gi, String(now.getMonth() + 1).padStart(2, "0"));
+    dir = dir.replace(/\{D\}/gi, String(now.getDate()).padStart(2, "0"));
+    dir = dir.replace(/^\/+/, "").replace(/\/+$/, "");
+    dir = dir.replace(/\{[^}]+\}/g, "unknown");
+
+    return dir;
+}
+
 const downloadItems = {};
 async function download(msg, tab, sendResponse) {
     if (!msg.url) return;
 
     const ext = msg.priorityExt ?? msg.ext;
 
-    const filename =
+    let filename =
         msg.filename && ext
             ? `${msg.filename}.${ext}`
-            : msg.urlName;
+            : msg.filename || msg.urlName;
+
+    const dir = getDownloadDirectory(msg);
+    if (dir && platform === "firefox") {
+        if (!filename) {
+            filename = await getFilenameFromHeaders(msg.url) || getFilenameFromUrl(msg.url);
+        }
+
+        if (filename) {
+            filename = `${dir}/${sanitizeFilename(filename)}`;
+        }
+
+    } else if (filename) {
+        filename = sanitizeFilename(filename);
+    }
 
     const params = {
         url: msg.blob ? URL.createObjectURL(msg.blob) : msg.url,
-        filename: filename ? sanitizeFilename(filename) : undefined,
+        filename: filename || undefined,
         conflictAction: "uniquify"
     };
 
@@ -475,27 +506,54 @@ async function download(msg, tab, sendResponse) {
 
     let id = await chrome.downloads.download(params);
 
-    // save info in case we need to use alternative downloading method
-    if (!msg.alterDownload) {
-        msg.tabId = tab.id;
-        msg.sendResponse = sendResponse;
-        downloadItems[id] = msg;
+    msg.tabId = tab.id;
+    msg.sendResponse = sendResponse;
+    msg.filename = filename;
+    msg.ext = undefined;
+    downloadItems[id] = msg;
+}
+
+function getFilenameFromUrl(url) {
+    try {
+        const urlObj = new URL(url);
+        const pathname = urlObj.pathname;
+        const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+        return lastSegment || undefined;
+    } catch (error) {
+        return undefined;
     }
 }
-/* // seems like onDeterminingFilename exists only in Chrome, so commenting that out for now
-chrome.downloads.onDeterminingFilename?.addListener(function (item, suggest) {
-    if (!downloadItems[item.id]) return;
-    if (item.mime === "text/html") {
-        // calceling download of HTML files, most probably an error page
-        chrome.downloads.cancel(item.id);
-        const msg = downloadItems[item.id];
 
-        // request alternative download method
-        msg.alterDownload = true;
-        chrome.tabs.sendMessage(msg.tabId, msg);
+async function getFilenameFromHeaders(url) {
+    try {
+        const resp = await fetch(url, { method: "HEAD" });
+        const disposition = resp.headers.get("Content-Disposition") || "";
+        const match = /filename[^;=\n]*=["']?([^"';\n]*)/.exec(disposition);
+        return match?.[1];
+    } catch (error) {
+        return undefined;
     }
-    delete downloadItems[item.id];
-}); */
+}
+
+// onDeterminingFilename exists only in Chrome
+if (platform !== "firefox") {
+    chrome.downloads.onDeterminingFilename?.addListener(function (item, suggest) {
+        if (!downloadItems[item.id]) return;
+        const msg = downloadItems[item.id];
+        if (item.mime === "text/html") {
+            // calceling download of HTML files, most probably an error page
+            chrome.downloads.cancel(item.id);
+            chrome.downloads.erase(item.id);
+
+            // request alternative download method
+            msg.alterDownload = true;
+            chrome.tabs.sendMessage(msg.tabId, msg);
+        }
+        const dir = getDownloadDirectory(msg);
+        const fn = downloadItems[item.id].filename || item.filename;
+        suggest({ filename: fn ? (dir ? `${dir}/${fn}` : fn) : undefined });
+    });
+}
 
 chrome.downloads.onChanged.addListener(function (delta) {
     if (!downloadItems[delta.id]) return;
@@ -511,9 +569,10 @@ chrome.downloads.onChanged.addListener(function (delta) {
         msg.sendResponse(msg);
         delete downloadItems[delta.id];
         // chrome.tabs.sendMessage(msg.tabId, msg);
+    } else if (delta.state === "complete") {
+        delete downloadItems[delta.id];
     }
 });
-
 
 function keepAlive() {
     // keep the service worker alive

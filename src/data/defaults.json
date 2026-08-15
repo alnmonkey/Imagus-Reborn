@@ -24,6 +24,7 @@
 		"mediaLoop": "default",
 		"invertWheel": false,
 		"smoothScroll": false,
+		"saveDir": "",
 		"galleryGridSize": 150,
 		"scrollDelay": 0,
 		"pileWheel": 1,

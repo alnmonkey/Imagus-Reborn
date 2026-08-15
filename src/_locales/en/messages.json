@@ -646,5 +646,11 @@
   },
   "HZ_SC_CLEAR": {
     "message": "to clear a focused hotkey on this page"
+  },
+  "HZ_SAVEDIR": {
+    "message": "Directory in Downloads to save to"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Subdirectory inside the browser's Downloads folder. Leave empty to save directly to Downloads.\nYou can use these placeholders:\n• <b>{domain}</b> - the domain of the website you are saving from\n• <b>{y}</b> - the current year\n• <b>{m}</b> - the current month (01-12)\n• <b>{d}</b> - the current day (01-31)\n\nExample: <b>Imagus/{domain}/{y}_{m}_{d}</b>"
   }
 }

@@ -422,6 +422,7 @@
                 priorityExt: (src.match(/#([\da-z]{3,4})$/) || [])[1],
                 ext: { img: "jpg", video: "mp4", audio: "mp3" }[PVI.CNT.audio ? "audio" : PVI.CNT.localName],
                 filename: PVI.CNT.filename,
+                domain: win.location.hostname.replace(/^www\./, ""),
             });
         }
     }
