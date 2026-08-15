@@ -611,7 +611,9 @@ window.addEventListener(
             color_trans(e.target, null);
             var keys = document.body.querySelectorAll('input[name^="keys_"]');
             for (var i = 0; i < keys.length; ++i) {
-                if (keys[i].value.toUpperCase() === key.toUpperCase() && e.target !== keys[i]) {
+                if (keys[i].value.toUpperCase() === key.toUpperCase() &&
+                    e.target !== keys[i] && e.target.dataset.altshift === keys[i].dataset.altshift)
+                {
                     color_trans(e.target, "red");
                     color_trans(keys[i], "red");
                     return false;
