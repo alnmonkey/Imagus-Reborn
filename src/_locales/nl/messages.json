@@ -646,5 +646,20 @@
   },
   "HZ_SC_CLEAR": {
     "message": "om een ​​gerichte sneltoets op deze pagina te wissen"
+  },
+  "HZ_SAVEDIR": {
+    "message": "Directory in Downloads om in op te slaan"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Submap in de map Downloads van de browser. \nLaat leeg om direct op te slaan in Downloads.\nU kunt deze tijdelijke aanduidingen gebruiken:\n• <b>{domain}</b> - het domein van de website waarvan u opslaat\n• <b>{y}</b> - het huidige jaar\n• <b>{m}</b> - de huidige maand (01-12)\n• <b>{d}</b> - de huidige dag (01-31)\n\nVoorbeeld: <b>Imagus/{domein}/{y}_{m}_{d}</b>"
+  },
+  "HZ_SCALEUP": {
+    "message": "Schaal kleine afbeeldingen op zodat ze in het venster passen"
+  },
+  "HZ_SCALEUP_TIP": {
+    "message": "Kan ook worden geschakeld met een sneltoets."
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "schakel kleine afbeeldingen op om in het venster te passen"
   }
 }

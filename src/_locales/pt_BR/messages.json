@@ -646,5 +646,20 @@
   },
   "HZ_SC_CLEAR": {
     "message": "para limpar uma tecla de atalho focada nesta página"
+  },
+  "HZ_SAVEDIR": {
+    "message": "Diretório em Downloads para salvar"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Subdiretório dentro da pasta Downloads do navegador. \nDeixe em branco para salvar diretamente em Downloads.\nVocê pode usar estes espaços reservados:\n• <b>{domain}</b> - o domínio do site do qual você está salvando\n• <b>{y}</b> - o ano atual\n• <b>{m}</b> - o mês atual (01-12)\n• <b>{d}</b> - o dia atual (01-31)\n\nExemplo: <b>Imagus/{domínio}/{y}_{m}_{d}</b>"
+  },
+  "HZ_SCALEUP": {
+    "message": "Amplie imagens pequenas para caber na janela"
+  },
+  "HZ_SCALEUP_TIP": {
+    "message": "Também pode ser alternado com uma tecla de atalho."
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "alternar para aumentar imagens pequenas para caber na janela"
   }
 }

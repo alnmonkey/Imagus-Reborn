@@ -646,5 +646,20 @@
   },
   "HZ_SC_CLEAR": {
     "message": "pro vymazání aktivní klávesové zkratky na této stránce"
+  },
+  "HZ_SAVEDIR": {
+    "message": "Adresář v části Stažené soubory k uložení"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Podadresář ve složce Stažené soubory v prohlížeči. \nChcete-li uložit přímo do složky Stažené, ponechte prázdné.\nMůžete použít tyto zástupné symboly:\n• <b>{domain}</b> – doména webu, ze kterého ukládáte\n• <b>{y}</b> – aktuální rok\n• <b>{m}</b> – aktuální měsíc (01-12)\n• <b>{d}</b> – aktuální den (01-31)\n\nPříklad: <b>Imagus/{domain}/{y}_{m}_{d}</b>"
+  },
+  "HZ_SCALEUP": {
+    "message": "Zvětšení malých obrázků tak, aby se vešly do okna"
+  },
+  "HZ_SCALEUP_TIP": {
+    "message": "Lze také přepínat pomocí klávesové zkratky."
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "přepnout zvětšení malých obrázků tak, aby se vešly do okna"
   }
 }

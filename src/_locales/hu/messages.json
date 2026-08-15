@@ -646,5 +646,20 @@
   },
   "HZ_SC_CLEAR": {
     "message": "egy fókuszált gyorsbillentyű törléséhez ezen az oldalon"
+  },
+  "HZ_SAVEDIR": {
+    "message": "A Letöltések mappában a mentéshez"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Alkönyvtár a böngésző Letöltések mappájában. \nHagyja üresen, ha közvetlenül a Letöltések közé szeretné menteni.\nEzeket a helyőrzőket használhatja:\n• <b>{domain}</b> – annak a webhelynek a domainje, amelyről a mentést végzi\n• <b>{y}</b> – az aktuális év\n• <b>{m}</b> – az aktuális hónap (01-12)\n• <b>{d}</b> - az aktuális nap (01-31)\n\nPélda: <b>Imagus/{domain}/{y}_{m}_{d}</b>"
+  },
+  "HZ_SCALEUP": {
+    "message": "Nagyítsa fel a kis képeket, hogy illeszkedjen az ablakhoz"
+  },
+  "HZ_SCALEUP_TIP": {
+    "message": "Gyorsbillentyűvel is váltható."
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "a kis képek felnagyítása az ablakhoz való illeszkedéshez"
   }
 }

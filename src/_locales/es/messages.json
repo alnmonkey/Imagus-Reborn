@@ -646,5 +646,20 @@
   },
   "HZ_SC_CLEAR": {
     "message": "para borrar una tecla de acceso rápido enfocada en esta página"
+  },
+  "HZ_SAVEDIR": {
+    "message": "Directorio en Descargas para guardar"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Subdirectorio dentro de la carpeta Descargas del navegador. \nDéjelo vacío para guardarlo directamente en Descargas.\nPuedes utilizar estos marcadores de posición:\n• <b>{domain}</b>: el dominio del sitio web desde el que estás guardando\n• <b>{y}</b> - el año actual\n• <b>{m}</b> - el mes actual (01-12)\n• <b>{d}</b> - el día actual (01-31)\n\nEjemplo: <b>Imagus/{dominio}/{y}_{m}_{d}</b>"
+  },
+  "HZ_SCALEUP": {
+    "message": "Ampliar imágenes pequeñas para que quepan en la ventana"
+  },
+  "HZ_SCALEUP_TIP": {
+    "message": "También se puede alternar con una tecla de acceso rápido."
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "alternar ampliar imágenes pequeñas para ajustarlas a la ventana"
   }
 }

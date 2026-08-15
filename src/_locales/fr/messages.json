@@ -646,5 +646,20 @@
   },
   "HZ_SC_CLEAR": {
     "message": "pour effacer un raccourci clavier ciblé sur cette page"
+  },
+  "HZ_SAVEDIR": {
+    "message": "Répertoire dans les téléchargements dans lequel enregistrer"
+  },
+  "HZ_SAVEDIR_TIP": {
+    "message": "Sous-répertoire dans le dossier Téléchargements du navigateur. \nLaissez vide pour enregistrer directement dans les téléchargements.\nVous pouvez utiliser ces espaces réservés :\n• <b>{domain}</b> : le domaine du site Web à partir duquel vous enregistrez\n• <b>{y}</b> : l'année en cours\n• <b>{m}</b> : le mois en cours (01-12)\n• <b>{d}</b> : le jour en cours (01-31)\n\nExemple : <b>Imagus/{domain}/{y}_{m}_{d}</b>"
+  },
+  "HZ_SCALEUP": {
+    "message": "Agrandir les petites images pour les adapter à la fenêtre"
+  },
+  "HZ_SCALEUP_TIP": {
+    "message": "Peut également être basculé avec un raccourci clavier."
+  },
+  "SC_TOGGSCALEUP": {
+    "message": "basculer l'échelle des petites images pour les adapter à la fenêtre"
   }
 }
