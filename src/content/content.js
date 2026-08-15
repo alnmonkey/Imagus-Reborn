@@ -553,18 +553,19 @@
                 "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOng9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWluWU1pbiBub25lIj48Zz48cGF0aCBpZD0icCIgZD0iTTMzIDQyYTEgMSAwIDAgMSA1NS0yMCAzNiAzNiAwIDAgMC01NSAyMCIvPjx1c2UgeDpocmVmPSIjcCIgdHJhbnNmb3JtPSJyb3RhdGUoNzIgNTAgNTApIi8+PHVzZSB4OmhyZWY9IiNwIiB0cmFuc2Zvcm09InJvdGF0ZSgxNDQgNTAgNTApIi8+PHVzZSB4OmhyZWY9IiNwIiB0cmFuc2Zvcm09InJvdGF0ZSgyMTYgNTAgNTApIi8+PHVzZSB4OmhyZWY9IiNwIiB0cmFuc2Zvcm09InJvdGF0ZSgyODggNTAgNTApIi8+PGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlTmFtZT0idHJhbnNmb3JtIiB0eXBlPSJyb3RhdGUiIHZhbHVlcz0iMzYwIDUwIDUwOzAgNTAgNTAiIGR1cj0iMS44cyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PC9zdmc+";
             x =
                 "display: none; visibility: inherit !important; background: none; position: relative; width: 100%; height: 100%; max-width: inherit; max-height: inherit; margin: 0; padding: 0; border: 0; ";
+
             PVI.IMG.alt = "";
             PVI.IMG.style.cssText = x + "; image-orientation: initial !important";
             PVI.IMG.classList.add("content");
             PVI.IMG.addEventListener("error", PVI.content_onerror);
+            PVI.IMG.addEventListener("load", PVI.content_onload);
             PVI.DIV.appendChild(PVI.IMG);
+
             PVI.VID.style.display = "none";
-            PVI.VID.classList.add("content");
+            PVI.VID.id = "imagus-videojs";
+            PVI.VID.classList.add("content", "video-js");
             PVI.DIV.appendChild(PVI.VID);
 
-            if (true /* cfg.hz.thumbAsBG || cfg.hz.history */) {
-                PVI.IMG.addEventListener("load", PVI.content_onload);
-            }
             if (cfg.hz.hideIdleCursor >= 50) {
                 PVI.DIV.cursor_hide = function () {
                     PVI.CNT.style.cursor = "none";
@@ -698,25 +699,26 @@
             PVI.reset();
         },
 
-        openVideojs: function(src) {
-            PVI.createVideojs(() => {
+        openVideojs: async function(src) {
+            // if called multimple times while Videojs still loading then only the newest `src` will be opened
+            PVI.onVideojsReady = () => {
+                PVI.onVideojsReady = null;
                 PVI.CNT = PVI.VIDEOJS;
                 PVI.PLAYER.src(src);
-            });
-        },
+            };
 
-        createVideojs: async function(callback) {
             if (PVI.VIDEOJS) {
-                callback();
+                PVI.onVideojsReady?.();
                 return;
             }
 
+            if (PVI.videojsLoading) {
+                return;
+            }
+            PVI.videojsLoading = true;
+
             PVI.VID.style.display = "";
-            PVI.VID.setAttribute("class", "video-js");
-            PVI.VID.setAttribute("id", "imagus-videojs");
-
             injectCss("lib/videojs_mod.css");
-
             await injectJs("lib/videojs_mod.js");
             const playerOptions = {
                 autoplay: cfg.hz.autoplay ? "any" : false,
@@ -748,7 +750,7 @@
             videojs(PVI.VID, playerOptions, () => {
                 PVI.VIDEOJS = PVI.VID.parentElement;
                 PVI.VIDEOJS.classList.add("content");
-                PVI.PLAYER = videojs.players["imagus-videojs"];
+                PVI.PLAYER = videojs.getPlayer(PVI.VID) || PVI.VIDEOJS.player;
                 const qLevels = PVI.PLAYER.qualityLevels();
                 const mqSelector = PVI.PLAYER.maxQualitySelector({
                     autoLabel: "Auto ",
@@ -848,7 +850,8 @@
 
                 PVI.PLAYER.volume(cfg.hz.mediaVolume / 100);
 
-                callback();
+                PVI.videojsLoading = false;
+                PVI.onVideojsReady?.();
             });
         },
 
@@ -1924,6 +1927,7 @@
                 return;
             }
             PVI.PLAYER?.pause();
+            PVI.onVideojsReady = null;
             if (PVI.CNT !== PVI.IMG) {
                 PVI.CNT = PVI.IMG;
             }
