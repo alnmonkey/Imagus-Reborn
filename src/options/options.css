@@ -357,7 +357,7 @@ textarea:not(.ace_text-input) {
     padding: 3px;
     transition: color 0.2s, border-color 0.2s;
 }
-textarea {
+.prow textarea {
     font-family: monospace;
 }
 textarea:disabled {
