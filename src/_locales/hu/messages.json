@@ -651,7 +651,7 @@
     "message": "A Letöltések mappában a mentéshez"
   },
   "HZ_SAVEDIR_TIP": {
-    "message": "Alkönyvtár a böngésző Letöltések mappájában. \nHagyja üresen, ha közvetlenül a Letöltések közé szeretné menteni.\nEzeket a helyőrzőket használhatja:\n• <b>{domain}</b> – annak a webhelynek a domainje, amelyről a mentést végzi\n• <b>{y}</b> – az aktuális év\n• <b>{m}</b> – az aktuális hónap (01-12)\n• <b>{d}</b> - az aktuális nap (01-31)\n\nPélda: <b>Imagus/{domain}/{y}_{m}_{d}</b>"
+    "message": "Alkönyvtár a böngésző Letöltések mappájában. \nHagyja üresen, ha közvetlenül a Letöltések közé szeretné menteni.\nEzeket a helyőrzőket használhatja:\n• <b>{page_domain}</b> – annak az oldalnak a domainje, amelyről a mentést végzi\n• <b>{link_domain}</b> – a letöltendő URL domainje\n• <b>{y}</b> – az aktuális év\n• <b>{m}</b> – az aktuális hónap (01-12)\n• <b>{d}</b> - az aktuális nap (01-31)\n• <b>.</b> vagy <b>/</b> – közvetlenül mentse a Letöltések mappába, de próbáljon felülbírálni más bővítményeket\n\nPélda: <b>Imagus/{page_domain}/{y}_{m}_{d}</b>"
   },
   "HZ_SCALEUP": {
     "message": "Nagyítsa fel a kis képeket, hogy illeszkedjen az ablakhoz"

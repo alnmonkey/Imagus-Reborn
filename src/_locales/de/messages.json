@@ -651,7 +651,7 @@
     "message": "Verzeichnis in „Downloads“, in dem gespeichert werden soll"
   },
   "HZ_SAVEDIR_TIP": {
-    "message": "Unterverzeichnis im Download-Ordner des Browsers. \nLassen Sie das Feld leer, um es direkt unter „Downloads“ zu speichern.\nSie können diese Platzhalter verwenden:\n• <b>{domain}</b> – die Domain der Website, von der Sie speichern\n• <b>{y}</b> – das aktuelle Jahr\n• <b>{m}</b> – der aktuelle Monat (01-12)\n• <b>{d}</b> – der aktuelle Tag (01-31)\n\nBeispiel: <b>Imagus/{domain}/{y}_{m}_{d}</b>"
+    "message": "Unterverzeichnis im Download-Ordner des Browsers. \nLassen Sie das Feld leer, um es direkt unter „Downloads“ zu speichern.\nSie können diese Platzhalter verwenden:\n• <b>{page_domain}</b> – die Domain der Seite, von der Sie speichern\n• <b>{link_domain}</b> – die Domain der URL, die Sie herunterladen\n• <b>{y}</b> – das aktuelle Jahr\n• <b>{m}</b> – der aktuelle Monat (01-12)\n• <b>{d}</b> – der aktuelle Tag (01-31)\n• <b>.</b> oder <b>/</b> – direkt unter „Downloads“ speichern, aber dennoch versuchen, andere Erweiterungen zu überschreiben\n\nBeispiel: <b>Imagus/{page_domain}/{y}_{m}_{d}</b>"
   },
   "HZ_SCALEUP": {
     "message": "Skalieren Sie kleine Bilder so, dass sie ins Fenster passen"

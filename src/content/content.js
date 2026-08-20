@@ -416,12 +416,13 @@
             }
 
         } else {
+            const type = PVI.isVideo() ? "video" : PVI.CNT.audio ? "audio" : "img";
             Port.send({
                 cmd: "download",
                 url: src,
-                priorityExt: (src.match(/#([\da-z]{3,4})$/) || [])[1],
-                ext: { img: "jpg", video: "mp4", audio: "mp3" }[PVI.CNT.audio ? "audio" : PVI.CNT.localName],
-                filename: PVI.CNT.filename,
+                priorityExt: src.match(/#([\da-z]{3,4})$/)?.[1],
+                ext: { img: "jpg", video: "mp4", audio: "mp3" }[type],
+                filename: PVI.CNT.filename || PVI.VID.filename || PVI.IMG.filename,
                 domain: win.location.hostname.replace(/^www\./, ""),
             });
         }
@@ -2249,6 +2250,7 @@
                 delete PVI.IMG.scale;
                 PVI.IMG.style.transform = "";
             }
+            PVI.CNT.filename = PVI.VID.filename = PVI.IMG.filename = undefined;
 
             PVI.DIV.curdeg = 0;
             PVI.DIV.style.transform = "";

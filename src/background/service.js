@@ -457,13 +457,19 @@ function getDownloadDirectory(msg) {
     if (!dir) return "";
 
     if (msg.domain) {
-        dir = dir.replace(/\{domain\}/gi, msg.domain);
+        dir = dir.replace(/\{page_domain\}/gi, msg.domain.toLowerCase());
     }
+
+    // top domain of the link URL, e.g. "example.com" from "sub.example.com"
+    const linkDomain = new URL(msg.url).hostname.replace(/^(?:.*\.)?([^.]+\.[^.]+)$/, "$1");
+    dir = dir.replace(/\{link_domain\}/gi, linkDomain.toLowerCase());
+
     const now = new Date();
     dir = dir.replace(/\{Y\}/gi, now.getFullYear());
     dir = dir.replace(/\{M\}/gi, String(now.getMonth() + 1).padStart(2, "0"));
     dir = dir.replace(/\{D\}/gi, String(now.getDate()).padStart(2, "0"));
-    dir = dir.replace(/^\/+/, "").replace(/\/+$/, "");
+
+    dir = dir.replace(/^[/.]+/, "").replace(/\/+$/, "");
     dir = dir.replace(/\{[^}]+\}/g, "unknown");
 
     return dir;
@@ -504,6 +510,9 @@ async function download(msg, tab, sendResponse) {
         params.incognito = tab.incognito;
     }
 
+    if (cachedPrefs?.hz?.saveDir) {
+        enableRenaming();
+    }
     let id = await chrome.downloads.download(params);
 
     msg.tabId = tab.id;
@@ -535,42 +544,62 @@ async function getFilenameFromHeaders(url) {
     }
 }
 
-// onDeterminingFilename exists only in Chrome
-if (platform !== "firefox") {
-    chrome.downloads.onDeterminingFilename?.addListener(function (item, suggest) {
-        if (!downloadItems[item.id]) return;
-        const msg = downloadItems[item.id];
-        if (item.mime === "text/html") {
-            // calceling download of HTML files, most probably an error page
-            chrome.downloads.cancel(item.id);
-            chrome.downloads.erase(item.id);
+function enableRenaming() {
+    // onDeterminingFilename exists only in Chrome
+    if (platform === "firefox") return;
+    chrome.downloads.onDeterminingFilename?.addListener(suggestName);
+}
 
-            // request alternative download method
-            msg.alterDownload = true;
-            chrome.tabs.sendMessage(msg.tabId, msg);
-        }
-        const dir = getDownloadDirectory(msg);
-        const fn = downloadItems[item.id].filename || item.filename;
-        suggest({ filename: fn ? (dir ? `${dir}/${fn}` : fn) : undefined });
+function disableRenaming() {
+    if (platform === "firefox") return;
+    if (!Object.values(downloadItems).some(i => !i.suggested)) {
+        chrome.downloads.onDeterminingFilename?.removeListener(suggestName);
+    }
+}
+
+function suggestName(item, suggest) {
+    if (!downloadItems[item.id]) return;
+    const msg = downloadItems[item.id];
+
+    if (!msg.alterDownload && item.mime === "text/html") {
+        // calceling download of HTML files, most probably an error page
+        chrome.downloads.cancel(item.id);
+        chrome.downloads.erase({ id: item.id });
+
+        // request alternative download method
+        msg.alterDownload = true;
+        chrome.tabs.sendMessage(msg.tabId, msg);
+        delete downloadItems[item.id];
+        return;
+    }
+
+    const dir = getDownloadDirectory(msg);
+    const fn = downloadItems[item.id].filename || item.filename;
+    suggest({
+        filename: fn ? (dir ? `${dir}/${fn}` : fn) : undefined,
+        conflictAction: "uniquify",
     });
+    downloadItems[item.id].suggested = true;
+    disableRenaming();
 }
 
 chrome.downloads.onChanged.addListener(function (delta) {
     if (!downloadItems[delta.id]) return;
+    const msg = downloadItems[delta.id];
 
-    if (delta.error || /\.html?$/.exec(delta.filename?.current)) {
+    if (!msg.alterDownload && ((delta.error && !delta.error.current?.startsWith("USER_")) || /\.html?$/.exec(delta.filename?.current))) {
         // calceling download of HTML files, most probably an error page
         chrome.downloads.cancel(delta.id);
         chrome.downloads.erase({ id: delta.id });
-        const msg = downloadItems[delta.id];
 
         // request alternative download method
         msg.alterDownload = true;
         msg.sendResponse(msg);
         delete downloadItems[delta.id];
         // chrome.tabs.sendMessage(msg.tabId, msg);
-    } else if (delta.state === "complete") {
+    } else if (delta.state?.current === "complete" || delta.state?.current === "interrupted") {
         delete downloadItems[delta.id];
+        disableRenaming();
     }
 });
 

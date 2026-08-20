@@ -651,7 +651,7 @@
     "message": "Directory in Downloads om in op te slaan"
   },
   "HZ_SAVEDIR_TIP": {
-    "message": "Submap in de map Downloads van de browser. \nLaat leeg om direct op te slaan in Downloads.\nU kunt deze tijdelijke aanduidingen gebruiken:\n• <b>{domain}</b> - het domein van de website waarvan u opslaat\n• <b>{y}</b> - het huidige jaar\n• <b>{m}</b> - de huidige maand (01-12)\n• <b>{d}</b> - de huidige dag (01-31)\n\nVoorbeeld: <b>Imagus/{domein}/{y}_{m}_{d}</b>"
+    "message": "Submap in de map Downloads van de browser. \nLaat leeg om direct op te slaan in Downloads.\nU kunt deze tijdelijke aanduidingen gebruiken:\n• <b>{page_domain}</b> - het domein van de pagina waarvan u opslaat\n• <b>{link_domain}</b> - het domein van de URL die u downloadt\n• <b>{y}</b> - het huidige jaar\n• <b>{m}</b> - de huidige maand (01-12)\n• <b>{d}</b> - de huidige dag (01-31)\n• <b>.</b> of <b>/</b> - sla rechtstreeks op in Downloads, maar probeer nog steeds andere extensies te overschrijven\n\nVoorbeeld: <b>Imagus/{page_domain}/{y}_{m}_{d}</b>"
   },
   "HZ_SCALEUP": {
     "message": "Schaal kleine afbeeldingen op zodat ze in het venster passen"

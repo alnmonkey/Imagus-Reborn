@@ -651,7 +651,7 @@
     "message": "Adresář v části Stažené soubory k uložení"
   },
   "HZ_SAVEDIR_TIP": {
-    "message": "Podadresář ve složce Stažené soubory v prohlížeči. \nChcete-li uložit přímo do složky Stažené, ponechte prázdné.\nMůžete použít tyto zástupné symboly:\n• <b>{domain}</b> – doména webu, ze kterého ukládáte\n• <b>{y}</b> – aktuální rok\n• <b>{m}</b> – aktuální měsíc (01-12)\n• <b>{d}</b> – aktuální den (01-31)\n\nPříklad: <b>Imagus/{domain}/{y}_{m}_{d}</b>"
+    "message": "Podadresář ve složce Stažené soubory v prohlížeči. \nChcete-li uložit přímo do složky Stažené, ponechte prázdné.\nMůžete použít tyto zástupné symboly:\n• <b>{page_domain}</b> – doména stránky, ze které ukládáte\n• <b>{link_domain}</b> – doména adresy URL, kterou stahujete\n• <b>{y}</b> – aktuální rok\n• <b>{m}</b> – aktuální měsíc (01-12)\n• <b>{d}</b> – aktuální den (01-31)\n• <b>.</b> nebo <b>/</b> – uložte přímo do Stažených souborů, ale přesto se pokuste přepsat ostatní rozšíření\n\nPříklad: <b>Imagus/{page_domain}/{y}_{m}_{d}</b>"
   },
   "HZ_SCALEUP": {
     "message": "Zvětšení malých obrázků tak, aby se vešly do okna"
