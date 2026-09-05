@@ -823,6 +823,10 @@ chrome.action.onClicked.addListener(toggleTab);
 
 // update badge on tab update
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+        chrome.tabs.sendMessage(tabId, { cmd: "reinit" }).catch(() => {});
+    }
+
     if (!tab.active) return;
     updateBadge(tabId, tab.url);
 });
