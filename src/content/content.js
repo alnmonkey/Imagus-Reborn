@@ -740,17 +740,17 @@
 
             // create popup toolbar
             const BOTTONS = {
-                "X": { tag: "i", text: "≡", attrs: { "data-action": "hide", title: _("HIDE_TOOLBAR") }, nodes: [
+                "X": { tag: "button", text: "≡", attrs: { "data-action": "hide", title: _("HIDE_TOOLBAR") }, nodes: [
                     { tag: "span", text: "≡" },
                     { tag: "span", text: "⨉" },
                 ]},
-                "S": { tag: "i", text: "S", attrs: { "data-action": "download", title: _("SAVE") } },
-                "O": { tag: "i", text: "O", attrs: { "data-action": "open", title: _("OPEN_IN_NEW_TAB") } },
-                "C": { tag: "i", text: "C", attrs: { "data-action": "copy", title: _("COPY_URL") } },
-                "G": { tag: "i", text: "G", attrs: { "data-action": "gallery", title: _("GALLERY") } },
-                "I": { tag: "i", text: "#", attrs: { "data-action": "goto", title: _("GOTO_SEARCH") } },
-                "R": { tag: "i", text: "↻", attrs: { "data-action": "rotate", title: _("ROTATE_RIGHT") } },
-                "P": { tag: "i", text: "P", attrs: { "data-action": "preferences", title: _("PREFERENCES") } },
+                "S": { tag: "button", text: "S", attrs: { "data-action": "download", title: _("SAVE") } },
+                "O": { tag: "button", text: "O", attrs: { "data-action": "open", title: _("OPEN_IN_NEW_TAB") } },
+                "C": { tag: "button", text: "C", attrs: { "data-action": "copy", title: _("COPY_URL") } },
+                "G": { tag: "button", text: "G", attrs: { "data-action": "gallery", title: _("GALLERY") } },
+                "I": { tag: "button", text: "#", attrs: { "data-action": "goto", title: _("GOTO_SEARCH") } },
+                "R": { tag: "button", text: "↻", attrs: { "data-action": "rotate", title: _("ROTATE_RIGHT") } },
+                "P": { tag: "button", text: "P", attrs: { "data-action": "preferences", title: _("PREFERENCES") } },
             };
             const btns = cfg.hz.toolbarButtons.toUpperCase().split("").map(b => BOTTONS[b] || null).filter(Boolean);
             buildNodes(PVI.DIV, [{
