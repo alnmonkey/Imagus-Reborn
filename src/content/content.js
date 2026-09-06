@@ -1944,6 +1944,7 @@
                         caption: i.IMGS_caption,
                         x: PVI.x,
                         y: PVI.y,
+                        tbox: PVI.TBOX,
                     },
                     "*"
                 );
@@ -3574,6 +3575,14 @@
                 const rect = iframe?.getBoundingClientRect() || { x: 0, y: 0 };
                 PVI.x = (d.x + rect.x) || 0;
                 PVI.y = (d.y + rect.y) || 0;
+                if (d.tbox) {
+                    PVI.TBOX = {
+                        left: d.tbox.left + rect.x,
+                        right: d.tbox.right + rect.x,
+                        top: d.tbox.top + rect.y,
+                        bottom: d.tbox.bottom + rect.y,
+                    }
+                }
 
                 if (typeof d.msg === "string") {
                     PVI.show(d.msg);
