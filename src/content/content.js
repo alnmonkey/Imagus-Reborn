@@ -852,9 +852,13 @@
                     }
 
                     if (PVI.TRG?.IMGS_MEDIA?.nodeName === "VIDEO") {
-                        PVI.TRG.IMGS_MEDIA.pause();
-                        const totalTime = PVI.TRG.IMGS_MEDIA.duration || 0;
-                        let curTime = PVI.TRG.IMGS_MEDIA.currentTime || 0;
+                        const vid = PVI.TRG.IMGS_MEDIA;
+                        // pause the hovered video if it is not muted
+                        if (!(vid.attributes?.muted || vid.muted || vid.volume === 0)) {
+                            PVI.TRG.IMGS_MEDIA.pause();
+                        }
+                        const totalTime = vid.duration || 0;
+                        let curTime = vid.currentTime || 0;
                         curTime = curTime < totalTime * 0.9 ? curTime : 0;
                         PVI.PLAYER.currentTime(curTime);
                     }
