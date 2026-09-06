@@ -470,6 +470,14 @@
             }
 
         } else {
+            const topDomain = /^(?:.*\.)?([^./]+\.[^./?#]+)($|\?|\/|#).*/;
+            const urlPrefix = /^(https?:\/\/)?(www\.)?/;
+            const link = PVI.TRG?.href || PVI.TRG?.IMGS_c || PVI.TRG?.IMGS_c_resolved?.URL || "";
+
+            const pageDomain = win.location.hostname.replace(topDomain, "$1").toLowerCase();
+            const linkDomain = link.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
+            const fileDomain = src.replace(urlPrefix, "").replace(topDomain, "$1").toLowerCase();
+
             const type = PVI.isVideo() ? "video" : PVI.CNT.audio ? "audio" : "img";
             Port.send({
                 cmd: "download",
@@ -477,7 +485,9 @@
                 priorityExt: src.match(/#([\da-z]{3,4})$/)?.[1],
                 ext: { img: "jpg", video: "mp4", audio: "mp3" }[type],
                 filename: PVI.CNT.filename || PVI.VID.filename || PVI.IMG.filename,
-                domain: win.location.hostname.replace(/^www\./, ""),
+                pageDomain,
+                linkDomain,
+                fileDomain,
             });
         }
     }

@@ -456,13 +456,15 @@ function getDownloadDirectory(msg) {
     let dir = (cachedPrefs?.hz?.saveDir ?? "").trim();
     if (!dir) return "";
 
-    if (msg.domain) {
-        dir = dir.replace(/\{page_domain\}/gi, msg.domain.toLowerCase());
+    if (msg.pageDomain) {
+        dir = dir.replace(/\{page_domain\}/gi, msg.pageDomain);
     }
-
-    // top domain of the link URL, e.g. "example.com" from "sub.example.com"
-    const linkDomain = new URL(msg.url).hostname.replace(/^(?:.*\.)?([^.]+\.[^.]+)$/, "$1");
-    dir = dir.replace(/\{link_domain\}/gi, linkDomain.toLowerCase());
+    if (msg.linkDomain) {
+        dir = dir.replace(/\{link_domain\}/gi, msg.linkDomain);
+    }
+    if (msg.fileDomain) {
+        dir = dir.replace(/\{file_domain\}/gi, msg.fileDomain);
+    }
 
     const now = new Date();
     dir = dir.replace(/\{Y\}/gi, now.getFullYear());
