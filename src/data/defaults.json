@@ -44,7 +44,7 @@
 		"lockedZoom": 1,
 		"toolbar": 1,
 		"toolbarButtons": "XSOCGIRP",
-		"resizeModeType": "memory",
+		"resizeModeType": "orig",
 		"follow": true,
 		"move": true,
 		"waitHide": false,
