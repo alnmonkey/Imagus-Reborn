@@ -1391,13 +1391,9 @@
                         console.log(`Rule ${i} matched:`, { url: URL, element: trg, image: imgs?.imgSRC || imgs?.imgBG });
                     }
 
-                    if (srcOnly) {
-                        return URL || imgs?.imgSRC || imgs?.imgBG;
-                    }
-
-                    if (isUrlIgnored(URL || imgs?.imgSRC || imgs?.imgBG)) {
-                        return false;
-                    }
+                    const urlToIgnore = URL || imgs?.imgSRC || imgs?.imgBG;
+                    if (srcOnly) return urlToIgnore;
+                    if (isUrlIgnored(urlToIgnore)) return false;
 
                     if (rule.res && (!tmp_el || (!rule.to && rule.url))) {
                         if (win.location.href.replace(rgxHash, "") === n.href.replace(rgxHash, "")) break;
@@ -1483,13 +1479,9 @@
                 }
             }
 
-            if (srcOnly) {
-                return ret;
-            }
-
-            if (isUrlIgnored(ret)) {
-                return false;
-            }
+            const urlToIgnore = URL || ret;
+            if (srcOnly) return urlToIgnore;
+            if (isUrlIgnored(urlToIgnore)) return false;
 
             if (rule && rule.loop && typeof ret === "string" && rule.loop & (use_img ? 2 : 1)) {
                 if ((trg.nodeType !== 1 && ret === trg.href) || trg.IMGS_loop_count > 5) return false;
