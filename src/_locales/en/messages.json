@@ -380,6 +380,9 @@
   "OPEN_IN_NEW_TAB": {
     "message": "Open in new tab\n+Ctrl/Middle mouse click: background\n+Shift: popup window"
   },
+  "COPY_URL": {
+    "message": "Copy URL\nDouble click: copy whole album"
+  },
   "GALLERY": {
     "message": "Gallery"
   },
@@ -525,7 +528,7 @@
     "message": "Save pop-up content"
   },
   "HZ_SC_COPY": {
-    "message": "Copy URL, or press twice to copy caption-text"
+    "message": "Copy URL (press twice to copy the whole album)"
   },
   "SIV_CACHERES": {
     "message": "Cache resolved content"

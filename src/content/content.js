@@ -83,8 +83,62 @@
         }
     }
 
-    var openTab = async function (e) {
+    var copyToClipboard = function (text) {
+        PVI.timers.copy = undefined;
+        if (!text) return;
+        var oncopy = function (ev) {
+            this.removeEventListener(ev.type, oncopy);
+            ev.clipboardData.setData("text/plain", text);
+            ev.preventDefault();
+        };
+        doc.addEventListener("copy", oncopy);
+        doc.execCommand("copy");
+    }
+
+    var copyUrls = function () {
+        if (PVI.timers.copy) clearTimeout(PVI.timers.copy);
+        let isDouble = !!PVI.timers.copy;
+        let text = "";
+
+        if (PVI.TRG?.IMGS_album && (PVI.galleryState === 2 || isDouble)) {
+            text = getAlbumClean().join("\n");
+        }
+
+        if (!text) {
+            text = getSrc() || "";
+        }
+
+        PVI.timers.copy = setTimeout(copyToClipboard, 500, text);
+    }
+
+    var getSrc = function () {
         let src = PVI.EXTENSION?.IFRAME?.src || (PVI.isVideo() ? PVI.PLAYER?.src() : PVI.CNT.src);
+        return src;
+    }
+
+    var getAlbumClean = function () {
+        const album = PVI.stack[PVI.TRG.IMGS_album] || [];
+        if (album.length === 0) return [];
+
+        const urls = [];
+        for (let i = 1; i < album.length; i++) {
+            let item = album[i];
+            if (item[1]?.startsWith?.("<imagus-extension")) {
+                const match = item[1].match(/url="([^"]+)"/);
+                if (match) item = match[1];
+            }
+            let url = Array.isArray(item) ? item[0] : item;
+            url = Array.isArray(url) ? url[0] : url;
+            url = url?.replace?.(/^#/, "");
+            if (url && !url.startsWith("data:image")) {
+                urls.push(url);
+            }
+        }
+        return urls;
+    }
+
+    var openTab = async function (e) {
+        let src = getSrc();
         if (PVI.galleryState === 2 && PVI.TRG?.href) {
             src = PVI.TRG.href
         }
@@ -382,7 +436,7 @@
     }
 
     async function download(msg) {
-        let src = msg?.url || (PVI.isVideo() && PVI.PLAYER?.src()) || PVI.CNT.src;
+        let src = msg?.url || getSrc();
 
         if (PVI.galleryState === 2) {
             let album = PVI.stack[PVI.TRG?.IMGS_album] || [];
@@ -682,6 +736,7 @@
                 ]},
                 "S": { tag: "i", text: "S", attrs: { "data-action": "download", title: _("SAVE") } },
                 "O": { tag: "i", text: "O", attrs: { "data-action": "open", title: _("OPEN_IN_NEW_TAB") } },
+                "C": { tag: "i", text: "C", attrs: { "data-action": "copy", title: _("COPY_URL") } },
                 "G": { tag: "i", text: "G", attrs: { "data-action": "gallery", title: _("GALLERY") } },
                 "I": { tag: "i", text: "#", attrs: { "data-action": "goto", title: _("GOTO_SEARCH") } },
                 "R": { tag: "i", text: "↻", attrs: { "data-action": "rotate", title: _("ROTATE_RIGHT") } },
@@ -2322,6 +2377,9 @@
                 case "open":
                     openTab(e);
                     break;
+                case "copy":
+                    copyUrls(e);
+                    break;
                 default:
                     break;
             }
@@ -2418,18 +2476,9 @@
                 } else if (e.ctrlKey) {
                     if (PVI.state === 4) {
                         if (key === "C") {
-                            if (!e.shiftKey && "oncopy" in doc) {
+                            if ("oncopy" in doc) {
                                 pv = true;
-                                if (Date.now() - PVI.timers.copy < 500) key = PVI.TRG.IMGS_caption;
-                                else key = PVI.CNT.src;
-                                var oncopy = function (ev) {
-                                    this.removeEventListener(ev.type, oncopy);
-                                    ev.clipboardData.setData("text/plain", key);
-                                    ev.preventDefault();
-                                };
-                                doc.addEventListener("copy", oncopy);
-                                doc.execCommand("copy");
-                                PVI.timers.copy = Date.now();
+                                copyUrls(e);
                             }
                         } else if (key === cfg.keys.openTab) {
                             openTab(e);

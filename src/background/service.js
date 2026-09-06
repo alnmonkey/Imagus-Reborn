@@ -16,7 +16,7 @@ const _ = function (msg) {
 
 const scriptMessages = {
     "INVALID_URL": "", "DOWNLOAD_FAILED": "", "HIDE_TOOLBAR": "", "SAVE": "", "OPEN_IN_NEW_TAB": "", "GALLERY": "", "GOTO_SEARCH": "", "ROTATE_RIGHT": "",
-    "PREFERENCES": "", "CANNOT_FIND_URL": "", "ADD_TO_IGNORE_LIST": ""
+    "PREFERENCES": "", "CANNOT_FIND_URL": "", "ADD_TO_IGNORE_LIST": "", "COPY_URL": ""
 };
 for (let key in scriptMessages) {
     scriptMessages[key] = _(key);
@@ -843,6 +843,20 @@ chrome.runtime.onStartup.addListener(updatePrefs);
 chrome.runtime.onInstalled.addListener(function (e) {
     if (e.reason === "update") {
         registerContentScripts();
+        if (e.previousVersion === "2026.8.20") {
+            // update hz.toolbarButtons to include "C" for copy URL button
+            cfg.get("hz", ({ hz }) => {
+                if (hz?.toolbarButtons && !hz.toolbarButtons.includes("C")) {
+                    const b = ['O', 'S', 'G'].find(c => hz.toolbarButtons.includes(c));
+                    if (b) {
+                        hz.toolbarButtons = hz.toolbarButtons.replace(b, b + "C");
+                    } else {
+                        hz.toolbarButtons += "C";
+                    }
+                    updatePrefs({ hz });
+                }
+            });
+        }
     } else if (e.reason === "install") {
         chrome.runtime.openOptionsPage();
     }
