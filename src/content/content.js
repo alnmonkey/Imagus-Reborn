@@ -286,7 +286,7 @@
     };
 
     var onMouseDown = function (e) {
-        if (!cfg || !e.isTrusted || e.target === PVI.ROOT) return;
+        if (!cfg || !e.isTrusted || e.target === PVI.ROOT || PVI.state < 0) return;
         const root = doc.compatMode && doc.compatMode[0] === "B" ? doc.body : doc.documentElement;
         if (e.clientX >= root.clientWidth || e.clientY >= root.clientHeight) return;
 
@@ -357,6 +357,8 @@
     };
 
     var onContextMenu = function (e) {
+        if (PVI.state < 0) return;
+
         if (e.button === 2) {
             PVI.contextEvent = e;
         }
@@ -539,7 +541,9 @@
         resolving: [],
         lastTRGStyle: { cursor: null, outline: null },
         iFrame: false,
+
         /* state
+            -1 - turned off
             0 - uninitialized - PVI.DIV not created
             1 - hidden - PVI.DIV and PVI.LDR are in the DOM, but not displayed
             2 - hiding - PVI.DIV or PVI.LDR is hiding
@@ -547,13 +551,19 @@
             4 - visible - PVI.IMG is visible
         */
         state: null,
+        setState: function (state, force) {
+            if (PVI.state !== -1 || force) {
+                PVI.state = state;
+            }
+        },
+
         /* gallery state
             0 - not initialized
             1 - ready, hidden
             2 - visible
         */
         galleryState: 0,
-        galleryGridSize: 150,
+
         rgxHTTPs: /^https?:\/\/(?:www\.)?/,
         pageProtocol: win.location.protocol.replace(/^(?!https?:).+/, "http:"),
         palette: {
@@ -577,7 +587,7 @@
         },
 
         create: async function () {
-            if (PVI.DIV) return;
+            if (PVI.DIV || PVI.state < 0) return;
 
             PVI.ROOT = doc.createElement("div");
             PVI.ROOT.attachShadow({ mode: "open" });
@@ -1647,7 +1657,7 @@
                 if (cfg.hz.LDRdelay > 20) {
                     clearTimeout(PVI.timers.delayed_loader);
                     if (msg[0] !== "R" && PVI.state !== 3 && !PVI.fullZm) {
-                        PVI.state = 3;
+                        PVI.setState(3);
                         PVI.LDR_msg = msg;
                         PVI.timers.delayed_loader = setTimeout(PVI.delayed_loader, cfg.hz.LDRdelay);
                         return;
@@ -1688,7 +1698,7 @@
                 if (box.opacity === "0" && ((PVI.BOX === PVI.DIV && PVI.anim.opacity) || (PVI.BOX === PVI.LDR && cfg.hz.LDRanimate)))
                     if (PVI.state === 2) PVI.anim.opacityTransition();
                     else setTimeout(PVI.anim.opacityTransition, 0);
-                PVI.state = PVI.BOX === PVI.LDR ? 3 : 4;
+                PVI.setState(PVI.BOX === PVI.LDR ? 3 : 4);
 
                 if (cfg.hz.fzDefault && PVI.state === 4) {
                     PVI.fzEnable();
@@ -2256,7 +2266,7 @@
                 PVI.reset();
                 return;
             }
-            PVI.state = 2;
+            PVI.setState(2);
             if (PVI.CAP) {
                 PVI.HLP.textContent = "";
                 PVI.CAP.style.display = "none";
@@ -2276,7 +2286,7 @@
         reset: function (preventImmediateHover, target) {
             if (!PVI.DIV) return;
             if (PVI.iFrame) win.parent.postMessage({ vdfDpshPtdhhd: "from_frame", reset: true }, "*");
-            if (PVI.state) win.removeEventListener("mousemove", PVI.m_move, true);
+            if (PVI.state > 0) win.removeEventListener("mousemove", PVI.m_move, true);
             PVI.node = null;
             PVI.LDR_msg = null;
             clearTimeout(PVI.timers.delayed_loader);
@@ -2336,7 +2346,7 @@
             PVI.showHVR(false, target);
             PVI.setCursor();
             PVI.gallery(0);
-            PVI.state = 1;
+            PVI.setState(1);
         },
 
         onVisibilityChange: function (e) {
@@ -2921,7 +2931,7 @@
         wheeler: function () {},
 
         onWheel: function (e) {
-            if (e.clientX >= winW || e.clientY >= winH) return;
+            if (e.clientX >= winW || e.clientY >= winH || PVI.state < 0) return;
             const target =
                 PVI.ROOT.shadowRoot.elementsFromPoint?.(e.clientX, e.clientY)?.[0] ||
                 doc.elementsFromPoint(e.clientX, e.clientY)?.[0];
@@ -3114,7 +3124,7 @@
         },
 
         m_over: function (e) {
-            if (cfg.hz.deactivate && (PVI.freeze || e[cfg._freezeTriggerEventKey]) || PVI.fullZm || doc.fullscreenElement) return;
+            if (cfg.hz.deactivate && (PVI.freeze || e[cfg._freezeTriggerEventKey]) || PVI.fullZm || doc.fullscreenElement || PVI.state < 0) return;
 
             var src, trg, cache;
 
@@ -3245,6 +3255,7 @@
         },
 
         showHVR: function (visible = true, target) {
+            PVI.create();
             if (!PVI.HVR) return;
             clearTimeout(PVI.timers.hvr_hide);
             if (!visible){
@@ -3315,7 +3326,7 @@
         },
 
         m_move: function (e) {
-            if (e && PVI.x === e.clientX && PVI.y === e.clientY || doc.fullscreenElement) return;
+            if (e && PVI.x === e.clientX && PVI.y === e.clientY || doc.fullscreenElement || PVI.state < 0) return;
             rotate(0);
             let trg = e?.target;
             while (trg?.shadowRoot && trg !== PVI.TRG && e.clientX && e.clientY) {
@@ -3443,6 +3454,8 @@
         },
 
         preload: function (e) {
+            if (PVI.state < 0) return;
+
             if (PVI.preloading) {
                 if (!e || e.type !== "DOMNodeInserted") {
                     if (e === false) {
@@ -3509,11 +3522,6 @@
                 clearTimeout(PVI.timers.preload);
                 PVI.timers.preload = setTimeout(nodes, 300);
             } else nodes();
-        },
-        toggle: function (disable) {
-            if (PVI.state || disable === true) PVI.init(null, true);
-            else if (cfg) PVI.init();
-            else Port.send({ cmd: "hello", no_grants: true });
         },
 
         onWinResize: function () {
@@ -3745,11 +3753,23 @@
                 PVI.resetAllNodes();
                 PVI.resetExtension();
                 PVI.stack = {};
-                Port.send({ cmd: "hello" })
+                PVI.init(null, true);
+                window.addEventListener("mousemove", PVI.onInitMouseMove, true);
 
             } else if (d.cmd === "hello") {
                 PVI.init(null, true);
                 PVI.init(d);
+
+            } else if (d.cmd === "disable") {
+                if (PVI.state !== -1) {
+                    PVI.reset();
+                    PVI.setState(-1, true);
+                }
+
+            } else if (d.cmd === "enable") {
+                if (PVI.state === -1) {
+                    PVI.setState(0, true);
+                }
 
             } else if (d.cmd === "download") {
                 download(d);
@@ -3773,7 +3793,7 @@
         init: function (e, deinit) {
             if (deinit) {
                 PVI.reset();
-                PVI.state = 0;
+                PVI.setState(0);
                 if (PVI.ROOT) {
                     doc.documentElement.removeChild(PVI.ROOT);
                     PVI.ROOT = PVI.BOX = PVI.DIV = PVI.HVR = PVI.CNT = PVI.VID = PVI.VIDEOJS = PVI.IMG = PVI.CAP = PVI.TRG = PVI.interlacer = null;
@@ -3789,9 +3809,8 @@
                     }
                     cfg = e.prefs;
                     if (cfg && !cfg.hz.deactivate && cfg.hz.actTrigger === "0") cfg = null;
-                    if (!cfg?.sieve) {
-                        PVI.init(null, true);
-                        return;
+                    if (e.disabled) {
+                        PVI.setState(-1, true);
                     }
                     PVI.freeze = !cfg.hz.deactivate;
                     cfg._freezeTriggerEventKey = cfg.hz.actTrigger.toLowerCase() + "Key";
@@ -3874,6 +3893,7 @@
 
         capturedMoveEvent: null,
         onInitMouseMove: function (e) {
+            if (PVI.state < 0) return;
             if (PVI.capturedMoveEvent) {
                 PVI.capturedMoveEvent = e;
                 return;
@@ -3887,9 +3907,7 @@
         initOnMouseMoveEnd: function (triggerMouseover) {
             window.removeEventListener("mousemove", PVI.onInitMouseMove, true);
             if (cfg && triggerMouseover && (!PVI.x || PVI.state !== null)) PVI.m_over(PVI.capturedMoveEvent);
-            delete PVI.onInitMouseMove;
             delete PVI.capturedMoveEvent;
-            PVI.initOnMouseMoveEnd = function () {};
         },
     };
 

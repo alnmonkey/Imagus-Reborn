@@ -679,9 +679,10 @@ function initTab(sender, sendResponse) {
     const resp = {
         cmd: "hello",
         isIframe: !!sender.frameId,
+        disabled: grantsIsBlocked(sender.tab.url),
         prefs: {
             hz: cachedPrefs.hz,
-            sieve: grantsIsBlocked(sender.tab.url) ? null : cachedPrefs.sieve,
+            sieve: cachedPrefs.sieve,
             tls: cachedPrefs.tls,
             keys: cachedPrefs.keys,
             grantUrls: cachedPrefs.grantUrls,
@@ -699,7 +700,8 @@ function initTab(sender, sendResponse) {
 
 async function toggleTab(tab) {
     if (!tab.url) return;
-    if (grantsIsBlocked(tab.url)) {
+    const toAllow = grantsIsBlocked(tab.url);
+    if (toAllow) {
         await grantsRemove(tab.url);
         if (grantsIsBlocked(tab.url)) {
             // still blocked, most probably RegEx is used - should be handled manually
@@ -714,7 +716,14 @@ async function toggleTab(tab) {
 
     // init/deinit tabs with the same origin
     let tabs = await chrome.tabs.query({ url: new URL(tab.url).origin + "/*" }) || [];
-    tabs.forEach(t => initTab({ tab: t }));
+    tabs.forEach(t =>
+        chrome.tabs.sendMessage(t.id,
+            {
+                cmd: toAllow ? "enable" : "disable",
+                isIframe: !!t.frameId
+            }
+        )
+    );
 }
 
 function openUrl(msg, sender) {
@@ -825,9 +834,11 @@ chrome.action.onClicked.addListener(toggleTab);
 
 // update badge on tab update
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    /* if (changeInfo.url) {
-        chrome.tabs.sendMessage(tabId, { cmd: "reinit" }).catch(() => {});
-    } */
+    if (changeInfo.url) {
+        chrome.tabs
+            .sendMessage(tabId, { cmd: grantsIsBlocked(changeInfo.url) ? "disable" : "enable" })
+            .catch(() => {});
+    }
 
     if (!tab.active) return;
     updateBadge(tabId, tab.url);
