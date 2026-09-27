@@ -83,22 +83,25 @@ var sieve_sec,
                             }
                         }
                     }
+                } else if (e.code === "KeyI" && (e.ctrlKey || e.metaKey) || e.key === "Insert" && !(e.ctrlKey || e.metaKey || e.shiftKey)) {
+                    e.preventDefault();
+                    document.querySelector("[data-action='import-rules']").click();
+                } else if (e.code === "KeyE" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    SieveUI.export();
+                } else if (e.code === "Space" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    SieveUI.disable();
+                } else if (e.key === "Delete" && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    SieveUI.remove();
                 } else if (t.isContentEditable || t.nodeName === "INPUT" || t.nodeName === "TEXTAREA") {
                     return;
                 } else if (e.key === "Escape" && !(e.ctrlKey || e.metaKey)) {
                     sieve_container.querySelectorAll("div.selected").forEach(el => el.classList.remove("selected"));
-                } else if (e.code === "KeyE" && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    SieveUI.export();
                 } else if (e.key === "Delete" && !(e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
                     SieveUI.remove();
-                } else if (e.key === "Space" && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    SieveUI.disable();
-                } else if (e.code === "KeyI" && (e.ctrlKey || e.metaKey) || e.key === "Insert" && !(e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    document.querySelector("[data-action='import-rules']").click();
                 }
             });
             sieve_container.onmousedown = SieveUI.move;
@@ -558,6 +561,11 @@ var sieve_sec,
             var selected = rules || sieve_container.querySelectorAll("div.selected"),
                 sieve = SieveUI.prepareRules(true),
                 exp = {};
+
+            if (!selected?.length) {
+                selected = sieve_container.querySelectorAll(":scope > div:not(.hidden)");
+            }
+
             if (!sieve) return;
             if (selected.length) {
                 for (let i = 0; i < selected.length; ++i) {
@@ -583,7 +591,7 @@ var sieve_sec,
         disable: function (rules) {
             let list = rules || sieve_container.querySelectorAll("div.selected");
             if (!list?.length) {
-                list = sieve_container.children;
+                list = sieve_container.querySelectorAll(":scope > div:not(.hidden)");
             }
             for (let i = 0; i < list.length; ++i) {
                 list[i].classList.toggle("disabled");
@@ -593,6 +601,9 @@ var sieve_sec,
         },
         remove: function (rules) {
             var list = rules || sieve_container.querySelectorAll("div.selected");
+            if (!list?.length) {
+                list = sieve_container.querySelectorAll(":scope > div:not(.hidden)");
+            }
             let names = [...list].map(d => d.querySelector('[data-action="rule"]').textContent).join(", ") || "All rules";
             if (!confirm(_("DELITEMS") + "\n\n" + names)) return;
 
