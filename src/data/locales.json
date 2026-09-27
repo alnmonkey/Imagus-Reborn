@@ -101,6 +101,15 @@
             }
         ]
     },
+    "tr": {
+        "name": "Turkish (Türkçe)",
+        "translators": [
+            {
+                "name": "tyyaman55",
+                "web": "https://github.com/tyyaman55"
+            }
+        ]
+    },
     "uk": {
         "name": "Ukrainian (українська)",
         "translators": [
