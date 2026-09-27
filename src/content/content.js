@@ -65,6 +65,12 @@
         el.style.transform = ori;
     };
 
+    var animate = function (el, type = "squeeze") {
+        if (!el) return;
+        el.classList.add(type);
+        setTimeout(() => el.classList.remove(type), 300);
+    };
+
     var rotate = function (deg) {
         if (!PVI.DIV) return;
         deg = typeof deg === 'number' ? deg : (deg ? 90 : -90);
@@ -83,7 +89,7 @@
         }
     }
 
-    var copyToClipboard = function (text) {
+    var copyToClipboard = function (text, elem) {
         PVI.timers.copy = undefined;
         if (!text) return;
         var oncopy = function (ev) {
@@ -93,15 +99,18 @@
         };
         doc.addEventListener("copy", oncopy);
         doc.execCommand("copy");
+        animate(elem);
     }
 
-    var copyUrls = function () {
+    var copyUrls = function (e) {
         if (PVI.timers.copy) clearTimeout(PVI.timers.copy);
         let isDouble = !!PVI.timers.copy;
         let text = "";
+        let elem = PVI.DIV;
 
         if (isDouble && e.type === "keydown") {
             text = PVI.TRG.IMGS_caption || "";
+            elem = PVI.CAP;
         } else if (PVI.TRG?.IMGS_album && (PVI.galleryState === 2 || isDouble)) {
             text = getAlbumClean().join("\n");
         }
@@ -110,7 +119,10 @@
             text = getSrc() || "";
         }
 
-        PVI.timers.copy = setTimeout(copyToClipboard, 500, text);
+        if (e.type !== "keydown") {
+            elem = undefined
+        }
+        PVI.timers.copy = setTimeout(copyToClipboard, 500, text, elem);
     }
 
     var getSrc = function () {
@@ -439,7 +451,7 @@
         return elements;
     }
 
-    async function download(msg) {
+    async function download(msg, ev) {
         let src = msg?.url || getSrc();
 
         if (PVI.galleryState === 2) {
@@ -451,6 +463,10 @@
         }
 
         if (!src) return;
+
+        if (ev?.type === "keydown") {
+            animate(PVI.DIV, "down");
+        }
 
         if (msg?.alterDownload) {
             try {
@@ -2488,7 +2504,7 @@
                 pv = !e.ctrlKey;
                 if (e.ctrlKey && !e.shiftKey && key === "S" || !e.ctrlKey && !e.shiftKey && key === cfg.keys.hz_save) {
                     if (!e.repeat) {
-                        download();
+                        download(null, e);
                     }
                     pv = true;
 
