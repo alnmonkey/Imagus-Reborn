@@ -664,5 +664,8 @@
   },
   "COPY_URL": {
     "message": "Copier l’URL\nDouble-clic : copier l’album entier"
+  },
+  "CLEAR": {
+    "message": "Effacer"
   }
 }

@@ -190,6 +190,10 @@ var ImprtHandler = function (caption, data_handler, hide_opts) {
         if (e.dataTransfer.files.length) importer.readfile(e.dataTransfer.files[0]);
         e.preventDefault();
     };
+    $("imprt_clear").onclick = function () {
+        textArea.value = "";
+        textArea.focus();
+    };
     $("imprt_text").onclick = async function () {
         var btn = this;
         var val = textArea.value.trim();

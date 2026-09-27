@@ -664,5 +664,8 @@
   },
   "HZ_SAVEDIR_TIP": {
     "message": "Tarayıcının İndirilenler klasöründeki alt dizin. Doğrudan İndirilenler klasörüne kaydetmek için boş bırakın.\nŞu yer tutucuları kullanabilirsiniz:\n• <b>{page_domain}</b> - kaydettiğiniz sayfanın alan adı\n• <b>{link_domain}</b> - üzerine geldiğiniz URL'nin alan adı\n• <b>{file_domain}</b> - indirdiğiniz URL'nin alan adı\n• <b>{y}</b> - geçerli yıl\n• <b>{m}</b> - geçerli ay (01-12)\n• <b>{d}</b> - geçerli gün (01-31)\n• <b>.</b> veya <b>/</b> - doğrudan İndirilenler'e kaydet, ancak diğer uzantıların üzerine yazmayı dene\n\nÖrnek: <b>Imagus/{page_domain}/{y}_{m}_{d}</b>"
+  },
+  "CLEAR": {
+    "message": "Temizle"
   }
 }

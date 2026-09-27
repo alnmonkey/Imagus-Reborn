@@ -664,5 +664,8 @@
   },
   "COPY_URL": {
     "message": "Kopírovat URL\nDvojité kliknutí: zkopírovat celé album"
+  },
+  "CLEAR": {
+    "message": "Vymazat"
   }
 }

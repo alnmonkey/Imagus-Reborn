@@ -664,5 +664,8 @@
   },
   "COPY_URL": {
     "message": "URL másolása\nDupla kattintás: a teljes album másolása"
+  },
+  "CLEAR": {
+    "message": "Törlés"
   }
 }

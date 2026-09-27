@@ -116,6 +116,10 @@ a:hover {
     text-align: left;
     vertical-align: middle;
 }
+#importer > .op_buttons :first-child,
+#importer > .op_buttons :last-child {
+    margin-left: auto;
+}
 #importer > textarea {
     height: 185px;
     margin: 10px 0 7px;
