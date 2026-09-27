@@ -95,6 +95,7 @@
 		"openTab": "O",
 		"framePrev": ",",
 		"frameNext": ".",
+		"pause": "Space",
 		"hz_history": "H"
 	},
 	"grants": [],
