@@ -44,7 +44,7 @@
         }
 
         let style = document.createElement('style');
-        style.innerHTML = css;
+        style.textContent = css;
         if (inHead) {
             document.head.appendChild(style);
         } else {
