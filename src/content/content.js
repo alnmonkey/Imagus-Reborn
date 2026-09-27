@@ -100,7 +100,9 @@
         let isDouble = !!PVI.timers.copy;
         let text = "";
 
-        if (PVI.TRG?.IMGS_album && (PVI.galleryState === 2 || isDouble)) {
+        if (isDouble && e.type === "keydown") {
+            text = PVI.TRG.IMGS_caption || "";
+        } else if (PVI.TRG?.IMGS_album && (PVI.galleryState === 2 || isDouble)) {
             text = getAlbumClean().join("\n");
         }
 
